@@ -46,6 +46,13 @@
 }
 
 
+.gar-inactive{
+    display: none
+}
+
+.gar-active{
+    display: flex;
+}
 
 .title-consulta {
     width:max-content;

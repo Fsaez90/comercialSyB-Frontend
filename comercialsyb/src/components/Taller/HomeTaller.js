@@ -1,7 +1,7 @@
 import React, { useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
  
-function HomeTaller({render, setRender, prioridad, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
+function HomeTaller({render, setRender, prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
   
   useEffect(() => {
     setTimeout(() => {
@@ -19,9 +19,13 @@ function HomeTaller({render, setRender, prioridad, revision, mantencion, aprobad
             {prioridad > 0? <p id='not-count'>{prioridad}</p>: null}
           </div>
           <div className='frame-menu'>
+            <NavLink className='menu-button' to="/garantia">Garantias</NavLink>
+            {garantia > 0? <p id='not-count'>{garantia}</p>: null}
+          </div>
+          <div className='frame-menu'>
             <NavLink className='menu-button' to="/proceso">En proceso ({totalProceso})</NavLink>
           </div>
-            <br/><br/><br/><br/>
+            <br/><br/><br/>
             <NavLink className='menu-button' to="/revision">X Revisar ({revision})</NavLink>
             <NavLink className='menu-button' to="/mantenimiento">Mantención ({mantencion})</NavLink>
             <br/><br/><br/><br/>

@@ -30,6 +30,12 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [diagnostico, setDiagnostico] = useState("")
   const [prioritaria, setPrioritaria] = useState()
   const [valorizacion, setValorizacion] = useState()
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [isGarantia, setIsGarantia] = useState()
+  const [repMecanico, setRepMecanico] =useState(null)
+  const [msg, setMsg] = useState("msg-mecanic") 
+
   const navigate  = useNavigate();
   
   useEffect(() => {
@@ -39,7 +45,8 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
 },[modal])
 
 function ReparadaHandle(n){
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  if (repMecanico != null){
+    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -82,6 +89,10 @@ function ReparadaHandle(n){
       setModal("modal-inactive")
       navigate('/taller') 
     }, 500);
+  } else {
+    setMsg("msg-mecanic-act")
+  }
+
 }
 
 function GuardarHandle(n){
@@ -164,6 +175,9 @@ if (aprobadas !== 0) {
               setPrioritaria(x.prioritaria)
               setValorizacion(x.valorizacion)
               setIngresoSistema(x.ingreso_sistema)
+              setIsGarantia(x.garantia)
+              setDetallePptoGar(x.detalle_garantia)
+              setDiagnosticoGar(x.diagnostico_garantia)
             }
               }>Reparar</button>         
         </div> 
@@ -191,14 +205,38 @@ if (aprobadas !== 0) {
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='diagnostico-field' value={diagnostico}/>
-            </div>
-            <div className='detalle-observaciones'>
-              Detalle de reparación:
-              <textarea className='detalle-field' value={presupuesto}/>
-            </div>
+            {isGarantia?
+            <>
+              <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+              </div>
+              <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+              </div>
+            </>:
+            <>
+              <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+              </div>
+              <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+              </div>
+              <div className='detalle-observaciones'>
+                  Equipo reparado por:
+                  <select onChange={(e) => setRepMecanico(e.target.value)} >
+                    <option value="1">Seleccionar</option>
+                    <option value="1">Técnico 1</option>
+                    <option value="2">Técnico 2</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                  <div className={msg}>Indicar mecánico que realiza reparación</div>
+                </div>
+            </>
+            }
             <div className='modal-buttons-notificaciones'>
               <div>
                 <button className='button-list-aprobada' onClick={() => {

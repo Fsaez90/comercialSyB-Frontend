@@ -32,6 +32,10 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [prioritaria, setPrioritaria] = useState()
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
   const [repuestoField, setRepuestoField] = useState()
+  const [isGarantia, setIsGarantia] = useState() 
+  const [detallePptoGar, setDetallePptoGar] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState()
+  const [aplGarantia, setAplGarantia] = useState()
 
 
   const navigate  = useNavigate();
@@ -290,6 +294,10 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                 setPrioritaria(x.prioritaria)
                 setValorizacion(x.valorizacion) 
                 setIngresoSistema(x.ingreso_sistema)
+                setIsGarantia(x.garantia)
+                setDetallePptoGar(x.detalle_garantia)
+                setDiagnosticoGar(x.diagnostico_garantia)
+                setAplGarantia(x.validez_garantia)
               }
                 }>Notificar</button>         
           </div> 
@@ -312,24 +320,48 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                {isGarantia? <p className='sub-detail'>GARANTIA NO VALIDA</p>: null}
                 {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
                 {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
-            <div className='detalle-observaciones'>
-              Diagnóstico:
-              <textarea className='diagnostico-field' value={diagnostico}/>
-            </div>
-            <div className='detalle-observaciones'>
-              Detalle de reparación:
-              <textarea className='detalle-field' value={presupuesto}/>
-              <div>
-                <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
-                <label for="valorizacion">Favor indicar valorización de presupuesto</label>
-                <br/><br/>
-              </div>
-            </div>
+              {isGarantia?
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  {(aplGarantia === "no")?
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>:
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={"Garantía"}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                </div>
+                  }
+                </div>
+              </>:
+              <>
+                <div className='detalle-observaciones'>
+                  Diagnóstico:
+                  <textarea className='diagnostico-field' value={diagnostico}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Detalle de reparación:
+                  <textarea className='detalle-field' value={presupuesto}/>
+                  <div>
+                    <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>
+                    <label for="valorizacion">Valorización de presupuesto</label>
+                  </div>
+                </div>
+              </>
+              }
             <div className='opcion-presupuesto'>
                 <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
                 <label for="espera_repuesto">Repuesto faltante</label>

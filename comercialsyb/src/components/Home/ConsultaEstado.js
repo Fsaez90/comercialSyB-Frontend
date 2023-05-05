@@ -2,14 +2,16 @@ import React, {useState, useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import "../static/busqueda.css"
 import ComprobanteRetiro from './ComprobanteRetiro'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-function ConsultaEstado() {
+function ConsultaEstado({date}) {
   
   const [numero, setNumero] = useState("")
   const [orden, setOrden] = useState()
   const [render, setRender] = useState(false)
   const[notExist, setNotExist] = useState("")
   const [modalComprobanteRetiro, setModalComprobanteRetiro] = useState("modal-inactive")
+  const [ok, setOk] = useState("gar-inactive")
 
   useEffect(() => {
     fetch(`http://127.0.0.1:8000/comercial/orden/${numero}/`)
@@ -19,7 +21,30 @@ function ConsultaEstado() {
     })
     .then(data => setOrden(data))
 }, [numero])
-    
+
+
+  const dateOfToday = new Date();
+  const date2 = new Date(dateOfToday);
+  date2.setDate(dateOfToday.getDate() - 30);
+  const dateOf30DaysAgo = date2.toLocaleDateString()
+
+  function garantiaHandle (n) {
+      fetch(`http://127.0.0.1:8000/comercial/update-partial/${n}/`, {
+        method: "PUT",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            garantia: true,
+            mantencion: null,
+            revision: null,
+            cliente_notificado_retiro: false,
+            cliente_notificado_ppto: false,
+            fecha_reingreso: date,
+            status: "Equipo reingresado por garantía"
+        })
+      })
+      setOk("gar-active")
+  }
+
   if (orden != null) {
     return (
       <div className='frame'>
@@ -63,8 +88,9 @@ function ConsultaEstado() {
           <div className='work-data'> 
             <div className='modal-elements'>
               <div className='title-consulta'>Fecha Ingreso:<span className='orden-data'>{orden.fecha_ingreso}</span></div>
+              {orden.fecha_reingreso? <div className='title-consulta'>Fecha ingreso garantía:<span className='orden-data'>{orden.fecha_reingreso}</span></div>: null}
               {orden.fecha_trabajo? <div className='title-consulta'>Fecha Revisión/comienzo:<span className='orden-data'>{orden.fecha_trabajo}</span></div>: null}
-              {orden.fecha_reparacion? <div className='title-consulta'>Fecha Reparación/término:<span className='orden-data'>{orden.fecha_reparación}</span></div>: null}
+              {orden.fecha_reparacion? <div className='title-consulta'>Fecha Reparación/término:<span className='orden-data'>{orden.fecha_reparacion}</span></div>: null}
               {orden.fecha_retiro? <div className='title-consulta'>Fecha Retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>: null}
               {orden.diagnostico? <div className='title-consulta'>Diagnóstico:<span className='orden-diagnostico'>{orden.diagnostico}</span></div>: null}
               {orden.valorizacion? <div className='title-consulta'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
@@ -81,6 +107,7 @@ function ConsultaEstado() {
             {orden.entregada?
               <div className='modal-elements'>
                 <button className='buttons' onClick={() => setModalComprobanteRetiro("modal")}>Ver comprobante Retiro</button>
+                {(orden.fecha_retiro > dateOf30DaysAgo && orden.garantia === false)? <div className='modal-elements'><button className='buttons' onClick={()=>garantiaHandle(orden.id)}>Garantía</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: null}
               </div>: null}
           </div> 
           

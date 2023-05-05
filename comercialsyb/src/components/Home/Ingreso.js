@@ -30,6 +30,7 @@ function Ingreso({setRender, render, date}) {
   const [observaciones, setObservaciones] = useState()
   const [mantenimiento, setMantenimiento] = useState(false)
   const [revision, setRevision] = useState(false)
+  const [garantia, setGarantia] = useState(false)
   const [status, setStatus] = useState()
   const sigCanvas = useRef({})
   const signButton = useRef({})
@@ -57,15 +58,14 @@ function Ingreso({setRender, render, date}) {
         disco: disco,
         mantencion: mantenimiento,
         revision: revision,
+        garantia: garantia,
         mecanico: mecanico,
         status: status,
         fecha_ingreso: date
       })
     })
-    
     setSuccess("overlay-active")
     setSuccessMsg("success-msg-active")
-    
     setTimeout(() => {
       navigate("/")
     }, 2500); 
@@ -77,7 +77,7 @@ function Ingreso({setRender, render, date}) {
     <div className='frame'>
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
       <br /><br />
-      <form className='form' onSubmit={ () => crearOrden()}>
+      <form className='form' onSubmit={() => crearOrden()}>
         <div className='subtitulos'>Datos cliente</div>
          <br />
          <input type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
@@ -108,19 +108,29 @@ function Ingreso({setRender, render, date}) {
             <br /><br />
             <textarea className='observaciones' placeholder='Observaciones' onChange={(e) => setObservaciones(e.target.value)} value={observaciones}/>
             <br /><br />
-            <label for="mantenimiento">Mantenimiento</label>
+            <label htmlFor="mantenimiento">Mantenimiento</label>
             <input type='radio' name='proposito' id="mantenimiento" onChange={(e) => {
               setMantenimiento(!mantenimiento)
               setRevision(false)
+              setGarantia(false)
               setStatus("Equipo en espera de Mantención")
               }} value={mantenimiento} required/>
-              <br /><br />
-            <label for="revision">Revisión</label>
+              <br />
+            <label htmlFor="revision">Revisión</label>
             <input type='radio' name='proposito' id="revision" onChange={(e) => {
               setRevision(!revision)
               setMantenimiento(false)
+              setGarantia(false)
               setStatus("Equipo en espera de Revision")
               }} value={revision}/>
+              <br />
+            <label className='label' htmlFor="revision">Garantía</label>
+            <input type='radio' name='proposito' id="revision" onChange={(e) => {
+              setGarantia(!garantia)
+              setRevision(false)
+              setMantenimiento(false)
+              setStatus("Equipo en espera de Revision de Garantia")
+              }} value={garantia}/>
             <br /><br />
             <label for="recepcion">Recepcionado por:</label>
           <select onChange={(e) => setMecanico(e.target.value)} id="recepcion" required>
@@ -198,6 +208,7 @@ function Ingreso({setRender, render, date}) {
                   <p>Observaciones: {observaciones}</p>
                   <br />
                   {mantenimiento? (<p>Equipo a Mantenimiento</p>): <p>Equipo a Revisión</p>}
+                  {garantia?<p>GARANTÍA</p>:null}
                   <b/>
                   <p>Equipo recibido por: {mecanico}</p>
                   <div className='firma-area'>

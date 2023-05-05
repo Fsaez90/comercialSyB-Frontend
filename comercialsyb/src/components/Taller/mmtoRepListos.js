@@ -14,6 +14,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const [marca, setMarca] = useState()
     const [modelo, setModelo] = useState()
     const [serie, setSerie] = useState()
+    const [repMecanico, setRepMecanico] =useState(null)
     const [observaciones, setObservaciones] = useState()
     const [espada, setEspada] = useState()
     const [ingresoSistema, setIngresoSistema] = useState()
@@ -25,7 +26,9 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const [mecanico, setMecanico] = useState()
     const [diagnostico, setDiagnostico] = useState()
     const [detallePpto, setDetallePpto] = useState()
-
+    const [detallePptoGar, setDetallePptoGar] = useState()
+    const [isGarantia, setIsGarantia] = useState() 
+    const [msg, setMsg] = useState("msg-mecanic") 
   
     const  navigate  = useNavigate();
     
@@ -36,7 +39,8 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   },[modal])
   
   function mantenimientoHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    if (repMecanico != null){
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -67,7 +71,8 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
           terminada: true,
           solicitud_repuestos: true,
           mmto_completado: true,
-          fecha_reparacion: date
+          fecha_reparacion: date,
+          reparada_por: repMecanico
       })
     })
     setRender(!render)
@@ -75,6 +80,9 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       setModal("modal-inactive")
       navigate('/taller') 
     }, 500);
+    } else {
+      setMsg("msg-mecanic-act")
+    }
   }
    
     if (repRecibidosMmto !== 0) {
@@ -109,6 +117,8 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                     setDiagnostico(x.diagnostico)
                     setDetallePpto(x.detalle_ppto)  
                     setIngresoSistema(x.ingreso_sistema)
+                    setIsGarantia(x.garantia)
+                    setDetallePptoGar(x.detalle_garantia)
                   }
                     }>Comenzar</button>         
               </div> 
@@ -131,6 +141,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                 </div>
                 <div className='machine-detail-2'>
                   <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                  {isGarantia? <p className='sub-detail'>GARANTIA</p>: null}
                   {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
                   {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
                   {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
@@ -139,20 +150,49 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                   {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
                 </div>
               </div>
-              <div className='observaciones-taller'>
-                <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
-              </div>
-              <div className='detalle-observaciones'>
-                Repuestos solicitados:
-                <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
-              </div>
-              <div className='modal-buttons'>
+                {isGarantia?
+              <>
+                <div className='observaciones-taller'>
+                  <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>GARANTIA</span></p>
+                </div>
+                  <div className='detalle-observaciones'>
+                    Detalle repuestos:
+                    <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar}/>
+                </div>
+                <div className='modal-buttons'>
                   <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
                   <button className='button-list' onClick={() => {
                   mantenimientoHandle(id)
                   setModal("modal-inactive") 
-                  }}>MMTO Completado</button>
+                  }}>Garantía Completada</button>
               </div>
+              </>:
+              <>
+                <div className='observaciones-taller'>
+                  <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
+                </div>
+                <div className='detalle-observaciones'>
+                  Repuestos solicitados:
+                  <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
+                </div>
+                <div className='detalle-observaciones'>
+                  Equipo reparado por:
+                  <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
+                    <option value="1">Seleccionar</option>
+                    <option value="1">Técnico 1</option>
+                    <option value="2">Técnico 2</option>
+                    <option value="Admin">Admin</option>
+                  </select>
+                  <div className={msg}>Indicar mecánico que realiza reparación</div>
+                </div>
+                <div className='modal-buttons'>
+                  <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                  <button className='button-list' onClick={() => {
+                    mantenimientoHandle(id)
+                  }}>MMTO Completado</button>
+                </div>
+              </>    
+              }
             </div>
           </div>  
         </div>

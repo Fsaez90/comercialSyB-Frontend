@@ -27,6 +27,9 @@ import NoContestaRetiro from "./components/Home/NoContestaRetiro";
 import SolicitudRepuestos from "./components/Home/SolicitudRepuestos";
 import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
+import Garantias from "./components/Taller/garantias";
+import GarantiaProceso from "./components/Taller/GarantiaProceso";
+import { formLabelClasses } from "@mui/material";
 
 function App() {
   const [orden, setOrden] = useState([]);
@@ -41,11 +44,13 @@ function App() {
   const [procPrioLista, setProcPrioLista] = useState([])
   const [procRevLista, setProcRevLista] = useState([])
   const [procManLista, setProcManLista] = useState([])
+  const [proGarLista, setProGarLista] = useState([])
   const [revLista, setRevlista] = useState([])
   const [manLista, setManlista] = useState([])
   const [aprLista, setAprlista] = useState([])
   const [rechLista, setRechlista] = useState([])
   const [prioridad, setPrioridad] = useState()
+  const [garantia, setGarantia] = useState()
   const [revision, setRevision] = useState()
   const [mantencion, setMantencion] = useState()
   const [aprobadas, setAprobadas] = useState()
@@ -73,6 +78,9 @@ function App() {
   const [repRecibidosMmtoLista, setRepRecibidosMmtoLista] = useState([])
   const [esperaRepuesto, setEsperaRepuesto] = useState()
   const [esperaRepuestoLista, setEsperaRepuestoLista] = useState([])
+  const [garantiaLista, setGarantiaLista] = useState([])
+  const [garantiaCom, setGarantiaCom] = useState([])
+
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
   useEffect(() => {   
@@ -101,7 +109,7 @@ function App() {
         return x.prioritaria === true && x.comenzada === false && x.entregada === false
       })
       let listaRevision = orden.filter(function(x){
-        return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
+        return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && (x.garantia === false || x.garantia === null)
       })
       let listaMantencion = orden.filter(function(x){
         return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
@@ -116,10 +124,13 @@ function App() {
         return x.prioritaria === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
       })
       let revComenzadas = orden.filter(function(x){
-        return x.revision === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+        return x.revision === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
       })
       let mantComenzadas = orden.filter(function(x){
         return x.mantencion === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+      })
+      let garComenzadas = orden.filter(function(x){
+        return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
       })
       let PptosListos = orden.filter(function(x){
         return x.revision === true && x.revisado === true && x.terminada ===true  && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
@@ -128,10 +139,10 @@ function App() {
         return x.mantencion === true && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
       })
       let solicitudRepMmto = orden.filter(function(x){
-        return x.mantencion === true && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
+        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
       })
       let repuestosRecibidosMmmto = orden.filter(function(x){
-        return x.mantencion === true && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
+        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
       })
       let EqReparados = orden.filter(function(x){
         return x.revisado === true && x.terminada === true && x.reparada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
@@ -140,18 +151,22 @@ function App() {
         return x.revisado === true && x.terminada === true && x.armada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
       })
       let NoContestaretiro = orden.filter(function(x){
-        return (x.reparada === true || x.mmto_completado === true || x.armada === true) && x.cliente_notificado_ppto === true && x.cliente_notificado_retiro === false && x.cliente_noresponde === true && x.entregada === false
+        return (x.reparada === true || x.mmto_completado === true || x.armada === true) && x.cliente_notificado_retiro === false && x.cliente_noresponde === true && x.entregada === false
       })
       let NoContestappto = orden.filter(function(x){
         return (x.revision === true || x.falla_encontrada === true) && x.reparada === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === true && x.entregada === false
       })
       let EsperaRepuestos = orden.filter(function(x){
         return x.espera_repuesto === true && x.entregada === false
+      })
+      let Garantias = orden.filter(function(x){
+        return x.garantia === true && x.validez_garantia === null
       }) 
+
     
  
 
-      let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length 
+      let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length + garComenzadas.length
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
 
@@ -163,6 +178,9 @@ function App() {
       setPriComenzadas(priComenzadas.length)
       setRevComenzadas(revComenzadas.length)
       setManComenzadas(mantComenzadas.length)
+      setGarantiaCom(garComenzadas.length)
+      setProGarLista(garComenzadas)
+      setGarantia(Garantias.length)
       setTotalProceso(procesoTotal)
       setProcPrioLista(priComenzadas)
       setProcRevLista(revComenzadas)
@@ -173,11 +191,13 @@ function App() {
       setAprlista(listaAprobadas) 
       setRechlista(listaRechazadas)
 
+
       setTotalNotificaciones(totalNotificaciones)
       setpptoslistosLista(PptosListos)
       setmmtoslistosLista(MmtosListos)
       seteqreparadosLista(EqReparados)
       seteqarmadosLista(EqArmados)
+      setGarantiaLista(Garantias)
       setNoContestaPptoLista(NoContestappto)
       setNoContestaRetiroLista(NoContestaretiro)
       setSolicitudRepuestosLista(solicitudRepMmto)
@@ -207,24 +227,24 @@ function App() {
         <Route path='/' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
-        <Route path='/estado' element={<ConsultaEstado />}/>
+        <Route path='/estado' element={<ConsultaEstado date={date} />}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock}/>}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
 
-        <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>
-       
+        <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} garantia={garantia} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>
+        <Route path='/garantia' element={<Garantias render={render} setRender={setRender} garantia={garantia} garantiaLista={garantiaLista} clock={clock} date={date} />} />
         <Route path='/prioridad' element={<Prioridad date={date} clock={clock} prioridad={prioridad} setRender={setRender} render={render} prioLista={prioLista}/>}/>
         <Route path='/mantenimiento' element={<Mantenimiento date={date} clock={clock} mantenciones={mantencion} setRender={setRender} render={render} manLista={manLista} />}/>
         <Route path='/revision' element={<Revision date={date} clock={clock} revisiones={revision} setRender={setRender} render={render} revLista={revLista}/>}/>
         <Route path='/mmto-rep-listos' element={<MmtoRepListos date={date} clock={clock} render={render} setRender={setRender} repRecibidosMmto={repRecibidosMmto} repRecibidosMmtoLista={repRecibidosMmtoLista} />}/>
         <Route path='/aprobadas' element={<Aprobadas date={date} clock={clock} render={render} setRender={setRender} aprobadas={aprobadas} aprLista={aprLista} />}/>
         <Route path='/rechazadas' element={<Rechazadas date={date} clock={clock} render={render} setRender={setRender} rechazadas={rechazadas} rechLista={rechLista} />}/>
-        <Route path='/proceso' element={<Proceso render={render} setRender={setRender} priComenzadas={priComenzadas} revComenzadas={revComenzadas} manComenzadas={manComenzadas} />}/>
+        <Route path='/proceso' element={<Proceso render={render} setRender={setRender} priComenzadas={priComenzadas} revComenzadas={revComenzadas} manComenzadas={manComenzadas} garantiaCom={garantiaCom} />}/>
         <Route path='/proceso-prioridad' element={<PrioritariasProc date={date} clock={clock} priComenzadas={priComenzadas} setRender={setRender} render={render} procPrioLista={procPrioLista}/>}/>
         <Route path='/proceso-revision' element={<RevisionProc revComenzadas={revComenzadas} setRender={setRender} render={render} procRevLista={procRevLista} date={date} clock={clock}/>}/>
         <Route path='/proceso-mantencion' element={<MantencionProc date={date} clock={clock} manComenzadas={manComenzadas} setRender={setRender} render={render} procManLista={procManLista}/>}/>
-        
+        <Route path='/proceso-garantia' element={<GarantiaProceso proGarLista={proGarLista} render={render} setRender={setRender} date={date} clock={clock} />}/>
         <Route path="/pptos-listos" element={<PptosListos render={render} setRender={setRender} date={date} clock={clock} pptoslistos={pptoslistos} pptoslistosLista={pptoslistosLista}/>}/>
         <Route path="/mmto-solicitud-rep" element={<SolicitudRepuestos render={render} setRender={setRender} date={date} clock={clock} solicitudRepuestos={solicitudRepuestos} solicitudRepuestosLista={solicitudRepuestosLista} />}/>
 

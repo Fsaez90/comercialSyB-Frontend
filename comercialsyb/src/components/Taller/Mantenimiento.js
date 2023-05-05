@@ -34,7 +34,7 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
       setRender(!render)
     }, 500); 
 },[modal])
-console.log(aPresupuesto)
+
 
 function enProcesoHandle(n) { 
   fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {

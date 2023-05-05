@@ -20,7 +20,7 @@ function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqrepa
           {pptoslistos > 0? <p id='not-count'>{pptoslistos}</p>: null}
         </div><br />
         <div className='frame-menu'>
-          <NavLink className='menu-button' to="/mmto-solicitud-rep">Solicitud Repuestos Mantenciones</NavLink>
+          <NavLink className='menu-button' to="/mmto-solicitud-rep">Solicitud Repuestos Mantenciones/Garantias</NavLink>
           {solicitudRepuestos > 0? <p id='not-count'>{solicitudRepuestos}</p>: null}
         </div>
         <br /><br />
