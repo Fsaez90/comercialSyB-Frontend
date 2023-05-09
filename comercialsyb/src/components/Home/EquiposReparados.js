@@ -234,7 +234,6 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
                 </div>
               </>
               }
-              </div>
               <div className='modal-buttons-notificaciones'>
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
@@ -249,8 +248,9 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
                      setModal("modal-inactive")
                      setPresupuesto("")
                      setDiagnostico("")
-                    }}>Volver</button>
+                    }}>Volver</button> 
                 </div>
+              </div>
               </div>
             </div>
           </div>   

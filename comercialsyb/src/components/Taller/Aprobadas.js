@@ -45,54 +45,128 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
 },[modal])
 
 function ReparadaHandle(n){
-  if (repMecanico != null){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          fecha_trabajo: fechaRevision,
-          hora_trabajo: horaRevision,
-          revisado: true,
-          status: "Equipo reparado, notificar cliente.",
-          terminada: true,
-          valorizacion: valorizacion,
-          aprobada: true,
-          prioritaria: prioritaria,
-          cliente_notificado_ppto: true,
-          reparada: true,
-          fecha_reparacion: date,
+  if (repMecanico === "1"){
+    Promise.all([
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            fecha_trabajo: fechaRevision,
+            hora_trabajo: horaRevision,
+            revisado: true,
+            status: "Equipo reparado, notificar cliente.",
+            terminada: true,
+            valorizacion: valorizacion,
+            aprobada: true,
+            prioritaria: prioritaria,
+            cliente_notificado_ppto: true,
+            reparada: true,
+            fecha_reparacion: date,
+            reparada_por: repMecanico
+        })
+      }),
+      fetch(`http://127.0.0.1:8000/comercial/update-report1/`, {
+        method: "PUT",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          lista_ordenes: `${n}`,
+          garantias: null
+        })
       })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
+    ]).then(responses => {
+      // handle responses
+      console.log(responses);
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/taller') 
+      }, 500);
+    }).catch(error => {
+      console.error(error);
+    });
+  } else if(repMecanico === "2") {
+    Promise.all([
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            fecha_trabajo: fechaRevision,
+            hora_trabajo: horaRevision,
+            revisado: true,
+            status: "Equipo reparado, notificar cliente.",
+            terminada: true,
+            valorizacion: valorizacion,
+            aprobada: true,
+            prioritaria: prioritaria,
+            cliente_notificado_ppto: true,
+            reparada: true,
+            fecha_reparacion: date,
+        })
+      }),
+      fetch(`http://127.0.0.1:8000/comercial/update-report2/`, {
+        method: "PUT",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            lista_ordenes: `${n}`,
+            garantias: null
+        })
+      })
+    ]).then(responses => {
+      // handle responses
+      console.log(responses);
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/taller') 
+      }, 500);
+    }).catch(error => {
+      console.error(error);
+    });
   } else {
     setMsg("msg-mecanic-act")
   }
-
 }
 
 function GuardarHandle(n){

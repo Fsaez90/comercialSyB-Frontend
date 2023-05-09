@@ -29,7 +29,8 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
     const [aplGarantia, setAplGarantia] = useState()
     const [isGarantia, setIsGarantia] = useState()
     const [status, setStatus] = useState()
-    const [trabajoPrevio, setTrabajoPrevio] = useState(false)  
+    const [trabajoPrevio, setTrabajoPrevio] = useState(false)
+    const [repMecanico, setRepMecanico] = useState(null)  
     const  navigate  = useNavigate();
 
     useEffect(() => {
@@ -129,56 +130,134 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
 
   }
 
-  function solicitudRepuestosHandle(n) {
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            status: "Trabajo Garantía en proceso",
-            diagnostico: diagnostico,
-            mmto_completado: false,
-            comenzada: true,
-            detalle_ppto: detallePpto,
-            hora_trabajo: clock,
-            fecha_trabajo: date,
-            revisado: true,
-            terminada: true,
-            reparada: false,
-            entregada: false,
-            cliente_notificado_retiro: false,
-            cliente_noresponde: false,
-            solicitud_repuestos: true,
-            repuestos_entregados: false,
-            espera_repuestos: false,
-            cliente_notificado_ppto: false,
-            validez_garantia: aplGarantia,
-            diagnostico_garantia: diagnosticoGar,
-            detalle_garantia: detallePptoGar
+  function solicitudRepuestosHandle(n){
+    if (repMecanico === "1"){
+      Promise.all([
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda, 
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              status: "Trabajo Garantía en proceso",
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: detallePpto,
+              hora_trabajo: clock,
+              fecha_trabajo: date,
+              revisado: true,
+              terminada: true,
+              reparada: false,
+              entregada: false,
+              cliente_notificado_retiro: false,
+              cliente_noresponde: false,
+              solicitud_repuestos: true,
+              repuestos_entregados: false,
+              espera_repuestos: false,
+              cliente_notificado_ppto: false,
+              validez_garantia: aplGarantia,
+              diagnostico_garantia: diagnosticoGar,
+              detalle_garantia: detallePptoGar
+          })
+        }),
+        fetch(`http://127.0.0.1:8000/comercial/update-report1/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            lista_ordenes: null,
+            garantias: `${n}`
+          })
         })
-      })
-      setRender(!render)
-      setTimeout(() => {
+      ]).then(responses => {
+        // handle responses
+        setRender(!render)
+        setTimeout(() => {
         setModalRev("modal-inactive-revision")
         navigate('/taller') 
-      }, 500);
+       }, 500);
+      }).catch(error => {
+        console.error(error);
+      });
+    } else {
+      Promise.all([
+        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda, 
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              status: "Trabajo Garantía en proceso",
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: detallePpto,
+              hora_trabajo: clock,
+              fecha_trabajo: date,
+              revisado: true,
+              terminada: true,
+              reparada: false,
+              entregada: false,
+              cliente_notificado_retiro: false,
+              cliente_noresponde: false,
+              solicitud_repuestos: true,
+              repuestos_entregados: false,
+              espera_repuestos: false,
+              cliente_notificado_ppto: false,
+              validez_garantia: aplGarantia,
+              diagnostico_garantia: diagnosticoGar,
+              detalle_garantia: detallePptoGar
+          })
+        }),
+        fetch(`http://127.0.0.1:8000/comercial/update-report2/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              lista_ordenes: null,
+              garantias: `${n}`
+          })
+        })
+      ]).then(responses => {
+        // handle responses
+        setRender(!render)
+        setTimeout(() => {
+        setModalRev("modal-inactive-revision")
+        navigate('/taller') 
+       }, 500);
+      }).catch(error => {
+        console.error(error);
+      });
+    }
   }
 
   function pptoHandle(n) {
@@ -229,8 +308,6 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
       }, 500);
   }
 
-
-
     if (garantia !== 0) {  
         return (
           <div className='frame'>
@@ -267,7 +344,7 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
                         setStatus(x.status)
                         setDetallePptoGar(x.detalle_garantia)
                         setDiagnosticoGar(x.dignostico_garantia)
-                        // setAplGarantia(x.validez_garantia)
+                        setRepMecanico(x.reparada_por)
                       }
                         }>Comenzar</button>
                   </div>  

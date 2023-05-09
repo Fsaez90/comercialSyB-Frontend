@@ -38,53 +38,168 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       }, 500); 
   },[modal])
   
-  function mantenimientoHandle(n) {
-    if (repMecanico != null){
-      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: detallePpto,
-          hora_trabajo: clock,
-          fecha_trabajo: date,
-          status: "Mantención completada, notificar cliente para retiro",
-          terminada: true,
-          solicitud_repuestos: true,
-          mmto_completado: true,
-          fecha_reparacion: date,
-          reparada_por: repMecanico
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
+  // function mantenimientoHandle(n) {
+  //   if (repMecanico != null){
+  //     fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  //     method: "POST",
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: JSON.stringify({
+  //         nombre: nombre,
+  //         apellidos: apellidos,
+  //         rut: rut,
+  //         email: email,
+  //         telefono: telefono,
+  //         tipo: tipo,
+  //         marca: marca,
+  //         modelo: modelo,
+  //         serie: serie,
+  //         observaciones: observaciones,
+  //         espada: espada,
+  //         cadena: cadena,
+  //         funda: funda,
+  //         disco: disco,
+  //         mantencion: mantencion,
+  //         revision: revision,
+  //         mecanico: mecanico,
+  //         ingreso_sistema: ingresoSistema,
+  //         diagnostico: diagnostico,
+  //         comenzada: true,
+  //         detalle_ppto: detallePpto,
+  //         hora_trabajo: clock,
+  //         fecha_trabajo: date,
+  //         status: "Mantención completada, notificar cliente para retiro",
+  //         terminada: true,
+  //         solicitud_repuestos: true,
+  //         mmto_completado: true,
+  //         fecha_reparacion: date,
+  //         reparada_por: repMecanico
+  //     })
+  //   })
+  //   setRender(!render)
+  //   setTimeout(() => {
+  //     setModal("modal-inactive")
+  //     navigate('/taller') 
+  //   }, 500);
+  //   } else {
+  //     setMsg("msg-mecanic-act")
+  //   }
+  // }
+  function mantenimientoHandle(n){
+    if (repMecanico === "1"){
+      Promise.all([
+        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            status: "Mantención completada, notificar cliente para retiro",
+            terminada: true,
+            solicitud_repuestos: true,
+            mmto_completado: true,
+            fecha_reparacion: date,
+            reparada_por: repMecanico
+          })
+        }),
+        fetch(`http://127.0.0.1:8000/comercial/update-report1/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            lista_ordenes: id,
+            garantias: null
+          })
+        })
+      ]).then(responses => {
+        // handle responses
+        setRender(!render)
+        setTimeout(() => {
+          setModal("modal-inactive")
+          navigate('/taller') 
+        }, 500);
+      }).catch(error => {
+        console.error(error);
+      });
+    } else if(repMecanico === "2") {
+      Promise.all([
+        fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: detallePpto,
+            hora_trabajo: clock,
+            fecha_trabajo: date,
+            status: "Mantención completada, notificar cliente para retiro",
+            terminada: true,
+            solicitud_repuestos: true,
+            mmto_completado: true,
+            fecha_reparacion: date,
+            reparada_por: repMecanico
+          })
+        }),
+        fetch(`http://127.0.0.1:8000/comercial/update-report2/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            lista_ordenes: id,
+            garantias: null
+          })
+        })
+      ]).then(responses => {
+        // handle responses
+        setRender(!render)
+        setTimeout(() => {
+          setModal("modal-inactive")
+          navigate('/taller') 
+        }, 500);
+      }).catch(error => {
+        console.error(error);
+      });
     } else {
       setMsg("msg-mecanic-act")
     }
   }
-   
+     
     if (repRecibidosMmto !== 0) {
       return (
         <div className='frame'>
