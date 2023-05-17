@@ -218,45 +218,63 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   }
 
   function NoRespondeHandle(n){
-    fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+    Promise.all([
+      fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            revisado: true,
+            status: "Presupuesto terminado, cliente no conesta",
+            terminada: true,
+            valorizacion: valorizacion,
+            prioritaria: prioritaria,
+            cliente_noresponde: true,
+        })
+      }),
+      fetch(`http://127.0.0.1:8000/comercial/email/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
+          id: id,
+          name: nombre,
+          lastname: apellidos,
           email: email,
-          telefono: telefono,
           tipo: tipo,
-          marca: marca,
           modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
           diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto terminado, cliente no conesta",
-          terminada: true,
           valorizacion: valorizacion,
-          prioritaria: prioritaria,
-          cliente_noresponde: true,
+        })
       })
-    })
+    ])
     setRender(!render)
     setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
+    setModal("modal-inactive")
+    navigate('/notificaciones') 
     }, 500);
   }
+  
+
 
   if (pptoslistos !== 0) {
     return (
