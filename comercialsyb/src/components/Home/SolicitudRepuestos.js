@@ -161,7 +161,7 @@ function respuestosEnviadosHandle(n) {
             )
         })}
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
         <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -240,7 +240,7 @@ function respuestosEnviadosHandle(n) {
         <div>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
 }

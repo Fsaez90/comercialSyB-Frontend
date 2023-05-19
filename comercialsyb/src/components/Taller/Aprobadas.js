@@ -35,7 +35,6 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [isGarantia, setIsGarantia] = useState()
   const [repMecanico, setRepMecanico] =useState(null)
   const [msg, setMsg] = useState("msg-mecanic") 
-
   const navigate  = useNavigate();
   
   useEffect(() => {

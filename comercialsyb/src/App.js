@@ -29,7 +29,7 @@ import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
 import Garantias from "./components/Taller/garantias";
 import GarantiaProceso from "./components/Taller/GarantiaProceso";
-import { formLabelClasses } from "@mui/material";
+
 
 function App() {
   const [orden, setOrden] = useState([]);
@@ -80,7 +80,7 @@ function App() {
   const [esperaRepuestoLista, setEsperaRepuestoLista] = useState([])
   const [garantiaLista, setGarantiaLista] = useState([])
   const [garantiaCom, setGarantiaCom] = useState([])
-
+  const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
   useEffect(() => {   
@@ -92,10 +92,20 @@ function App() {
         setDate(date.toLocaleDateString());
       }, 1000);
       
-      const result = await fetch(`http://127.0.0.1:8000/comercial/orden-list/`)
-      result.json().then(json => {
-        setOrden(json)
-      })
+      const result = await fetch('http://127.0.0.1:8000/comercial/orden-list/');
+      result
+        .json()
+        .then(data => {
+          setOrden(data);
+          if (Array.isArray(data) && data.length > 0) {
+            const lastObject = data[data.length - 1]; // Use '-1' to get the last object
+            setLastid(lastObject.id);
+          }
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the fetch request
+          console.error('Error:', error);
+        });
      
       let lista = orden.filter(function(x){
         return x.ingreso_sistema === false
@@ -216,8 +226,7 @@ function App() {
     };
     setTimeout(() => {
       fetchData(); 
-    }, 100); 
-      
+    }, 100);   
     },[render])  
 
   return (
@@ -225,7 +234,7 @@ function App() {
       <Router>
       <Routes>
         <Route path='/' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
-        <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender}/>}/>
+        <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<ConsultaEstado date={date} />}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
@@ -250,10 +259,10 @@ function App() {
 
         <Route path="/mantenciones-listas" element={<MantencionesListas render={render} setRender={setRender} date={date} clock={clock} mmtoslistos={mmtoslistos} mmtoslistosLista={mmtoslistosLista} />}/>
         <Route path="/equipos-reparados" element={<EquiposReparados render={render} setRender={setRender} date={date} clock={clock} eqreparados={eqreparados} eqreparadosLista={eqreparadosLista}/>}/>
-        <Route path="equipos-armados" element={<EquiposArmados render={render} setRender={setRender} date={date} clock={clock} eqarmados={eqarmados} eqarmadosLista={eqarmadosLista} />}/>
-        <Route path="no-contesta" element={<NoContesta render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestappto={noContestappto}/>}/>
-        <Route path="no-contesta-pptos" element={<NoContestapptos render={render} setRender={setRender} date={date} clock={clock} noContestappto={noContestappto} noContestaPptoLista={noContestaPptoLista}/>}/>
-        <Route path="no-contesta-retiro" element={<NoContestaRetiro render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestaRetiroLista={noContestaRetiroLista}/>}/>
+        <Route path="/equipos-armados" element={<EquiposArmados render={render} setRender={setRender} date={date} clock={clock} eqarmados={eqarmados} eqarmadosLista={eqarmadosLista} />}/>
+        <Route path="/no-contesta" element={<NoContesta render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestappto={noContestappto}/>}/>
+        <Route path="/no-contesta-pptos" element={<NoContestapptos render={render} setRender={setRender} date={date} clock={clock} noContestappto={noContestappto} noContestaPptoLista={noContestaPptoLista}/>}/>
+        <Route path="/no-contesta-retiro" element={<NoContestaRetiro render={render} setRender={setRender} date={date} clock={clock} noContestaretiro={noContestaretiro} noContestaRetiroLista={noContestaRetiroLista}/>}/>
       </Routes>
       </Router>
     </div>

@@ -37,7 +37,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [aplGarantia, setAplGarantia] = useState()
 
-
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -45,7 +44,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
       setRender(!render)
     }, 500); 
   },[modal])
-
 
 
   function AprobadaHandle(n){
@@ -245,7 +243,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             comenzada: true,
             detalle_ppto: presupuesto,
             revisado: true,
-            status: "Presupuesto terminado, cliente no conesta",
+            status: "Presupuesto terminado, cliente no conesta,email enviado",
             terminada: true,
             valorizacion: valorizacion,
             prioritaria: prioritaria,
@@ -274,8 +272,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
     }, 500);
   }
   
-
-
   if (pptoslistos !== 0) {
     return (
       <div className='frame'>
@@ -322,7 +318,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           )
       })}
       </div>
-      <NavLink to="/notificaciones">Menú</NavLink>
+      <NavLink to="/notificaciones">Volver</NavLink>
       <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -432,7 +428,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                setModal("modal-inactive")
                setPresupuesto("")
                setDiagnostico("")
-               
               }}>Volver</button>
           </div>
         </div>}
@@ -447,7 +442,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
         <div>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
   }

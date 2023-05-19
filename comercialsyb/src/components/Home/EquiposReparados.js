@@ -175,7 +175,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
             )
         })}
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
         <div className={modal}>
             <div className='modal-content'>
               <div className='modal-details-taller'>
@@ -262,7 +262,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
           <div>
             <p className='not-exist'>No hay notificaciones pendientes</p>
           </div>
-          <NavLink to="/notificaciones">Menú</NavLink>
+          <NavLink to="/notificaciones">Volver</NavLink>
         </div>
       )
     }

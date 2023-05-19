@@ -9,8 +9,7 @@ function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
           setRender(!render)
         }, 500); 
       },[])
-    
-      
+     
       return (
         <div className='frame-menu'>
             <h1 className='title-menu'>Clientes inubicados pendientes de notificar</h1>

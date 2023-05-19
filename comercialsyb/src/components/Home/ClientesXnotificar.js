@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqreparados, eqarmados, nocontestaTotal, solicitudRepuestos}) {
 
@@ -44,7 +45,7 @@ function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqrepa
     </div>
     <br/><br/><br/>
     <div>
-        <NavLink to="/">Menu</NavLink>
+      <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
     </div>
 </div>
   )

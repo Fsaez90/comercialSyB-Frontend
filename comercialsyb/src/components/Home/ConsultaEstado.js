@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import "../static/busqueda.css"
 import ComprobanteRetiro from './ComprobanteRetiro'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function ConsultaEstado({date}) {
   
@@ -21,7 +22,6 @@ function ConsultaEstado({date}) {
     })
     .then(data => setOrden(data))
 }, [numero])
-
 
   const dateOfToday = new Date();
   const date2 = new Date(dateOfToday);
@@ -84,7 +84,6 @@ function ConsultaEstado({date}) {
             </div>
           </div>
             
-            
           <div className='work-data'> 
             <div className='modal-elements'>
               <div className='title-consulta'>Fecha Ingreso:<span className='orden-data'>{orden.fecha_ingreso}</span></div>
@@ -135,7 +134,7 @@ function ConsultaEstado({date}) {
         <br/>
         <p className='not-exist'>{notExist}</p>
         <br/>
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       </div>
     )
   } 

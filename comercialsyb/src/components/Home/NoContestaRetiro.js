@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
 function NoContestaRetiro({render, setRender, date, noContestaretiro, noContestaRetiroLista}) {
-    const [modal, setModal] = useState("modal-inactive")
+  const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
   const [apellidos, setApellidos] = useState()
@@ -172,7 +172,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
           )
       })}
       </div>
-      <NavLink to="/notificaciones">Menú</NavLink>
+      <NavLink to="/notificaciones">Volver</NavLink>
       <div className={modal}>
           <div className='modal-content'>
             <div className='modal-details-taller'>
@@ -250,7 +250,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
         <div>
           <p className='not-exist'>No hay notificaciones pendientes</p>
         </div>
-        <NavLink to="/notificaciones">Menú</NavLink>
+        <NavLink to="/notificaciones">Volver</NavLink>
       </div>
     )
   }

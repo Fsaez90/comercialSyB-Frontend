@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalIngreso.css"
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
 function OTxingresar({listaOt, render, setRender}) {
 
@@ -101,7 +102,7 @@ function Ingresar (n) {
           )
       })}
       </div>
-      <NavLink to="/">Menú</NavLink>
+      <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       <div className={modal}>
         <div className='modal-content'>
           <div className='modal-details'>
@@ -132,8 +133,7 @@ function Ingresar (n) {
                 }}>Ingresar</button>
           </div>
         </div>
-      </div>  
-      
+      </div>   
     </div>
 
   )

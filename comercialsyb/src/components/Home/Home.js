@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
+import BuildIcon from '@mui/icons-material/Build';
 
 
 function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
@@ -29,7 +30,7 @@ function Home({render, setRender, notificaciones, notificacionesTotal, esperaRep
         </div>
         <br/>
         <div>
-            <NavLink className='menu-button' to="/taller">Taller</NavLink>
+          <NavLink to="/taller"><BuildIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></BuildIcon></NavLink>
         </div>
     </div>
   )

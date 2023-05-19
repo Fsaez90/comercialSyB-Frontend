@@ -4,8 +4,9 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import SignaturePad from "react-signature-canvas"
 import '../static/formularioIngreso.css'
+import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function Ingreso({setRender, render, date}) {
+function Ingreso({setRender, render, date, lastId}) {
 
   const  navigate  = useNavigate();
   
@@ -108,7 +109,7 @@ function Ingreso({setRender, render, date}) {
             <br /><br />
             <textarea className='observaciones' placeholder='Observaciones' onChange={(e) => setObservaciones(e.target.value)} value={observaciones}/>
             <br /><br />
-            <label htmlFor="mantenimiento">Mantenimiento</label>
+            <label className='label' htmlFor="mantenimiento">Mantenimiento</label>
             <input type='radio' name='proposito' id="mantenimiento" onChange={(e) => {
               setMantenimiento(!mantenimiento)
               setRevision(false)
@@ -116,7 +117,7 @@ function Ingreso({setRender, render, date}) {
               setStatus("Equipo en espera de Mantención")
               }} value={mantenimiento} required/>
               <br />
-            <label htmlFor="revision">Revisión</label>
+            <label className='label' htmlFor="revision">Revisión</label>
             <input type='radio' name='proposito' id="revision" onChange={(e) => {
               setRevision(!revision)
               setMantenimiento(false)
@@ -178,6 +179,7 @@ function Ingreso({setRender, render, date}) {
                     </div>
                   </div>
                   <div>
+                    <p>Orden Nº: {lastId + 1}</p>
                     <p>Nombre: {name} </p>
                     <p>Apellidos: {lastname}</p>
                     <p>RUT: {rut}</p>
@@ -236,7 +238,7 @@ function Ingreso({setRender, render, date}) {
       {imageURL ? (<input type='submit' className='buttons' value="IMPRIMIR" />): null}
       </form>
       <div className="return-menu">
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       </div>
       <div id={success}>
         <p id={succesMsg}>Orden ingresada exitosamente!</p>
