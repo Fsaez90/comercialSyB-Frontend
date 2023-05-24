@@ -1,58 +1,37 @@
-import React, {useState, useEffect} from 'react'
-import { NavLink } from 'react-router-dom'
-import "../static/busqueda.css"
+import React, { useState } from 'react'
 import ComprobanteRetiro from './ComprobanteRetiro'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function ConsultaEstado({date}) {
-  
-  const [numero, setNumero] = useState("")
-  const [orden, setOrden] = useState()
-  const [render, setRender] = useState(false)
-  const[notExist, setNotExist] = useState("")
-  const [modalComprobanteRetiro, setModalComprobanteRetiro] = useState("modal-inactive")
-  const [ok, setOk] = useState("gar-inactive")
+function BusquedaModal({orden, setModal, date}) {
+    const [modalComprobanteRetiro, setModalComprobanteRetiro] = useState("modal-inactive")
+    const [ok, setOk] = useState("gar-inactive")
 
-  useEffect(() => {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${numero}/`)
-    .then(response => {
-      if(response.status === 200) { return response.json()}
-      if(response.status === 500) { setNotExist("Orden no encontrada")}
-    })
-    .then(data => setOrden(data))
-}, [numero])
+    const dateOfToday = new Date();
+    const date2 = new Date(dateOfToday);
+    date2.setDate(dateOfToday.getDate() - 30);
+    const dateOf30DaysAgo = date2.toLocaleDateString()
 
-  const dateOfToday = new Date();
-  const date2 = new Date(dateOfToday);
-  date2.setDate(dateOfToday.getDate() - 30);
-  const dateOf30DaysAgo = date2.toLocaleDateString()
-
-  function garantiaHandle (n) {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-partial/${n}/`, {
-        method: "PUT",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            garantia: true,
-            mantencion: null,
-            revision: null,
-            cliente_notificado_retiro: false,
-            cliente_notificado_ppto: false,
-            fecha_reingreso: date,
-            status: "Equipo reingresado por garantía"
+    function garantiaHandle (n) {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-partial/${n}/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              garantia: true,
+              mantencion: null,
+              revision: null,
+              mmto_completado: false,
+              cliente_notificado_retiro: false,
+              cliente_notificado_ppto: false,
+              fecha_reingreso: date,
+              falla_encontrada: false,
+              status: "Equipo reingresado por garantía"
+          })
         })
-      })
-      setOk("gar-active")
-  }
+        setOk("gar-active") 
+    }
 
-  if (orden != null) {
-    return (
-      <div className='frame'>
-        <h1 className='title-component'>Consulta estado de orden</h1>
-        <input type="text" placeholder='Número de orden' onChange={(e) => {
-          setNumero(e.target.value)
-          setRender(!render)
-          }} value={numero} />
+  return (
+    <div>
         <div className='busqueda-modal'>
           <div className='cliente-data'>
             <div className='modal-elements'>
@@ -109,35 +88,15 @@ function ConsultaEstado({date}) {
                 {(orden.fecha_retiro > dateOf30DaysAgo && orden.garantia === false)? <div className='modal-elements'><button className='buttons' onClick={()=>garantiaHandle(orden.id)}>Garantía</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: null}
               </div>: null}
           </div> 
-          
-              <button className='button-list button' onClick={() => {
-                setOrden(null)
-                setNumero("")
-                }}>Refresh</button>          
+          <button className='button-close' onClick={()=> setModal("modal-inactive")}>Cerrar</button>
         </div>
         <br/>
         <br/>
-        <NavLink to="/">Menú</NavLink>
         <div className={modalComprobanteRetiro}>
               <ComprobanteRetiro orden={orden} setModalComprobanteRetiro={setModalComprobanteRetiro}/>
         </div>
-      </div>
-    )
-  } else {
-
-    return (
-      <div className='frame'>
-        <h1 className='title-component'>Consulta estado de orden</h1>
-        <input type="text" placeholder='Número de orden' onChange={(e) => {
-          setNumero(e.target.value)
-          setNotExist("")}} value={numero} />
-        <br/>
-        <p className='not-exist'>{notExist}</p>
-        <br/>
-        <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
-      </div>
-    )
-  } 
+    </div>
+  )
 }
 
-export default ConsultaEstado
+export default BusquedaModal

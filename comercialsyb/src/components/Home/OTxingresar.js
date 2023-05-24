@@ -34,8 +34,7 @@ function OTxingresar({listaOt, render, setRender}) {
 
 
 function Ingresar (n) {
-
-  fetch(`http://127.0.0.1:8000/comercial/update/${n}/`, {
+  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
     method: "POST",
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
@@ -102,7 +101,7 @@ function Ingresar (n) {
           )
       })}
       </div>
-      <NavLink to="/app"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
+      <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
       <div className={modal}>
         <div className='modal-content'>
           <div className='modal-details'>

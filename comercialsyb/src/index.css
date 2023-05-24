@@ -8,6 +8,7 @@ body, html {
 
 #root {
     display: flex;
+    margin-top: 10%;
     background-color: orange;
     text-align: center;
     justify-content: center;
@@ -225,8 +226,6 @@ body, html {
     font-size: 28px;
     border-radius: 8px;
 }
-
-
 
 .hidden-component {
     display: none;

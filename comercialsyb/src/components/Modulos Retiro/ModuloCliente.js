@@ -6,7 +6,7 @@ import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
 
-function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
+function ModuloCliente({orden, anular, setModalFormaCliente, setModal, date, status}) {
   const [isDisable, setIsDisable] = useState("buttons")
   const [imageURL, setImageURL] = useState(null)
   const  navigate  = useNavigate();
@@ -24,7 +24,8 @@ function ModuloCliente({orden, setModalFormaCliente, setModal, date, status}) {
     uploadData.append('fecha_retiro', date)
     uploadData.append('status', status)
     uploadData.append('entregada', true)
-    fetch(`http://127.0.0.1:8000/comercial/foto-carnet/${n}/`, {
+    uploadData.append('anulada', anular)
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
         method: 'POST',
         body: uploadData
     }).then( res => console.log(res))

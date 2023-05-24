@@ -38,8 +38,9 @@ function Ingreso({setRender, render, date, lastId}) {
   const clear = () => sigCanvas.current.clear();
   const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
-  function crearOrden () {
-    fetch("http://127.0.0.1:8000/comercial/crear/", {
+  function crearOrden (e) {
+    e.preventDefault();
+    fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -65,12 +66,26 @@ function Ingreso({setRender, render, date, lastId}) {
         fecha_ingreso: date
       })
     })
-    setSuccess("overlay-active")
-    setSuccessMsg("success-msg-active")
-    setTimeout(() => {
-      navigate("/")
-    }, 2500); 
-    setRender(!render)
+    .then(response => {
+      if (response.ok) {
+        // Success
+        setSuccess("overlay-active");
+        setSuccessMsg("success-msg-active");
+        setTimeout(() => {
+          setRender(!render);
+          navigate("/");
+        }, 2500);
+      } else {
+        // Handle the error case
+        throw new Error('Error creating order'); // Throw an error to be caught in the catch block
+      }
+    })
+    .catch(error => {
+      // Handle the error
+      console.log('Error:', error);
+      // Additional error handling
+    });
+  // ...
   }
  
 
@@ -78,7 +93,7 @@ function Ingreso({setRender, render, date, lastId}) {
     <div className='frame'>
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
       <br /><br />
-      <form className='form' onSubmit={() => crearOrden()}>
+      <form className='form' onSubmit={(e) => crearOrden(e)}>
         <div className='subtitulos'>Datos cliente</div>
          <br />
          <input type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>

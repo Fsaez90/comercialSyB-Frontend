@@ -25,7 +25,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
 
                         <div className='firma-area-comprobante'>
                             <img
-                                src={`http://127.0.0.1:8000/` + orden.firma_tercero}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.firma_tercero}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -41,7 +41,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                 </div>
                 <div className='cliente-data'>
                         <div className='title-consulta'><img
-                                src={`http://127.0.0.1:8000/` + orden.foto_carnet_frontal}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.foto_carnet_frontal}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -51,7 +51,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                                 }}
                             /></div>
                         <div className='title-consulta'><img
-                                src={`http://127.0.0.1:8000/` + orden.foto_carnet_reverso}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.foto_carnet_reverso}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -82,7 +82,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
 
                         <div className='firma-area-comprobante'>
                             <img
-                                src={`http://127.0.0.1:8000/` + orden.firma}
+                                src={`https://comercialsyb-backend-production.up.railway.app` + orden.firma}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",

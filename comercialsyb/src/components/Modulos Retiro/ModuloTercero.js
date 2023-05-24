@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
-function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
+function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status}) {
     const [isDisable, setIsDisable] = useState("buttons")
     const [imageURL, setImageURL] = useState(null)
     const [nombre, setNombre] = useState()
@@ -31,9 +31,10 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
         uploadData.append('telefono_tercero', telefono)
         uploadData.append('firma_tercero', imageURL)
         uploadData.append('fecha_retiro', date)
+        uploadData.append('anulada', anular)
         uploadData.append('status', status)
         uploadData.append('entregada', true)
-        fetch(`http://127.0.0.1:8000/comercial/foto-carnet/${n}/`, {
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
             method: 'POST',
             body: uploadData
         }).then( res => console.log(res))
@@ -48,7 +49,7 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
     return (
         <div>
             <h1 className='title-component'>Formulario de Entrega a via tercera persona:</h1>
-            <form onSubmit={() => {EntregaHandle(orden.id)}}>
+
             <div className='tercero-form'>     
                 <div className='tercero-form-block-header'>
                     <h2>Orden Nº {orden.id}</h2>
@@ -86,11 +87,10 @@ function ModuloTercero({orden, setModalFormaTercero, setModal, date, status}) {
                     </div>
                 </div>)}
                 </Popup>
-                {imageURL?(<input type="submit" className='buttons' value="Entregar"/>): null}
+                {imageURL?(<button onClick={() => {EntregaHandle(orden.id)}} className='buttons' >Entregar</button>): null}
                 <button className='buttons' onClick={() => {setModalFormaTercero("modal-inactive"); setModal("modal"); setImageURL(null); setIsDisable("buttons")}}>Volver</button>
             </div>
             </div>
-            </form> 
         </div>
     )
     }

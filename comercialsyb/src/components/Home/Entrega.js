@@ -19,7 +19,7 @@ function Entrega({date, clock}) {
   const [anular, setAnular] = useState(false)
 
   useEffect(() => { 
-    fetch(`http://127.0.0.1:8000/comercial/orden/${numero}/`)
+    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/orden/${numero}/`)
     .then(response => {
       if(response.status === 200) { return response.json()}
       if(response.status === 500) { setNotExist("Orden no encontrada")}
@@ -76,7 +76,7 @@ function Entrega({date, clock}) {
             <br/><br/>
             <button className="button-retiro" onClick={() => {
                 setModal("modal")
-                setAnular(!anular)
+                setAnular(true)
                 setStatus("Equipo retirado sin reparar, orden anulada")
                 }}>Retirar (Anular orden)</button>
              </div>}
@@ -113,10 +113,10 @@ function Entrega({date, clock}) {
             </div>
         </div>
         <div className={modalFormaCliente}>
-          <ModuloCliente orden={orden} setModalFormaCliente={setModalFormaCliente} setModal={setModal} date={date} clock={clock} status={status}/>
+          <ModuloCliente orden={orden} setModalFormaCliente={setModalFormaCliente} anular={anular} setModal={setModal} date={date} clock={clock} status={status}/>
         </div>
         <div className={modalFormaTercero}>
-          <ModuloTercero orden={orden} setModalFormaTercero={setModalFormaTercero} setModal={setModal} date={date} clock={clock} status={status}/>
+          <ModuloTercero orden={orden} setModalFormaTercero={setModalFormaTercero} anular={anular} setModal={setModal} date={date} clock={clock} status={status}/>
         </div>
       </div>
     )

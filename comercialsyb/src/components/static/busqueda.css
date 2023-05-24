@@ -8,7 +8,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 25px;
-    text-align: left;
+    text-align: center;
     font-size: 20px;
     width: fit-content;
 }
@@ -21,6 +21,14 @@
     border-radius: 10px;
 }
 
+.cliente-data-render{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 15px;
+    justify-content: space-between;
+}
+
 .cliente-data-firma{
     display: flex;
     flex-direction: column;
@@ -29,6 +37,18 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+}
+
+.modal-elements-busqueda{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(108, 179, 212);
+    gap: 25px;
+    text-align: left;
+    width: fit-content;
+    display: column;
+    margin-right: 20px;
+    border-radius: 5px;
 }
 
 .modal-elements{

@@ -29,6 +29,7 @@ import MmtoRepListos from "./components/Taller/mmtoRepListos";
 import EsperaRepuesto from "./components/Home/EsperaRepuesto";
 import Garantias from "./components/Taller/garantias";
 import GarantiaProceso from "./components/Taller/GarantiaProceso";
+import Busqueda from "./components/Home/Busqueda";
 
 
 function App() {
@@ -92,7 +93,7 @@ function App() {
         setDate(date.toLocaleDateString());
       }, 1000);
       
-      const result = await fetch('http://127.0.0.1:8000/comercial/orden-list/');
+      const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/');
       result
         .json()
         .then(data => {
@@ -146,7 +147,7 @@ function App() {
         return x.revision === true && x.revisado === true && x.terminada ===true  && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
       })
       let MmtosListos = orden.filter(function(x){
-        return x.mantencion === true && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
+        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
       })
       let solicitudRepMmto = orden.filter(function(x){
         return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
@@ -236,7 +237,8 @@ function App() {
         <Route path='/' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
-        <Route path='/estado' element={<ConsultaEstado date={date} />}/>
+        {/* <Route path='/estado' element={<ConsultaEstado date={date} />}/> */}
+        <Route path='/estado' element={<Busqueda date={date}/>}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock}/>}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
