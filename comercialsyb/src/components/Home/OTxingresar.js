@@ -59,12 +59,12 @@ function Ingresar (n) {
 
     })
   })
-  setRender(!render)
+  
   setTimeout(() => {
+    setRender(!render)
     setModal("modal-inactive")
     navigate('/otxingresar') 
-  }, 500);
-  
+  }, 200);
 }
   
   return (

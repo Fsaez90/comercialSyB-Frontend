@@ -94,7 +94,6 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                             <br/>
                             <div>Firma Sr/s:<span className='orden-data'>{orden.nombre} {orden.apellidos}</span>, Rut: <span className='orden-data'>{orden.rut}</span>, Fono: <span className='orden-data'>{orden.telefono}</span></div>
                         </div>
-
                 </div>
             </div>}
         

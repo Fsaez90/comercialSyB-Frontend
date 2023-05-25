@@ -3,7 +3,6 @@ import "./index.css";
 import { BrowserRouter as Router,Routes, Route } from 'react-router-dom'
 import ClientesXnotificar from '../src/components/Home/ClientesXnotificar'
 import OTxingresar from "../src/components/Home/OTxingresar"
-import ConsultaEstado from "../src/components/Home/ConsultaEstado"
 import Entrega from "../src/components/Home/Entrega"
 import Ingreso from "../src/components/Home/Ingreso"
 import Home from "../src/components/Home/Home";

@@ -85,6 +85,8 @@ function BusquedaModal({orden, setModal, date}) {
             {orden.entregada?
               <div className='modal-elements'>
                 <button className='buttons' onClick={() => setModalComprobanteRetiro("modal")}>Ver comprobante Retiro</button>
+                <br/>
+                <br/>
                 {(orden.fecha_retiro > dateOf30DaysAgo && orden.garantia === false)? <div className='modal-elements'><button className='buttons' onClick={()=>garantiaHandle(orden.id)}>Garantía</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: null}
               </div>: null}
           </div> 
