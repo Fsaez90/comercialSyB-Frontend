@@ -24,6 +24,7 @@ function OTxingresar({listaOt, render, setRender}) {
   const [mantencion, setMantencion] = useState()
   const [revision, setRevision] = useState()
   const [mecanico, setMecanico] = useState()
+  const [isGarantia, setIsGarantia] = useState()
   const  navigate  = useNavigate();
 
   useEffect(() => {
@@ -56,10 +57,8 @@ function Ingresar (n) {
         revision: revision,
         mecanico: mecanico,
         ingreso_sistema: true
-
     })
   })
-  
   setTimeout(() => {
     setRender(!render)
     setModal("modal-inactive")
@@ -95,6 +94,7 @@ function Ingresar (n) {
                 setMantencion(x.mantencion)
                 setRevision(x.revision)
                 setMecanico(x.mecanico)
+                setIsGarantia(x.garantia)
               }
                 }>Comenzar</button>         
           </div> 
@@ -123,6 +123,7 @@ function Ingresar (n) {
               <p>Observaciones: <span className='data-modal'>{observaciones}</span></p>
               {mantencion? <p>Equipo a mantencion</p>: null}
               {revision? <p>Equipo a Revisión</p>: null}
+              {isGarantia? <p>Equipo a Garantía</p>: null}
               <p>Mecanico: <span className='data-modal'>{mecanico}</span></p>
           </div>
           <div className='modal-buttons'>

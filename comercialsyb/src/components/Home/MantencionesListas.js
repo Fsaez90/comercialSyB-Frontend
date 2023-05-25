@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalNotificaciones.css"
 
-function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosLista}) {
+function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) {
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -36,7 +36,6 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
   const [aplGarantia, setAplGarantia] = useState()
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
-
 
 
   const navigate  = useNavigate();
@@ -404,8 +403,6 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
     }, 500);
   }
   
-  
-
 
   if (mmtoslistos !== 0) {
     return (
@@ -489,6 +486,15 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
                 <div className='detalle-observaciones'>
                   Detalle de reparación:
                   <textarea className='detalle-field' value={detallePptoGar}/>
+                  <div className='opcion-presupuesto'>
+                    <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
+                    <label for="espera_repuesto">Repuesto faltante</label>
+                    {esperaRepuesto? 
+                      <div className='detalle-observaciones'>
+                          Indicar repuestos faltantes + código:
+                        <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
+                      </div>: null} 
+                  </div>
                   {(aplGarantia === "no")?
                   <div>
                     <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
@@ -516,6 +522,16 @@ function MantencionesListas({render, setRender, clock, mmtoslistos, mmtoslistosL
                 </div>
               </>
               }
+              {aPresupuesto?
+              <div className='opcion-presupuesto'>
+                <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
+                <label for="espera_repuesto">Repuesto faltante</label>
+                {esperaRepuesto? 
+                  <div className='detalle-observaciones'>
+                    Indicar repuestos faltantes + código:
+                    <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
+                  </div>: null} 
+              </div>:null}
             <div className='modal-buttons-notificaciones'>
               {aPresupuesto?
               <div>

@@ -88,7 +88,7 @@ function Entrega({date, clock}) {
         </div>
         <br/>
         <br/>
-        <NavLink to="/">Menú</NavLink>
+        <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink>
         <div className={modal}>
             <div className='modal-retiro-buttons'>
                 <div>

@@ -277,6 +277,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
                 {mantencion? <p className='sub-detail'><span className='data-modal-taller'>Mantención</span></p>: null}
                 {revision? <p className='sub-detail'><span className='data-modal-taller'>Revisión</span></p>: null}
                 {aPresupuesto? null: <p className='sub-detail'>Fecha de mantención: <span className='data-modal-taller'>{fechaReparacion}</span></p>}
+                <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>
 
