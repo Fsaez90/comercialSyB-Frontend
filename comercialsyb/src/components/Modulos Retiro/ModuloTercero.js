@@ -21,7 +21,7 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
 
 
-    function EntregaHandle(n) {
+    async function EntregaHandle(n) {
         const uploadData = new FormData();
         uploadData.append('foto_carnet_frontal', frontal, frontal.name)
         uploadData.append('foto_carnet_reverso', reverso, reverso.name)
@@ -34,17 +34,24 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
         uploadData.append('anulada', anular)
         uploadData.append('status', status)
         uploadData.append('entregada', true)
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
+      
+        try {
+          const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/foto-carnet/${n}/`, {
             method: 'POST',
             body: uploadData
-        }).then( res => console.log(res))
-        .catch(error => console.log(error))
-
+          });
+          console.log(response);
+        } catch (error) {
+          console.log(error);
+        }
+      
         setTimeout(() => {
-            setModal("modal-inactive")
-            navigate("/")
-          }, 1500); 
-    }
+          setRender(!render)
+          setModal("modal-inactive")
+          navigate("/")
+        }, 1500);
+      }
+      
     
     return (
         <div>

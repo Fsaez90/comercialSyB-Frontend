@@ -25,7 +25,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
 
                         <div className='firma-area-comprobante'>
                             <img
-                                src={`https://storage.googleapis.com/comercialsyb` + orden.firma_tercero}
+                                src={orden.firma_tercero}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -41,7 +41,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                 </div>
                 <div className='cliente-data'>
                         <div className='title-consulta'><img
-                                src={`https://storage.googleapis.com/comercialsyb` + orden.foto_carnet_frontal}
+                                src={orden.foto_carnet_frontal}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -51,7 +51,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
                                 }}
                             /></div>
                         <div className='title-consulta'><img
-                                src={`https://storage.googleapis.com/comercialsyb` + orden.foto_carnet_reverso}
+                                src={orden.foto_carnet_reverso}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
@@ -82,7 +82,7 @@ function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
 
                         <div className='firma-area-comprobante'>
                             <img
-                                src={`https://storage.googleapis.com/comercialsyb` + orden.firma}
+                                src={orden.firma}
                                 alt= "Firma" 
                                 style={{
                                 display: "block",
