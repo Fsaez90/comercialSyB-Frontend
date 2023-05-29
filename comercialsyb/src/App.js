@@ -89,7 +89,7 @@ function App() {
         const date = new Date();
         setClock(date.toLocaleTimeString());
         setDate(date.toLocaleDateString());
-      }, 1000);
+      }, 10000000);
 
       const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/');
       result
