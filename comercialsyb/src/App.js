@@ -82,16 +82,15 @@ function App() {
   const [garantiaCom, setGarantiaCom] = useState([])
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
-
+  
   useEffect(() => {   
     const fetchData = async () => {
-      
       setInterval(() => {
         const date = new Date();
         setClock(date.toLocaleTimeString());
         setDate(date.toLocaleDateString());
       }, 1000);
-      
+
       const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/');
       result
         .json()
@@ -173,9 +172,6 @@ function App() {
         return x.garantia === true && x.validez_garantia === null
       }) 
 
-    
- 
-
       let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length + garComenzadas.length
       let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
       let totalNoContesta = NoContestappto.length + NoContestaretiro.length
@@ -239,7 +235,7 @@ function App() {
         {/* <Route path='/estado' element={<ConsultaEstado date={date} />}/> */}
         <Route path='/estado' element={<Busqueda date={date}/>}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
-        <Route path='/entrega' element={<Entrega date={date} clock={clock}/>}/>
+        <Route path='/entrega' element={<Entrega date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
 
         <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} garantia={garantia} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>

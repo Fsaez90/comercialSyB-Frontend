@@ -1,6 +1,7 @@
 import React from 'react'
 import "../static/busqueda.css"
 
+
 function ComprobanteRetiro({orden, setModalComprobanteRetiro}) {
   return (
     <div>  

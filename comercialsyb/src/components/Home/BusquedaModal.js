@@ -89,7 +89,7 @@ function BusquedaModal({orden, setModal, date}) {
                 <br/>
                 {(orden.fecha_retiro > dateOf30DaysAgo && orden.garantia === false)? <div className='modal-elements'><button className='buttons' onClick={()=>garantiaHandle(orden.id)}>Garantía</button><div className={ok}><CheckCircleIcon style={{color: "green"}}></CheckCircleIcon></div></div>: null}
               </div>: null}
-          </div> 
+          </div>  
           <button className='button-close' onClick={()=> setModal("modal-inactive")}>Cerrar</button>
         </div>
         <br/>

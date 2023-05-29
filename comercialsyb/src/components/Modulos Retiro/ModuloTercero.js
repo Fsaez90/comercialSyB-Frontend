@@ -5,7 +5,7 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import "../static/modalRetiro.css"
 
-function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status}) {
+function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, status, render, setRender}) {
     const [isDisable, setIsDisable] = useState("buttons")
     const [imageURL, setImageURL] = useState(null)
     const [nombre, setNombre] = useState()
@@ -19,7 +19,6 @@ function ModuloTercero({orden, anular, setModalFormaTercero, setModal, date, sta
     const signButton = useRef({})
     const clear = () => sigCanvas.current.clear();
     const save = () => setImageURL(sigCanvas.current.getTrimmedCanvas().toDataURL("image/png"))
-
 
     async function EntregaHandle(n) {
         const uploadData = new FormData();
