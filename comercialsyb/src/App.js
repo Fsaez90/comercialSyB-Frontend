@@ -83,156 +83,154 @@ function App() {
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
   
-  useEffect(() => {   
-    const fetchData = async () => {
-      setInterval(() => {
-        const date = new Date();
-        setClock(date.toLocaleTimeString());
-        setDate(date.toLocaleDateString());
-      }, 10000000);
+  useEffect(() => {  
+    fetchData(); 
+  },[render])  
 
+  const fetchData = async () => {  
+ 
+    const date = new Date();
+    setClock(date.toLocaleTimeString());
+    setDate(date.toLocaleDateString());
+
+    try {
       const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/');
-      result
-        .json()
-        .then(data => {
-          setOrden(data);
-          if (Array.isArray(data) && data.length > 0) {
-            const lastObject = data[data.length - 1]; // Use '-1' to get the last object
-            setLastid(lastObject.id);
-          }
-        })
-        .catch(error => {
-          // Handle any errors that occurred during the fetch request
-          console.error('Error:', error);
-        });
-     
-      let lista = orden.filter(function(x){
-        return x.ingreso_sistema === false
-      })
-      setNotificaciones(lista.length)
-      setListaOt(lista)
+      const data = await result.json();
+      setOrden(data);
 
-      //Taller data fetch 
+      if (Array.isArray(data) && data.length > 0) {
+        const lastObject = data[data.length - 1];
+        setLastid(lastObject.id);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+   
+    let lista = orden.filter(function(x){
+      return x.ingreso_sistema === false
+    })
+    setNotificaciones(lista.length)
+    setListaOt(lista)
 
-      let listaPrioridad = orden.filter(function(x){
-        return x.prioritaria === true && x.comenzada === false && x.entregada === false
-      })
-      let listaRevision = orden.filter(function(x){
-        return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && (x.garantia === false || x.garantia === null)
-      })
-      let listaMantencion = orden.filter(function(x){
-        return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
-      })
-      let listaAprobadas = orden.filter(function(x){
-        return x.aprobada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.reparada === false && x.espera_repuesto === false && x.entregada === false
-      })
-      let listaRechazadas = orden.filter(function(x){
-        return x.rechazada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.armada === false && x.entregada === false
-      })
-      let priComenzadas = orden.filter(function(x){
-        return x.prioritaria === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
-      })
-      let revComenzadas = orden.filter(function(x){
-        return x.revision === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
-      })
-      let mantComenzadas = orden.filter(function(x){
-        return x.mantencion === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
-      })
-      let garComenzadas = orden.filter(function(x){
-        return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
-      })
-      let PptosListos = orden.filter(function(x){
-        return x.revision === true && x.revisado === true && x.terminada ===true  && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
-      })
-      let MmtosListos = orden.filter(function(x){
-        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
-      })
-      let solicitudRepMmto = orden.filter(function(x){
-        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
-      })
-      let repuestosRecibidosMmmto = orden.filter(function(x){
-        return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
-      })
-      let EqReparados = orden.filter(function(x){
-        return x.revisado === true && x.terminada === true && x.reparada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
-      })
-      let EqArmados = orden.filter(function(x){
-        return x.revisado === true && x.terminada === true && x.armada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
-      })
-      let NoContestaretiro = orden.filter(function(x){
-        return (x.reparada === true || x.mmto_completado === true || x.armada === true) && x.cliente_notificado_retiro === false && x.cliente_noresponde === true && x.entregada === false
-      })
-      let NoContestappto = orden.filter(function(x){
-        return (x.revision === true || x.falla_encontrada === true) && x.reparada === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === true && x.entregada === false
-      })
-      let EsperaRepuestos = orden.filter(function(x){
-        return x.espera_repuesto === true && x.entregada === false
-      })
-      let Garantias = orden.filter(function(x){
-        return x.garantia === true && x.validez_garantia === null
-      }) 
+    //Taller data fetch 
 
-      let procesoTotal = priComenzadas.length + revComenzadas.length + mantComenzadas.length + garComenzadas.length
-      let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
-      let totalNoContesta = NoContestappto.length + NoContestaretiro.length
+    let listaPrioridad = orden.filter(function(x){
+      return x.prioritaria === true && x.comenzada === false && x.entregada === false
+    })
+    let listaRevision = orden.filter(function(x){
+      return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && (x.garantia === false || x.garantia === null)
+    })
+    let listaMantencion = orden.filter(function(x){
+      return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
+    })
+    let listaAprobadas = orden.filter(function(x){
+      return x.aprobada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.reparada === false && x.espera_repuesto === false && x.entregada === false
+    })
+    let listaRechazadas = orden.filter(function(x){
+      return x.rechazada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.armada === false && x.entregada === false
+    })
+    let priComenzadaslet = orden.filter(function(x){
+      return x.prioritaria === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+    })
+    let revComenzadaslet = orden.filter(function(x){
+      return x.revision === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
+    })
+    let mantComenzadas = orden.filter(function(x){
+      return x.mantencion === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+    })
+    let garComenzadas = orden.filter(function(x){
+      return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
+    })
+    let PptosListos = orden.filter(function(x){
+      return x.revision === true && x.revisado === true && x.terminada ===true  && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
+    })
+    let MmtosListos = orden.filter(function(x){
+      return (x.mantencion === true || x.garantia === true) && x.mmto_completado === true && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.entregada === false
+    })
+    let solicitudRepMmto = orden.filter(function(x){
+      return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === false && x.espera_repuesto === false && x.entregada === false
+    })
+    let repuestosRecibidosMmmto = orden.filter(function(x){
+      return (x.mantencion === true || x.garantia === true) && x.mmto_completado === false && x.terminada === true && x.cliente_notificado_retiro === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === false && x.solicitud_repuestos === true && x.repuestos_entregados === true && x.entregada === false
+    })
+    let EqReparados = orden.filter(function(x){
+      return x.revisado === true && x.terminada === true && x.reparada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
+    })
+    let EqArmados = orden.filter(function(x){
+      return x.revisado === true && x.terminada === true && x.armada === true && x.cliente_noresponde === false && x.cliente_notificado_retiro === false && x.entregada === false
+    })
+    let NoContestaretiro = orden.filter(function(x){
+      return (x.reparada === true || x.mmto_completado === true || x.armada === true) && x.cliente_notificado_retiro === false && x.cliente_noresponde === true && x.entregada === false
+    })
+    let NoContestappto = orden.filter(function(x){
+      return (x.revision === true || x.falla_encontrada === true) && x.reparada === false && x.cliente_notificado_ppto === false && x.cliente_noresponde === true && x.entregada === false
+    })
+    let EsperaRepuestos = orden.filter(function(x){
+      return x.espera_repuesto === true && x.entregada === false
+    })
+    let Garantias = orden.filter(function(x){
+      return x.garantia === true && x.validez_garantia === null
+    }) 
 
-      setPrioridad(listaPrioridad.length) 
-      setRevision(listaRevision.length)
-      setMantencion(listaMantencion.length)
-      setAprobadas(listaAprobadas.length)
-      setRechazadas(listaRechazadas.length)
-      setPriComenzadas(priComenzadas.length)
-      setRevComenzadas(revComenzadas.length)
-      setManComenzadas(mantComenzadas.length)
-      setGarantiaCom(garComenzadas.length)
-      setProGarLista(garComenzadas)
-      setGarantia(Garantias.length)
-      setTotalProceso(procesoTotal)
-      setProcPrioLista(priComenzadas)
-      setProcRevLista(revComenzadas)
-      setProcManLista(mantComenzadas)
-      setPriolista(listaPrioridad)
-      setRevlista(listaRevision)
-      setManlista(listaMantencion)
-      setAprlista(listaAprobadas) 
-      setRechlista(listaRechazadas)
+    let procesoTotal = priComenzadaslet.length + revComenzadaslet.length + mantComenzadas.length + garComenzadas.length
+    let totalNotificaciones = PptosListos.length + MmtosListos.length + EqReparados.length + EqArmados.length + solicitudRepMmto.length 
+    let totalNoContesta = NoContestappto.length + NoContestaretiro.length
+  
+    setPrioridad(listaPrioridad.length) 
+    setRevision(listaRevision.length)
+    setMantencion(listaMantencion.length)
+    setAprobadas(listaAprobadas.length)
+    setRechazadas(listaRechazadas.length)
+    setPriComenzadas(priComenzadaslet.length)
+    setRevComenzadas(revComenzadaslet.length)
+    setManComenzadas(mantComenzadas.length)
+    setGarantiaCom(garComenzadas.length)
+    setProGarLista(garComenzadas)
+    setGarantia(Garantias.length)
+    setTotalProceso(procesoTotal)
+    setProcPrioLista(priComenzadaslet)
+    setProcRevLista(revComenzadaslet)
+    setProcManLista(mantComenzadas)
+    setPriolista(listaPrioridad)
+    setRevlista(listaRevision)
+    setManlista(listaMantencion)
+    setAprlista(listaAprobadas) 
+    setRechlista(listaRechazadas)
 
 
-      setTotalNotificaciones(totalNotificaciones)
-      setpptoslistosLista(PptosListos)
-      setmmtoslistosLista(MmtosListos)
-      seteqreparadosLista(EqReparados)
-      seteqarmadosLista(EqArmados)
-      setGarantiaLista(Garantias)
-      setNoContestaPptoLista(NoContestappto)
-      setNoContestaRetiroLista(NoContestaretiro)
-      setSolicitudRepuestosLista(solicitudRepMmto)
-      setRepRecibidosMmtoLista(repuestosRecibidosMmmto)
-      setEsperaRepuesto(EsperaRepuestos.length)
-      setpptoslistos(PptosListos.length)
-      setmmtoslistos(MmtosListos.length)
-      seteqreparados(EqReparados.length)
-      seteqarmados(EqArmados.length)
-      setNoContestappto(NoContestappto.length)
-      setNoContestaretiro(NoContestaretiro.length)
-      setSolicitudRepuestos(solicitudRepMmto.length)
-      setRepRecibidosMmto(repuestosRecibidosMmmto.length)
-      setEsperaRepuestoLista(EsperaRepuestos)
-      setnocontestaTotal(totalNoContesta)
-    };
-    setTimeout(() => {
-      fetchData(); 
-    }, 100);   
-    },[render])  
+    setTotalNotificaciones(totalNotificaciones)
+    setpptoslistosLista(PptosListos)
+    setmmtoslistosLista(MmtosListos)
+    seteqreparadosLista(EqReparados)
+    seteqarmadosLista(EqArmados)
+    setGarantiaLista(Garantias)
+    setNoContestaPptoLista(NoContestappto)
+    setNoContestaRetiroLista(NoContestaretiro)
+    setSolicitudRepuestosLista(solicitudRepMmto)
+    setRepRecibidosMmtoLista(repuestosRecibidosMmmto)
+    setEsperaRepuesto(EsperaRepuestos.length)
+    setpptoslistos(PptosListos.length)
+    setmmtoslistos(MmtosListos.length)
+    seteqreparados(EqReparados.length)
+    seteqarmados(EqArmados.length)
+    setNoContestappto(NoContestappto.length)
+    setNoContestaretiro(NoContestaretiro.length)
+    setSolicitudRepuestos(solicitudRepMmto.length)
+    setRepRecibidosMmto(repuestosRecibidosMmmto.length)
+    setEsperaRepuestoLista(EsperaRepuestos)
+    setnocontestaTotal(totalNoContesta)
+  };
+
+ 
+
 
   return (
     <div className="App">
       <Router>
       <Routes>
-        <Route path='/' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto}/>}/>
+        <Route path='/' element={<Home orden={orden} setRender={setRender} render={render} notificaciones={notificaciones} notificacionesTotal={notificacionesTotal} esperaRepuesto={esperaRepuesto} fetchData={fetchData}/>}/> 
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
-        {/* <Route path='/estado' element={<ConsultaEstado date={date} />}/> */}
         <Route path='/estado' element={<Busqueda date={date}/>}/>
         <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock} render={render} setRender={setRender}/>}/>

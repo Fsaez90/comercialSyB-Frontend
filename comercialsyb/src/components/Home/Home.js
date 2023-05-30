@@ -4,11 +4,11 @@ import BuildIcon from '@mui/icons-material/Build';
 
 
 function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
-
+ 
   useEffect(() => {
     setTimeout(() => {
       setRender(!render)
-    }, 500); 
+    }, 1000); 
   },[])
 
   return (
