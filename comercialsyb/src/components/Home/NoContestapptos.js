@@ -36,10 +36,8 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[noContestappto])
 
   function AprobadaHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

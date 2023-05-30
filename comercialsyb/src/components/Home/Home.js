@@ -6,10 +6,8 @@ import BuildIcon from '@mui/icons-material/Build';
 function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
  
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 1000); 
-  },[])
+  },[notificaciones, notificacionesTotal, esperaRepuesto])
 
   return (
     <div className='frame-menu'>

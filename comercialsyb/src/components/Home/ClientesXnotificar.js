@@ -5,10 +5,10 @@ import AddHomeIcon from '@mui/icons-material/AddHome';
 function ClientesXnotificar({render, setRender, pptoslistos, mmtoslistos, eqreparados, eqarmados, nocontestaTotal, solicitudRepuestos}) {
 
   useEffect(() => {
-    setTimeout(() => {
+
       setRender(!render)
-    }, 500); 
-  },[])
+
+  },[pptoslistos, mmtoslistos, eqreparados, eqarmados, nocontestaTotal, solicitudRepuestos])
 
   
   return (

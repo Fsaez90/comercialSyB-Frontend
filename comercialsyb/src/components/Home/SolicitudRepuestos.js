@@ -35,10 +35,8 @@ function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRep
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modal])
+},[solicitudRepuestos])
 
 function EnesperaRepuesto(n) {
   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

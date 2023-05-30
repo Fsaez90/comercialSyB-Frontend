@@ -27,11 +27,9 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   const [detallePpto, setDetallePpto] = useState()
   const  navigate  = useNavigate();
   
-  useEffect(() => {
-    setTimeout(() => {
-      setRender(!render)
-    }, 500); 
-  },[modal])
+  // useEffect(() => {
+  //     setRender(!render)
+  // },[modal])
 
   function enProcesoHandle(n) {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

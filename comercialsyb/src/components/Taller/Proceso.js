@@ -5,11 +5,8 @@ import BuildIcon from '@mui/icons-material/Build';
 function Proceso({render, setRender, priComenzadas, revComenzadas, manComenzadas, garantiaCom,}) {
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[])
-
+  },[priComenzadas, revComenzadas, manComenzadas, garantiaCom])
   return (
     <div>
         <h1 className='title-menu'>Ordenes comenzadas:</h1>

@@ -30,10 +30,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modalRev, modalMan])
+  },[priComenzadas])
 
   function enProcesoHandleMan(n) {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

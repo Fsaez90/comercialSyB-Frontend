@@ -5,10 +5,8 @@ import "../static/modalNotificaciones.css"
 function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
     
     useEffect(() => {
-        setTimeout(() => {
           setRender(!render)
-        }, 500); 
-      },[])
+      },[noContestaretiro, noContestappto])
      
       return (
         <div className='frame-menu'>

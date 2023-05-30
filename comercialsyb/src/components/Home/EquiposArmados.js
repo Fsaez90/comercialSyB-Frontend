@@ -37,10 +37,8 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[eqarmados])
 
   function NotificadoHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

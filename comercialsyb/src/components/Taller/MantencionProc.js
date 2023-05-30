@@ -29,10 +29,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   const  navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[manComenzadas])
   
   function enProcesoHandle(n) {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

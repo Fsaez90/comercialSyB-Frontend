@@ -38,10 +38,8 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modal])
+},[aprobadas])
 
 function ReparadaHandle(n){
   if (repMecanico === "1"){

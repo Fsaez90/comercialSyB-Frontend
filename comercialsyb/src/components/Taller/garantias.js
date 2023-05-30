@@ -34,10 +34,8 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
     const  navigate  = useNavigate();
 
     useEffect(() => {
-      setTimeout(() => {
         setRender(!render)
-      }, 500); 
-  },[modalRev]) 
+  },[garantia]) 
 
   function enProcesoHandleRev(n) {
      if ( aplGarantia === "si") {

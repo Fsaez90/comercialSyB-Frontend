@@ -36,10 +36,8 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[eqreparados])
 
   function NotificadoHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

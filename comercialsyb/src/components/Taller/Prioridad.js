@@ -30,10 +30,8 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modalRev, modalMan])
+},[prioridad])
 
 function enProcesoHandleMan(n) {
   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

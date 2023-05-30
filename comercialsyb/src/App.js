@@ -84,8 +84,8 @@ function App() {
   const [nocontestaTotal, setnocontestaTotal] = useState()
   
   useEffect(() => {  
-    fetchData(); 
-  },[render])  
+      fetchData();
+  },[render, revision])   
 
   const fetchData = async () => {  
  
@@ -220,9 +220,6 @@ function App() {
     setEsperaRepuestoLista(EsperaRepuestos)
     setnocontestaTotal(totalNoContesta)
   };
-
- 
-
 
   return (
     <div className="App">

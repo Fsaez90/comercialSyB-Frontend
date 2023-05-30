@@ -35,10 +35,8 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista}
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modal])
+},[esperaRepuesto])
 
 function repuestoAtallerHandle(n) {
   fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

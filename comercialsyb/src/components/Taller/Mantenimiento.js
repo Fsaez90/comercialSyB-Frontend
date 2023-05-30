@@ -30,10 +30,8 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-},[modal])
+},[mantenciones])
 
 
 function enProcesoHandle(n) { 
@@ -72,7 +70,7 @@ function enProcesoHandle(n) {
   setTimeout(() => {
     setModal("modal-inactive")
     navigate('/taller') 
-  }, 500);
+  }, 1000);
 }
 
 function mantenimientoHandle(n) {

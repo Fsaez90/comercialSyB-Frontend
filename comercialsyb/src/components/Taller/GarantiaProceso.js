@@ -35,10 +35,8 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
     const  navigate  = useNavigate();
 
     useEffect(() => {
-      setTimeout(() => {
         setRender(!render)
-      }, 500); 
-    },[modalRev])
+    },[proGarLista]) 
     
     function enProcesoHandleRev(n) {
         if ( aplGarantia === "si") {

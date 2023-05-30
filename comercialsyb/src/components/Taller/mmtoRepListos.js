@@ -33,10 +33,8 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const  navigate  = useNavigate();
     
     useEffect(() => {
-      setTimeout(() => {
         setRender(!render)
-      }, 500); 
-  },[modal])
+  },[repRecibidosMmto])
   
   function mantenimientoHandle(n){
     if (repMecanico === "1"){

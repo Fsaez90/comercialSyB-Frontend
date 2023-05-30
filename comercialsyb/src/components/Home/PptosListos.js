@@ -40,10 +40,8 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[pptoslistos])
 
 
   function AprobadaHandle(n){

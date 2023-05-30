@@ -41,10 +41,8 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[mmtoslistos])
 
   function NotificadoHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

@@ -35,10 +35,8 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   const navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[noContestaretiro])
 
   function NotificadoHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

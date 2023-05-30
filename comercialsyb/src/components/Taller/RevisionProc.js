@@ -29,10 +29,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[revComenzadas])
 
   function enProcesoHandle(n) {
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

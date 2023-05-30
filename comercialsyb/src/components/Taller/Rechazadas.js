@@ -33,10 +33,8 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   const  navigate  = useNavigate();
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[modal])
+  },[rechazadas])
 
   function ArmadaHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {

@@ -4,10 +4,8 @@ import { NavLink } from 'react-router-dom'
 function HomeTaller({render, setRender, prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto }) {
   
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
-  },[])
+  },[prioridad, garantia, revision, mantencion, aprobadas, rechazadas, totalProceso, repRecibidosMmto])
 
   return (
     <div>

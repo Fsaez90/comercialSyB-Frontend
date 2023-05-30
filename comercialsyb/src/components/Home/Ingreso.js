@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -68,11 +68,11 @@ function Ingreso({setRender, render, date, lastId}) {
     })
     .then(response => {
       if (response.ok) {
+        setRender(!render);
         // Success
         setSuccess("overlay-active");
         setSuccessMsg("success-msg-active");
         setTimeout(() => {
-          setRender(!render);
           navigate("/");
         }, 2500);
       } else {

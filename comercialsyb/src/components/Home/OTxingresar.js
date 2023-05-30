@@ -28,9 +28,7 @@ function OTxingresar({listaOt, render, setRender}) {
   const  navigate  = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
       setRender(!render)
-    }, 500); 
 },[modal])
 
 
@@ -63,7 +61,7 @@ function Ingresar (n) {
     setRender(!render)
     setModal("modal-inactive")
     navigate('/otxingresar') 
-  }, 200);
+  }, 500);
 }
   
   return (
