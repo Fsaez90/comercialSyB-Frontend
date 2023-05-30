@@ -85,10 +85,9 @@ function App() {
   
   useEffect(() => {  
       fetchData();
-  },[render, revision])   
-
+  },[render])   
+console.log(mantencion) 
   const fetchData = async () => {  
- 
     const date = new Date();
     setClock(date.toLocaleTimeString());
     setDate(date.toLocaleDateString());
@@ -121,7 +120,7 @@ function App() {
       return x.revision === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && (x.garantia === false || x.garantia === null)
     })
     let listaMantencion = orden.filter(function(x){
-      return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false
+      return x.mantencion === true && x.comenzada === false && x.prioritaria === false && x.entregada === false && x.solicitud_repuestos === false
     })
     let listaAprobadas = orden.filter(function(x){
       return x.aprobada === true && x.terminada === true && x.cliente_notificado_ppto === true && x.reparada === false && x.espera_repuesto === false && x.entregada === false

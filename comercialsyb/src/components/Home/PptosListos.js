@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 
 function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
+  const [msg, setMsg] = useState("msg-mecanic") 
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
   const [nombre, setNombre] = useState()
@@ -45,176 +46,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
 
 
   function AprobadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto aprobado, en espera de reparación y ensamblaje",
-          terminada: true,
-          valorizacion: valorizacion,
-          aprobada: true,
-          prioritaria: prioritaria,
-          cliente_notificado_ppto: true,
-          espera_repuesto: esperaRepuesto
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
-  }
-
-  function AprobadaEsperaRepuestoHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto aprobado, en espera de repuesto",
-          terminada: true,
-          valorizacion: valorizacion,
-          aprobada: true,
-          prioritaria: prioritaria,
-          cliente_notificado_ppto: true,
-          espera_repuesto: esperaRepuesto,
-          repuesto_faltante: repuestoField,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
-  }
-  
-  function RechazadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto rechazado, en espera de ensamblaje de equipo",
-          terminada: true,
-          valorizacion: valorizacion,
-          rechazada: true,
-          prioritaria: prioritaria,
-          cliente_notificado_ppto: true,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
-  }
-
-  function GuardarHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          revisado: true,
-          status: "Presupuesto terminado, notificar cliente",
-          terminada: true,
-          valorizacion: valorizacion,
-          prioritaria: prioritaria,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
-  }
-
-  function NoRespondeHandle(n){
-    Promise.all([
+    if(valorizacion === null) {
+      setMsg("msg-mecanic-act")
+    } else {
       fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -241,34 +75,221 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             comenzada: true,
             detalle_ppto: presupuesto,
             revisado: true,
-            status: "Presupuesto terminado, cliente no conesta,email enviado",
+            status: "Presupuesto aprobado, en espera de reparación y ensamblaje",
+            terminada: true,
+            valorizacion: valorizacion,
+            aprobada: true,
+            prioritaria: prioritaria,
+            cliente_notificado_ppto: true,
+            espera_repuesto: esperaRepuesto
+        })
+      })
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/notificaciones') 
+      }, 500);
+    }
+    }
+
+  function AprobadaEsperaRepuestoHandle(n){
+    if (valorizacion === null) {
+      setMsg("msg-mecanic-act")
+    } else {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            revisado: true,
+            status: "Presupuesto aprobado, en espera de repuesto",
+            terminada: true,
+            valorizacion: valorizacion,
+            aprobada: true,
+            prioritaria: prioritaria,
+            cliente_notificado_ppto: true,
+            espera_repuesto: esperaRepuesto,
+            repuesto_faltante: repuestoField,
+        })
+      })
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/notificaciones') 
+      }, 500);
+    }
+    }
+
+  function RechazadaHandle(n){
+    if (valorizacion === null) {
+      setMsg("msg-mecanic-act")
+    } else {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            revisado: true,
+            status: "Presupuesto rechazado, en espera de ensamblaje de equipo",
+            terminada: true,
+            valorizacion: valorizacion,
+            rechazada: true,
+            prioritaria: prioritaria,
+            cliente_notificado_ppto: true,
+        })
+      })
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/notificaciones') 
+      }, 500);
+    }
+    }
+
+  function GuardarHandle(n){
+    if(valorizacion === null) {
+      setMsg("msg-mecanic-act")
+    } else {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            revisado: true,
+            status: "Presupuesto terminado, notificar cliente",
             terminada: true,
             valorizacion: valorizacion,
             prioritaria: prioritaria,
-            cliente_noresponde: true,
-        })
-      }),
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-          id: id,
-          name: nombre,
-          lastname: apellidos,
-          email: email,
-          tipo: tipo,
-          modelo: modelo,
-          diagnostico: diagnostico,
-          valorizacion: valorizacion,
         })
       })
-    ])
-    setRender(!render)
-    setTimeout(() => {
-    setModal("modal-inactive")
-    navigate('/notificaciones') 
-    }, 500);
-  }
+      setRender(!render)
+      setTimeout(() => {
+        setModal("modal-inactive")
+        navigate('/notificaciones') 
+      }, 500);
+    }
+    }
+
+  function NoRespondeHandle(n){
+    if (valorizacion === null) {
+      setMsg("msg-mecanic-act")
+    } else {
+      Promise.all([
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: presupuesto,
+              revisado: true,
+              status: "Presupuesto terminado, cliente no conesta,email enviado",
+              terminada: true,
+              valorizacion: valorizacion,
+              prioritaria: prioritaria,
+              cliente_noresponde: true,
+          })
+        }),
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            id: id,
+            name: nombre,
+            lastname: apellidos,
+            email: email,
+            tipo: tipo,
+            modelo: modelo,
+            diagnostico: diagnostico,
+            valorizacion: valorizacion,
+          })
+        })
+      ])
+      setRender(!render)
+      setTimeout(() => {
+      setModal("modal-inactive")
+      navigate('/notificaciones') 
+      }, 500);
+    }
+    }
   
   if (pptoslistos !== 0) {
     return (
@@ -381,6 +402,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                   Indicar repuestos faltantes + código:
                 <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
               </div>: null} 
+              <div className={msg}>Indicar valorización de trabajo realizado.</div>
             </div>
             {esperaRepuesto?
             <div className='modal-buttons-notificaciones'>
@@ -403,6 +425,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                  setModal("modal-inactive")
                  setPresupuesto("")
                  setDiagnostico("")
+                 setMsg("msg-mecanic")
                 }}>Volver</button>
             </div>
           </div>: 
@@ -426,6 +449,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                setModal("modal-inactive")
                setPresupuesto("")
                setDiagnostico("")
+               setMsg("msg-mecanic")
               }}>Volver</button>
           </div>
         </div>}
