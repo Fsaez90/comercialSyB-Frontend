@@ -82,11 +82,12 @@ function App() {
   const [garantiaCom, setGarantiaCom] = useState([])
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
-  
+
+
   useEffect(() => {  
       fetchData();
   },[render])   
-console.log(mantencion) 
+
   const fetchData = async () => {  
     const date = new Date();
     setClock(date.toLocaleTimeString());
@@ -108,11 +109,7 @@ console.log(mantencion)
     let lista = orden.filter(function(x){
       return x.ingreso_sistema === false
     })
-    setNotificaciones(lista.length)
-    setListaOt(lista)
-
     //Taller data fetch 
-
     let listaPrioridad = orden.filter(function(x){
       return x.prioritaria === true && x.comenzada === false && x.entregada === false
     })
@@ -196,6 +193,8 @@ console.log(mantencion)
     setAprlista(listaAprobadas) 
     setRechlista(listaRechazadas)
 
+    setNotificaciones(lista.length)
+    setListaOt(lista)
 
     setTotalNotificaciones(totalNotificaciones)
     setpptoslistosLista(PptosListos)
@@ -228,14 +227,14 @@ console.log(mantencion)
         <Route path='/ingreso' element={<Ingreso date={date} clock={clock} render={render} setRender={setRender} lastId={lastId}/>}/>
         <Route path='/notificaciones' element={<ClientesXnotificar render={render} setRender={setRender} pptoslistos={pptoslistos} mmtoslistos={mmtoslistos} eqreparados={eqreparados} eqarmados={eqarmados} nocontestaTotal={nocontestaTotal} solicitudRepuestos={solicitudRepuestos}/>}/>
         <Route path='/estado' element={<Busqueda date={date}/>}/>
-        <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} render={render} setRender={setRender} />}/>
+        <Route path='/otxingresar' element={<OTxingresar listaOt={listaOt} notificaciones={notificaciones} render={render} setRender={setRender} />}/>
         <Route path='/entrega' element={<Entrega date={date} clock={clock} render={render} setRender={setRender}/>}/>
         <Route path='/espera-repuesto' element={<EsperaRepuesto render={render} setRender={setRender} esperaRepuesto={esperaRepuesto} esperaRepuestoLista={esperaRepuestoLista}/>}/>
 
         <Route path='/taller' element={<HomeTaller render={render} setRender={setRender} prioridad={prioridad} garantia={garantia} revision={revision} mantencion={mantencion} aprobadas={aprobadas} rechazadas={rechazadas} totalProceso={totalProceso} repRecibidosMmto={repRecibidosMmto}/>}/>
         <Route path='/garantia' element={<Garantias render={render} setRender={setRender} garantia={garantia} garantiaLista={garantiaLista} clock={clock} date={date} />} />
         <Route path='/prioridad' element={<Prioridad date={date} clock={clock} prioridad={prioridad} setRender={setRender} render={render} prioLista={prioLista}/>}/>
-        <Route path='/mantenimiento' element={<Mantenimiento date={date} clock={clock} mantenciones={mantencion} setRender={setRender} render={render} manLista={manLista} />}/>
+        <Route path='/mantenimiento' element={<Mantenimiento date={date} clock={clock} mantenciones={mantencion} setRender={setRender} render={render} manLista={manLista}/>}/>
         <Route path='/revision' element={<Revision date={date} clock={clock} revisiones={revision} setRender={setRender} render={render} revLista={revLista}/>}/>
         <Route path='/mmto-rep-listos' element={<MmtoRepListos date={date} clock={clock} render={render} setRender={setRender} repRecibidosMmto={repRecibidosMmto} repRecibidosMmtoLista={repRecibidosMmtoLista} />}/>
         <Route path='/aprobadas' element={<Aprobadas date={date} clock={clock} render={render} setRender={setRender} aprobadas={aprobadas} aprLista={aprLista} />}/>

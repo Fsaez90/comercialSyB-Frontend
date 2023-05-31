@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalIngreso.css"
 import AddHomeIcon from '@mui/icons-material/AddHome';
 
-function OTxingresar({listaOt, render, setRender}) {
+function OTxingresar({listaOt, render, setRender, notificaciones}) {
 
   const [modal, setModal] = useState("modal-inactive")
   const [id, setId] = useState()
@@ -28,8 +28,8 @@ function OTxingresar({listaOt, render, setRender}) {
   const  navigate  = useNavigate();
 
   useEffect(() => {
-      setRender(!render)
-},[modal])
+    setRender(!render)
+ },[notificaciones])
 
 
 function Ingresar (n) {
@@ -54,16 +54,17 @@ function Ingresar (n) {
         mantencion: mantencion,
         revision: revision,
         mecanico: mecanico,
-        ingreso_sistema: true
+        ingreso_sistema: true,
     })
   })
+  setRender(!render)
   setTimeout(() => {
-    setRender(!render)
     setModal("modal-inactive")
-    navigate('/otxingresar') 
-  }, 500);
+    navigate('/') 
+  },500);
 }
   
+if (notificaciones !== 0) {
   return (
     <div className='frame'>
       <h1 className='title-component'>Ordenes de trabajo por ingresar a PC: </h1>
@@ -133,8 +134,15 @@ function Ingresar (n) {
         </div>
       </div>   
     </div>
-
   )
+} else {
+  return(
+    <div className='frame'>
+      <h1 className='title-component'>No hay órdenes de trabajo por ingresar a PC: </h1>
+      <NavLink to="/"><AddHomeIcon style={{color: "rgb(33, 33, 240)", fontSize: "30px"}} ></AddHomeIcon></NavLink> 
+  </div>
+  )
+}
 }
 
 export default OTxingresar

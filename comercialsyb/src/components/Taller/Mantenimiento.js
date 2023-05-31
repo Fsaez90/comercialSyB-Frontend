@@ -29,6 +29,8 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
 
   const  navigate  = useNavigate();
   
+
+
   useEffect(() => {
       setRender(!render)
 },[mantenciones])

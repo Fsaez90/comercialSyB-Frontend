@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import BuildIcon from '@mui/icons-material/Build';
 
 
-function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto}) {
+function Home({render, setRender, notificaciones, notificacionesTotal, esperaRepuesto, fetchData}) {
  
   useEffect(() => {
       setRender(!render)
