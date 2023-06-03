@@ -148,7 +148,6 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
     }
   }
   
-  
   if (eqarmados !== 0) {
       return (
         <div className='frame'>

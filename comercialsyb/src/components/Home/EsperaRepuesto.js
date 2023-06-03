@@ -35,7 +35,7 @@ function EsperaRepuesto({render, setRender, esperaRepuesto, esperaRepuestoLista}
   const  navigate  = useNavigate();
   
   useEffect(() => {
-      setRender(!render)
+    setRender(!render)
   },[esperaRepuesto, modal])
 
 async  function repuestoAtallerHandle(n) {

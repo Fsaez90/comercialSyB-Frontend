@@ -204,7 +204,6 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   
   }
   
-
   if (manComenzadas !== 0) {
     return (
       <div className='frame'>
@@ -323,7 +322,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   } else {
     return (
       <div className='frame'>
-        <h1 className='title-component'>Ordenes de trabajo en espera de Revisión:</h1>
+        <h1 className='title-component'>Ordenes de trabajo comenzadas en espera de Revisión:</h1>
         <div>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>

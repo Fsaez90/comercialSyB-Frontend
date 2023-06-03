@@ -329,7 +329,6 @@ async function revisionHandle(n) {
 
 }
 
-
 if (prioridad !== 0) {  
     return (
       <div className='frame'>

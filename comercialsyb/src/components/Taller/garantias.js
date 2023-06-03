@@ -284,7 +284,6 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
     }
   }
   
-
     if (garantia !== 0) {  
         return (
           <div className='frame'>

@@ -31,7 +31,6 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
     const [isGarantia, setIsGarantia] = useState() 
     const [status, setStatus] = useState() 
     const [trabajoPrevio, setTrabajoPrevio] = useState(false)
-    const [repMecanico, setRepMecanico] =useState(null)
     const [msg, setMsg] = useState("msg-mecanic") 
  
     const  navigate  = useNavigate();
@@ -322,7 +321,6 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
                     setStatus(x.status)
                     setDetallePptoGar(x.detalle_garantia)
                     setDiagnosticoGar(x.dignostico_garantia)
-                    setRepMecanico(x.reparada_por)
                   }
                     }>Continuar</button>         
               </div> 

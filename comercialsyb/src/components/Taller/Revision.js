@@ -217,12 +217,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> {
-                  setModal("modal-inactive")
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setMsg("msg-mecanic")
-                  }}>Volver</button>
+ 
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
                 }}>Guardar y continuar después</button>

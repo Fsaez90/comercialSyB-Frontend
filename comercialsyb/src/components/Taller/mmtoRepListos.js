@@ -161,7 +161,6 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     }
   }
   
-
   async function garantiaTerminadaHandle(n) {
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -210,7 +209,6 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
       console.error(error);
     }
   }
-  
      
     if (repRecibidosMmto !== 0) {
       return (
@@ -292,7 +290,10 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                     <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar || detallePpto}/>
                 </div>
                 <div className='modal-buttons'>
-                  <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                  <button className='button-list' onClick={()=> {
+                    setModal("modal-inactive")
+                    setRepMecanico("")
+                    }}>Volver</button>
                   <button className='button-list' onClick={() => {
                   garantiaTerminadaHandle(id)
                   }}>Garantía Completada</button>

@@ -91,7 +91,6 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
     }
   }
   
-
   async function NoRespondeHandle(n) {
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -142,7 +141,6 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
     }
   }
   
-
   if (noContestaretiro !== 0) {
     return (
       <div className='frame'>

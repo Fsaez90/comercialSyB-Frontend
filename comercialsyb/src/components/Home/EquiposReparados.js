@@ -206,11 +206,11 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
               <>
                 <div className='detalle-observaciones'>
                   Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                  <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
                 </div>
                 <div className='detalle-observaciones'>
                   Detalle de reparación:
-                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
                   {(aplGarantia === "no")?
                   <div>
                     <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)} value={valorizacion}/>

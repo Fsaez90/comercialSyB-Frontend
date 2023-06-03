@@ -204,7 +204,6 @@ async function mantenimientopptoHandle(n) {
 
 }
 
- 
   if (mantenciones !== 0) {
     return (
       <div className='frame'>

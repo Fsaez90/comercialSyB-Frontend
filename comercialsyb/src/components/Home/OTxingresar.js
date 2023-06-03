@@ -31,7 +31,6 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
     setRender(!render)
  },[notificaciones, modal]) 
 
-
  async function Ingresar(n) {
   try {
     const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -70,8 +69,7 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
     console.error(error);
   }
 }
-
-  
+ 
 if (notificaciones !== 0) {
   return (
     <div className='frame'>

@@ -34,7 +34,7 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [isGarantia, setIsGarantia] = useState()
   const [repMecanico, setRepMecanico] =useState("")
-  const [msg, setMsg] = useState("msg-mecanic") 
+  const [msg, setMsg] = useState("msg-mecanic")
   const navigate  = useNavigate();
   
   useEffect(() => {
@@ -180,8 +180,6 @@ async function ReparadaHandle(n) {
   }
 }
 
-
-
 async function GuardarHandle(n) {
   try {
     const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -237,7 +235,6 @@ async function GuardarHandle(n) {
     console.error("Network error:", error);
   }
 }
-
 
 if (aprobadas !== 0) {
   return (
@@ -302,6 +299,7 @@ if (aprobadas !== 0) {
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
                 {mantencion? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Mantención</span></p>: null}
                 {revision? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Revisión</span></p>: null}
+                {isGarantia? <p className='sub-detail'>Equipo a <span className='data-modal-taller'>Garantía</span></p>: null}
                 <p className='sub-detail'>Fecha de revision: <span className='data-modal-taller'>{fechaRevision}</span></p>
               </div>
             </div>

@@ -45,7 +45,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   useEffect(() => {
       setRender(!render)
   },[mmtoslistos, modal]) 
-console.log(valorizacion) 
+
   async function NotificadoHandle(n){
     if(valorizacion === "$" && aplGarantia === "no") {
       setMsg("msg-mecanic-act");
@@ -90,6 +90,11 @@ console.log(valorizacion)
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepuestoField("")
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
+          setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
         }, 500);
       }
@@ -143,6 +148,11 @@ console.log(valorizacion)
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepuestoField("")
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
+          setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
         }, 500);
       }
@@ -198,6 +208,11 @@ console.log(valorizacion)
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepuestoField("")
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
+          setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
         }, 500);
       }
@@ -252,6 +267,11 @@ console.log(valorizacion)
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepuestoField("")
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
+          setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
         }, 500);
       }
@@ -321,6 +341,11 @@ console.log(valorizacion)
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepuestoField("")
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
+          setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
         }, 500);
       }
@@ -375,6 +400,11 @@ console.log(valorizacion)
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setRepuestoField("")
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$")
+            setMsg("msg-mecanic")
             navigate('/mantenciones-listas');
           }, 500);
         }
@@ -430,6 +460,11 @@ console.log(valorizacion)
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setRepuestoField("")
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$")
+            setMsg("msg-mecanic")
             navigate('/mantenciones-listas');
           }, 500);
         }
@@ -533,8 +568,7 @@ console.log(valorizacion)
                         Indicar repuestos faltantes + código:
                       <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
                     </div>: null} 
-                </div>
-                  }
+                </div>}
                   {(aplGarantia === "no")?
                   <div>
                     <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
@@ -580,56 +614,26 @@ console.log(valorizacion)
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                     AprobadaEsperaRepuestoHandle(id)
-                    setEsperaRepuesto(false)
-                    setRepuestoField("")
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
                     RechazadaHandle(id)
-                    setEsperaRepuesto(false)
-                    setRepuestoField("")
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$") 
                     }}>Rechazada</button>
                 </div>:
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                    AprobadaHandle(id)
-                   setEsperaRepuesto(false)
-                   setRepuestoField("")
-                   setPresupuesto("")
-                   setDiagnostico("")
-                   setValorizacion("$")
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
                    RechazadaHandle(id)
-                   setEsperaRepuesto(false)
-                   setRepuestoField("")
-                   setPresupuesto("")
-                   setDiagnostico("")
-                   setValorizacion("$")
                     }}>Rechazada</button>
                 </div>
                 } 
               <div>
                 <button className='button-list-guardar' onClick={() => {
                   GuardarHandle(id)
-                  setEsperaRepuesto(false)
-                  setRepuestoField("")
-                  setPresupuesto("")
-                  setDiagnostico("")
-                  setValorizacion("$")
                 }}>Guardar, notificar después</button>
                 <button className='button-list-noResponde' onClick={() => {
                   NoRespondePptoHandle(id)
-                  setEsperaRepuesto(false)
-                  setRepuestoField("")
-                  setPresupuesto("")
-                  setDiagnostico("")
-                  setValorizacion("$")
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setModal("modal-inactive")
@@ -646,21 +650,11 @@ console.log(valorizacion)
                 <div>
                 <button className='button-list-aprobada' onClick={() => {
                   NotificadoHandle(id)
-                  setEsperaRepuesto(false)
-                  setRepuestoField("")
-                  setPresupuesto("")
-                  setDiagnostico("")
-                  setValorizacion("$") 
                   }}>Notificado</button>
                 </div>
                 <div>
                 <button className='button-list-noResponde' onClick={() => {
                   NoRespondeNotifHandle(id)
-                  setEsperaRepuesto(false)
-                  setRepuestoField("")
-                  setPresupuesto("")
-                  setDiagnostico("")
-                  setValorizacion("$") 
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setEsperaRepuesto(false)

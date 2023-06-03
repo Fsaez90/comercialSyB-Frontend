@@ -88,6 +88,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$") 
             navigate('/pptos-listos');
           }, 500);
         }
@@ -144,6 +147,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$") 
             navigate('/pptos-listos');
           }, 500);
         }
@@ -198,6 +204,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$") 
             navigate('/pptos-listos');
           }, 500);
         }
@@ -250,6 +259,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$") 
             navigate('/pptos-listos');
           }, 500);
         }
@@ -319,6 +331,9 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setPresupuesto("")
+            setDiagnostico("")
+            setValorizacion("$") 
             navigate('/pptos-listos');
           }, 500);
         }
@@ -401,11 +416,11 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
               <>
                 <div className='detalle-observaciones'>
                   Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                  <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
                 </div>
                 <div className='detalle-observaciones'>
                   Detalle de reparación:
-                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
                   {(aplGarantia === "no")?
                   <div>
                     <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
@@ -447,29 +462,17 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             <div>
               <button className='button-list-aprobada' onClick={() => {
                 AprobadaEsperaRepuestoHandle(id)
-                setPresupuesto("")
-                setDiagnostico("")
-                setValorizacion("$") 
                 }}>Aprobada</button>
               <button className='button-list-rechazada' onClick={() => {
                 RechazadaHandle(id)
-                setPresupuesto("")
-                setDiagnostico("")
-                setValorizacion("$") 
                 }}>Rechazada</button>
             </div>
             <div>
               <button className='button-list-guardar' onClick={() => {
                 GuardarHandle(id)
-                setPresupuesto("")
-                setDiagnostico("")
-                setValorizacion("$")
                 }}>Guardar, notificar después</button>
               <button className='button-list-noResponde' onClick={() => {
                 NoRespondeHandle(id)
-                setPresupuesto("")
-                setDiagnostico("")
-                setValorizacion("$") 
                 }}>No responde</button>
               <button className='button-list-volver' onClick={()=> {
                  setModal("modal-inactive")
@@ -483,30 +486,18 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           <div className='modal-buttons-notificaciones'>
           <div>
             <button className='button-list-aprobada' onClick={() => {
-              AprobadaHandle(id)
-              setPresupuesto("")
-              setDiagnostico("")
-              setValorizacion("$") 
+              AprobadaHandle(id) 
               }}>Aprobada</button>
             <button className='button-list-rechazada' onClick={() => {
-              RechazadaHandle(id)
-              setPresupuesto("")
-              setDiagnostico("")
-              setValorizacion("$") 
+              RechazadaHandle(id) 
               }}>Rechazada</button>
           </div>
           <div>
             <button className='button-list-guardar' onClick={() => {
               GuardarHandle(id)
-              setPresupuesto("")
-              setDiagnostico("")
-              setValorizacion("$") 
               }}>Guardar, notificar después</button>
             <button className='button-list-noResponde' onClick={() => {
               NoRespondeHandle(id)
-              setPresupuesto("")
-              setDiagnostico("")
-              setValorizacion("$") 
               }}>No responde</button>
             <button className='button-list-volver' onClick={()=> {
                setModal("modal-inactive")

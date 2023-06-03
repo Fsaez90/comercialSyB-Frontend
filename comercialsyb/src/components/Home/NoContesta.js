@@ -5,7 +5,7 @@ import "../static/modalNotificaciones.css"
 function NoContesta({render, setRender, noContestaretiro, noContestappto}) {
     
     useEffect(() => {
-          setRender(!render)
+        setRender(!render)
       },[noContestaretiro, noContestappto])
      
       return (

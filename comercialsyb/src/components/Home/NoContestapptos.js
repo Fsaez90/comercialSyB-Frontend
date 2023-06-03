@@ -78,6 +78,10 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
     setRender(!render)
     setTimeout(() => {
       setModal("modal-inactive")
+      setEsperaRepuesto(false)
+      setPresupuesto("")
+      setDiagnostico("")
+      setValorizacion("$")
       navigate('/no-contesta-pptos') 
     }, 500);
   }
@@ -126,6 +130,10 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setEsperaRepuesto(false)
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
           navigate('/no-contesta-pptos');
         }, 500);
       }
@@ -177,6 +185,10 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setEsperaRepuesto(false)
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
           navigate('/no-contesta-pptos');
         }, 500);
       }
@@ -185,7 +197,6 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
       console.log(error);
     }
   }
-  
   
   async function NoRespondeHandle(n) {
     try {
@@ -228,6 +239,10 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setEsperaRepuesto(false)
+          setPresupuesto("")
+          setDiagnostico("")
+          setValorizacion("$")
           navigate('/no-contesta-pptos');
         }, 500);
       }
@@ -237,7 +252,6 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
     }
   }
   
-
   if (noContestappto !== 0) {
     return (
       <div className='frame'>
@@ -332,43 +346,23 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                     AprobadaEsperaRepuestoHandle(id) 
-                    setEsperaRepuesto(false)
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
-                    RechazadaHandle(id)
-                    setEsperaRepuesto(false)
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$")  
+                    RechazadaHandle(id) 
                     }}>Rechazada</button>
                 </div>:
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                     AprobadaHandle(id)
-                    setEsperaRepuesto(false)
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
                     RechazadaHandle(id)
-                    setEsperaRepuesto(false)
-                    setPresupuesto("")
-                    setDiagnostico("")
-                    setValorizacion("$") 
                     }}>Rechazada</button>
                 </div>
                 }
               <div>
                 <button className='button-list-noResponde' onClick={() => {
                   NoRespondeHandle(id)
-                  setEsperaRepuesto(false)
-                  setPresupuesto("")
-                  setDiagnostico("")
-                  setValorizacion("$")
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setModal("modal-inactive")
