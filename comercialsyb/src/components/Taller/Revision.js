@@ -23,54 +23,74 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   const [mantencion, setMantencion] = useState(revLista.mantencion)
   const [revision, setRevision] = useState(revLista.revision)
   const [mecanico, setMecanico] = useState(revLista.mecanico)
-  const [diagnostico, setDiagnostico] = useState()
-  const [detallePpto, setDetallePpto] = useState()
+  const [diagnostico, setDiagnostico] = useState(null)
+  const [detallePpto, setDetallePpto] = useState(null)
+  const [msg, setMsg] = useState("msg-mecanic") 
+
   const  navigate  = useNavigate();
   
-  // useEffect(() => {
-  //     setRender(!render)
-  // },[modal])
-
-  function enProcesoHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            status: "Equipo en proceso de revisión",
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: detallePpto,
-            hora_trabajo: "pendiente",
-            fecha_trabajo: "pendiente"
-        })
-      })
+  useEffect(() => {
       setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
-  }
+  },[revisiones, modal])
 
+  async function enProcesoHandle(n) {
+    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+      setMsg("msg-mecanic-act")
+    } else {
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              status: "Equipo en proceso de revisión",
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: detallePpto,
+              hora_trabajo: "pendiente",
+              fecha_trabajo: "pendiente"
+          })
+        });
+    
+        if (response.ok) {
+          setRender(!render);
+          setMsg("msg-mecanic")
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/revision');
+          }, 500);
+        } else {
+          throw new Error("Failed to update data.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+  }
+  
   function revisionHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+      setMsg("msg-mecanic-act")
+    } else {
+      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -102,13 +122,24 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             terminada: true,
         })
       })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
+      .then(response => {
+        if (response.ok) {
+          setRender(!render);
+          setMsg("msg-mecanic")
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/revision');
+          }, 500);
+        } else {
+          throw new Error("Failed to update data.");
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    }
   }
-
+  
   if (revisiones !== 0) {
     return (
       <div className='frame'>
@@ -180,15 +211,23 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                <button className='button-list' onClick={()=> {
+                  setModal("modal-inactive")
+                  setDiagnostico("")
+                  setDetallePpto("")
+                  setMsg("msg-mecanic")
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setModal("modal-inactive") 
+                setDiagnostico("")
+                setDetallePpto("")
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setModal("modal-inactive") 
+                setDiagnostico("")
+                setDetallePpto("")
                 }} >Enviar PPTO</button>
             </div>
           </div>

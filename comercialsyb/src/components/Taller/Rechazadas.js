@@ -34,10 +34,11 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
   
   useEffect(() => {
       setRender(!render)
-  },[rechazadas])
+  },[rechazadas,modal])
 
-  function ArmadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  async function ArmadaHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -74,16 +75,25 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
             armada: true,
             fecha_reparacion: date
         })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/rechazadas');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
   
-  function GuardarHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  async function GuardarHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -118,13 +128,22 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
         })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/rechazadas');
+        }, 500);
+      } else {
+        throw new Error("Failed to update data.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
+  
 
   if (rechazadas !== 0) {
     return (

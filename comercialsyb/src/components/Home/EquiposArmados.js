@@ -38,60 +38,70 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
 
   useEffect(() => {
       setRender(!render)
-  },[eqarmados])
+  },[eqarmados, modal])
 
-  function NotificadoHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  async function NotificadoHandle(n){
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: date,
-            hora_trabajo: clock,
-            revisado: true,
-            status: "Equipo armado, listo para retiro (Cliente notificado).",
-            terminada: true,
-            valorizacion: valorizacion,
-            aprobada: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            armada: true,
-            cliente_notificado_retiro: true,
-            cliente_noresponde: false
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: presupuesto,
+          fecha_trabajo: date,
+          hora_trabajo: clock,
+          revisado: true,
+          status: "Equipo armado, listo para retiro (Cliente notificado).",
+          terminada: true,
+          valorizacion: valorizacion,
+          aprobada: true,
+          prioritaria: prioritaria,
+          cliente_notificado_ppto: true,
+          armada: true,
+          cliente_notificado_retiro: true,
+          cliente_noresponde: false
         })
-      })
-      setRender(!render)
+      });
+  
+    if(response.ok) {
+      setRender(!render);
       setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
+        setModal("modal-inactive");
+        navigate('/equipos-armados');
       }, 500);
-  }
+    }
 
-  function NoRespondeHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+     } catch (error) {
+      console.error(error);
+      // Handle the error here
+    }
+  }
+  
+  async function NoRespondeHandle(n){
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
           nombre: nombre,
           apellidos: apellidos,
           rut: rut,
@@ -122,14 +132,22 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
           prioritaria: prioritaria,
           cliente_noresponde: true,
           armada: true
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
+        })
+      });
+      
+      if(response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/equipos-armados');
+        }, 500);
+      }
+
+    } catch (error) {
+      console.log(error)
+    }
   }
+  
   
   if (eqarmados !== 0) {
       return (

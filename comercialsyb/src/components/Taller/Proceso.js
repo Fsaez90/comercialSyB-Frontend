@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import BuildIcon from '@mui/icons-material/Build';
 
 function Proceso({render, setRender, priComenzadas, revComenzadas, manComenzadas, garantiaCom,}) {
   
   useEffect(() => {
-      setRender(!render)
+    setRender(!render)
   },[priComenzadas, revComenzadas, manComenzadas, garantiaCom])
   return (
     <div>

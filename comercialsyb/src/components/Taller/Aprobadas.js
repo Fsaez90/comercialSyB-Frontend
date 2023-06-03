@@ -33,142 +33,156 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [isGarantia, setIsGarantia] = useState()
-  const [repMecanico, setRepMecanico] =useState(null)
+  const [repMecanico, setRepMecanico] =useState("")
   const [msg, setMsg] = useState("msg-mecanic") 
   const navigate  = useNavigate();
   
   useEffect(() => {
-      setRender(!render)
-},[aprobadas])
+    setRender(!render)
+},[aprobadas, modal])
 
-function ReparadaHandle(n){
-  if (repMecanico === "1"){
-    Promise.all([
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: fechaRevision,
-            hora_trabajo: horaRevision,
-            revisado: true,
-            status: "Equipo reparado, notificar cliente.",
-            terminada: true,
-            valorizacion: valorizacion,
-            aprobada: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            reparada: true,
-            fecha_reparacion: date,
-            reparada_por: repMecanico
-        })
-      }),
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
-        method: "PUT",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          lista_ordenes: `${n}`,
-          garantias: null
-        })
-      })
-    ]).then(responses => {
-      // handle responses
-      console.log(responses);
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
-    }).catch(error => {
-      console.error(error);
-    });
-  } else if(repMecanico === "2") {
-    Promise.all([
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            fecha_trabajo: fechaRevision,
-            hora_trabajo: horaRevision,
-            revisado: true,
-            status: "Equipo reparado, notificar cliente.",
-            terminada: true,
-            valorizacion: valorizacion,
-            aprobada: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            reparada: true,
-            fecha_reparacion: date,
-        })
-      }),
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
-        method: "PUT",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+async function ReparadaHandle(n) {
+  if (repMecanico === "1") {
+    try {
+      const [response1, response2] = await Promise.all([
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: presupuesto,
+              fecha_trabajo: fechaRevision,
+              hora_trabajo: horaRevision,
+              revisado: true,
+              status: "Equipo reparado, notificar cliente.",
+              terminada: true,
+              valorizacion: valorizacion,
+              aprobada: true,
+              prioritaria: prioritaria,
+              cliente_notificado_ppto: true,
+              reparada: true,
+              fecha_reparacion: date,
+              reparada_por: repMecanico
+          })
+        }),
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
             lista_ordenes: `${n}`,
             garantias: null
+          })
         })
-      })
-    ]).then(responses => {
-      // handle responses
-      console.log(responses);
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/taller') 
-      }, 500);
-    }).catch(error => {
-      console.error(error);
-    });
+      ]);
+
+      if (response1.ok && response2.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/aprobadas');
+        }, 500);
+      } else {
+        // Handle error case
+        console.error("Error updating data");
+      }
+    } catch (error) {
+      // Handle network error
+      console.error("Network error:", error);
+    }
+  } else if (repMecanico === "2") {
+    try {
+      const [response1, response2] = await Promise.all([
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: presupuesto,
+              fecha_trabajo: fechaRevision,
+              hora_trabajo: horaRevision,
+              revisado: true,
+              status: "Equipo reparado, notificar cliente.",
+              terminada: true,
+              valorizacion: valorizacion,
+              aprobada: true,
+              prioritaria: prioritaria,
+              cliente_notificado_ppto: true,
+              reparada: true,
+              fecha_reparacion: date,
+          })
+        }),
+        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
+          method: "PUT",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+              lista_ordenes: `${n}`,
+              garantias: null
+          })
+        })
+      ]);
+
+      if (response1.ok && response2.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/aprobadas');
+        }, 500);
+      } else {
+        // Handle error case
+        console.error("Error updating data");
+      }
+    } catch (error) {
+      // Handle network error
+      console.error("Network error:", error);
+    }
   } else {
-    setMsg("msg-mecanic-act")
+    setMsg("msg-mecanic-act");
   }
 }
 
 
-function GuardarHandle(n){
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+
+async function GuardarHandle(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -203,13 +217,24 @@ function GuardarHandle(n){
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
       })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/taller') 
-    }, 500);
+    });
+
+    if (response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/aprobadas');
+      }, 500);
+    } else {
+      // Handle error case
+      console.error("Error updating data");
+    }
+  } catch (error) {
+    // Handle network error
+    console.error("Network error:", error);
+  }
 }
+
 
 if (aprobadas !== 0) {
   return (
@@ -299,8 +324,8 @@ if (aprobadas !== 0) {
               </div>
               <div className='detalle-observaciones'>
                   Equipo reparado por:
-                  <select onChange={(e) => setRepMecanico(e.target.value)} >
-                    <option value="1">Seleccionar</option>
+                  <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
+                    <option value="">Seleccionar</option>
                     <option value="1">Técnico 1</option>
                     <option value="2">Técnico 2</option>
                     <option value="Admin">Admin</option>
@@ -313,13 +338,17 @@ if (aprobadas !== 0) {
               <div>
                 <button className='button-list-aprobada' onClick={() => {
                   ReparadaHandle(id)
+                  setRepMecanico("")
                   }}>Reparada</button>
               </div>
               <div>
               <button className='button-list-guardar' onClick={() => {
                    GuardarHandle(id)
                   }}>Guardar y continuar después</button>
-                <button className='button-list-volver' onClick={() => setModal("modal-inactive")}>Volver</button>
+                <button className='button-list-volver' onClick={() => {
+                  setModal("modal-inactive")
+                  setRepMecanico("")
+                  }}>Volver</button>
               </div>
             </div>
           </div>

@@ -37,7 +37,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
 
   useEffect(() => {
       setRender(!render)
-  },[noContestappto])
+  },[noContestappto, modal])
 
   function AprobadaHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -78,15 +78,16 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
     setRender(!render)
     setTimeout(() => {
       setModal("modal-inactive")
-      navigate('/notificaciones') 
+      navigate('/no-contesta-pptos') 
     }, 500);
   }
 
-  function AprobadaEsperaRepuestoHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+  async function AprobadaEsperaRepuestoHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           nombre: nombre,
           apellidos: apellidos,
           rut: rut,
@@ -118,20 +119,28 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           cliente_notificado_ppto: true,
           espera_repuesto: esperaRepuesto,
           repuesto_faltante: repuestoField,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
-  }
+        })
+      });
   
-  function RechazadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/no-contesta-pptos');
+        }, 500);
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
+  }
+   
+  async function RechazadaHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           nombre: nombre,
           apellidos: apellidos,
           rut: rut,
@@ -161,20 +170,29 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           cliente_noresponde: false,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/no-contesta-pptos');
+        }, 500);
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
   }
   
-  function NoRespondeHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-      method: "POST",
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
+  
+  async function NoRespondeHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           nombre: nombre,
           apellidos: apellidos,
           rut: rut,
@@ -197,20 +215,28 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           comenzada: true,
           detalle_ppto: presupuesto,
           revisado: true,
-          status: "Presupuesto terminado, cliente no conesta",
+          status: "Presupuesto terminado, cliente no contesta",
           terminada: true,
           valorizacion: valorizacion,
           prioritaria: prioritaria,
           cliente_noresponde: true,
           ultimo_llamado: date,
-      })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
+        })
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/no-contesta-pptos');
+        }, 500);
+      }
+    } catch (error) {
+      // Handle the error here
+      console.log(error);
+    }
   }
+  
 
   if (noContestappto !== 0) {
     return (
@@ -306,28 +332,50 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                     AprobadaEsperaRepuestoHandle(id) 
+                    setEsperaRepuesto(false)
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
-                    RechazadaHandle(id) 
+                    RechazadaHandle(id)
+                    setEsperaRepuesto(false)
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$")  
                     }}>Rechazada</button>
                 </div>:
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
                     AprobadaHandle(id)
+                    setEsperaRepuesto(false)
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
                     RechazadaHandle(id)
+                    setEsperaRepuesto(false)
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$") 
                     }}>Rechazada</button>
                 </div>
                 }
               <div>
                 <button className='button-list-noResponde' onClick={() => {
-                  NoRespondeHandle(id) 
+                  NoRespondeHandle(id)
+                  setEsperaRepuesto(false)
+                  setPresupuesto("")
+                  setDiagnostico("")
+                  setValorizacion("$")
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setModal("modal-inactive")
                    setPresupuesto("")
                    setDiagnostico("")
+                   setValorizacion("$")
+                   setEsperaRepuesto(false)
                   }}>Volver</button>
               </div>
             </div>

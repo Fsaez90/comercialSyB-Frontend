@@ -35,51 +35,60 @@ function SolicitudRepuestos({render, setRender, solicitudRepuestos, solicitudRep
   const  navigate  = useNavigate();
   
   useEffect(() => {
-      setRender(!render)
-},[solicitudRepuestos])
+    setRender(!render)
+},[solicitudRepuestos, modal])
 
-function EnesperaRepuesto(n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-        nombre: nombre,
-        apellidos: apellidos,
-        rut: rut,
-        email: email,
-        telefono: telefono,
-        tipo: tipo,
-        marca: marca,
-        modelo: modelo,
-        serie: serie,
-        observaciones: observaciones,
-        espada: espada,
-        cadena: cadena,
-        funda: funda,
-        disco: disco,
-        mantencion: mantencion,
-        revision: revision,
-        mecanico: mecanico,
-        ingreso_sistema: ingresoSistema,
-        status: "Equipo en proceso de Mantencion/Garantia en Espera de Repuesto",
-        diagnostico: diagnostico,
-        comenzada: true,
-        detalle_ppto: detallePpto,
-        diagnostico: diagnostico,
-        detalle_ppto: detallePpto,
-        espera_repuesto: esperaRepuesto,
-        repuesto_faltante: repuestoField 
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModal("modal-inactive")
-    navigate('/notificaciones') 
-  }, 500);
+async function EnesperaRepuesto(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          status: "Equipo en proceso de Mantencion/Garantia en Espera de Repuesto",
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: detallePpto,
+          espera_repuesto: esperaRepuesto,
+          repuesto_faltante: repuestoField 
+      })
+    });
+    if (response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/mmto-solicitud-rep');
+      }, 500);
+    } else {
+      // Handle error case
+      console.error("Error updating data");
+    }
+  } catch (error) {
+    // Handle network error
+    console.error("Network error:", error);
+  }
 }
 
-function respuestosEnviadosHandle(n) {
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+async function respuestosEnviadosHandle(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -109,13 +118,22 @@ function respuestosEnviadosHandle(n) {
           solicitud_repuestos: true,
           repuestos_entregados: true,
       })
-    })
-    setRender(!render)
-    setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-    }, 500);
+    });
+    if (response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/mmto-solicitud-rep');
+      }, 500);
+    } else {
+      // Handle error case
+      console.error("Error updating data");
+    }
+  } catch (error) {
+    // Handle network error
+    console.error("Network error:", error);
   }
+}
  
   if (solicitudRepuestos != 0) {
     return (
@@ -191,7 +209,7 @@ function respuestosEnviadosHandle(n) {
               </div>
                 <div className='detalle-observaciones'>
                   Repuestos solicitados:
-                  <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar}/>
+                  <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar || detallePpto}/>
               </div>
             </>:
             <>
@@ -216,15 +234,13 @@ function respuestosEnviadosHandle(n) {
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
                 <button className='button-list' onClick={() => {
-                EnesperaRepuesto(id)
-                setModal("modal-inactive")  
+                EnesperaRepuesto(id) 
                 }}>Espera Repuesto</button>
             </div>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
                 <button className='button-list' onClick={() => {
                 respuestosEnviadosHandle(id)
-                setModal("modal-inactive") 
                 }}>Enviar repuestos</button>
             </div>}
           </div>
@@ -234,7 +250,7 @@ function respuestosEnviadosHandle(n) {
   } else {
     return (
       <div className='frame'>
-        <h1 className='title-component'>Solicitures de repuestos para mantenciones:</h1>
+        <h1 className='title-component'>Solicitudes de repuestos para mantenciones:</h1>
         <div>
           <p className='not-exist'>No hay ordenes pendientes</p>
         </div>

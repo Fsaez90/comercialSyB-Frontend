@@ -29,14 +29,15 @@ function OTxingresar({listaOt, render, setRender, notificaciones}) {
 
   useEffect(() => {
     setRender(!render)
- },[notificaciones])
+ },[notificaciones, modal]) 
 
 
-function Ingresar (n) {
-  fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-    method: "POST",
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
+ async function Ingresar(n) {
+  try {
+    const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         nombre: nombre,
         apellidos: apellidos,
         rut: rut,
@@ -55,14 +56,21 @@ function Ingresar (n) {
         revision: revision,
         mecanico: mecanico,
         ingreso_sistema: true,
-    })
-  })
-  setRender(!render)
-  setTimeout(() => {
-    setModal("modal-inactive")
-    navigate('/') 
-  },500);
+      })
+    });
+    if (response.ok) {
+      setRender(!render);
+      setTimeout(() => {
+        setModal("modal-inactive");
+        navigate('/otxingresar');
+      }, 500);
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
 }
+
   
 if (notificaciones !== 0) {
   return (

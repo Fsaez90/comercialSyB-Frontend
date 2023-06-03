@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
 
-
 function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [msg, setMsg] = useState("msg-mecanic") 
   const [modal, setModal] = useState("modal-inactive")
@@ -42,17 +41,17 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
 
   useEffect(() => {
       setRender(!render)
-  },[pptoslistos])
+  },[pptoslistos, modal])
 
-
-  function AprobadaHandle(n){
-    if(valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  async function AprobadaHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -82,24 +81,32 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
             espera_repuesto: esperaRepuesto
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+  
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/pptos-listos');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
-
-  function AprobadaEsperaRepuestoHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  }
+  
+  async function AprobadaEsperaRepuestoHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -130,24 +137,32 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             cliente_notificado_ppto: true,
             espera_repuesto: esperaRepuesto,
             repuesto_faltante: repuestoField,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+  
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/pptos-listos');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
-
-  function RechazadaHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  }
+  
+  async function RechazadaHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -176,24 +191,32 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             rechazada: true,
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+  
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/pptos-listos');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
-
-  function GuardarHandle(n){
-    if(valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  }
+  
+  async function GuardarHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -220,25 +243,33 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             terminada: true,
             valorizacion: valorizacion,
             prioritaria: prioritaria,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+  
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/pptos-listos');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
-
-  function NoRespondeHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  }
+  
+  async function NoRespondeHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      Promise.all([
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
+      try {
+        const [updateResponse, emailResponse] = await Promise.all([
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
               nombre: nombre,
               apellidos: apellidos,
               rut: rut,
@@ -261,35 +292,43 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
               comenzada: true,
               detalle_ppto: presupuesto,
               revisado: true,
-              status: "Presupuesto terminado, cliente no conesta,email enviado",
+              status: "Presupuesto terminado, cliente no contesta, email enviado",
               terminada: true,
               valorizacion: valorizacion,
               prioritaria: prioritaria,
               cliente_noresponde: true,
+            })
+          }),
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: id,
+              name: nombre,
+              lastname: apellidos,
+              email: email,
+              tipo: tipo,
+              modelo: modelo,
+              diagnostico: diagnostico,
+              valorizacion: valorizacion,
+            })
           })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            id: id,
-            name: nombre,
-            lastname: apellidos,
-            email: email,
-            tipo: tipo,
-            modelo: modelo,
-            diagnostico: diagnostico,
-            valorizacion: valorizacion,
-          })
-        })
-      ])
-      setRender(!render)
-      setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-      }, 500);
+        ]);
+  
+        if (updateResponse.ok && emailResponse.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/pptos-listos');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
+  }
+  
   
   if (pptoslistos !== 0) {
     return (
@@ -325,7 +364,6 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                 setFechaRevision(x.fecha_trabajo)
                 setHoraRevision(x.hora_trabajo)
                 setPrioritaria(x.prioritaria)
-                setValorizacion(x.valorizacion) 
                 setIngresoSistema(x.ingreso_sistema)
                 setIsGarantia(x.garantia)
                 setDetallePptoGar(x.detalle_garantia)
@@ -408,23 +446,36 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             <div className='modal-buttons-notificaciones'>
             <div>
               <button className='button-list-aprobada' onClick={() => {
-                AprobadaEsperaRepuestoHandle(id) 
+                AprobadaEsperaRepuestoHandle(id)
+                setPresupuesto("")
+                setDiagnostico("")
+                setValorizacion("$") 
                 }}>Aprobada</button>
               <button className='button-list-rechazada' onClick={() => {
-                RechazadaHandle(id) 
+                RechazadaHandle(id)
+                setPresupuesto("")
+                setDiagnostico("")
+                setValorizacion("$") 
                 }}>Rechazada</button>
             </div>
             <div>
               <button className='button-list-guardar' onClick={() => {
-                GuardarHandle(id) 
+                GuardarHandle(id)
+                setPresupuesto("")
+                setDiagnostico("")
+                setValorizacion("$")
                 }}>Guardar, notificar después</button>
               <button className='button-list-noResponde' onClick={() => {
-                NoRespondeHandle(id) 
+                NoRespondeHandle(id)
+                setPresupuesto("")
+                setDiagnostico("")
+                setValorizacion("$") 
                 }}>No responde</button>
               <button className='button-list-volver' onClick={()=> {
                  setModal("modal-inactive")
                  setPresupuesto("")
                  setDiagnostico("")
+                 setValorizacion("$")
                  setMsg("msg-mecanic")
                 }}>Volver</button>
             </div>
@@ -432,23 +483,36 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
           <div className='modal-buttons-notificaciones'>
           <div>
             <button className='button-list-aprobada' onClick={() => {
-              AprobadaHandle(id) 
+              AprobadaHandle(id)
+              setPresupuesto("")
+              setDiagnostico("")
+              setValorizacion("$") 
               }}>Aprobada</button>
             <button className='button-list-rechazada' onClick={() => {
-              RechazadaHandle(id) 
+              RechazadaHandle(id)
+              setPresupuesto("")
+              setDiagnostico("")
+              setValorizacion("$") 
               }}>Rechazada</button>
           </div>
           <div>
             <button className='button-list-guardar' onClick={() => {
-              GuardarHandle(id) 
+              GuardarHandle(id)
+              setPresupuesto("")
+              setDiagnostico("")
+              setValorizacion("$") 
               }}>Guardar, notificar después</button>
             <button className='button-list-noResponde' onClick={() => {
-              NoRespondeHandle(id) 
+              NoRespondeHandle(id)
+              setPresupuesto("")
+              setDiagnostico("")
+              setValorizacion("$") 
               }}>No responde</button>
             <button className='button-list-volver' onClick={()=> {
                setModal("modal-inactive")
                setPresupuesto("")
                setDiagnostico("")
+               setValorizacion("$") 
                setMsg("msg-mecanic")
               }}>Volver</button>
           </div>

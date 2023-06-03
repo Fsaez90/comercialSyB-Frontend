@@ -14,7 +14,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const [marca, setMarca] = useState()
     const [modelo, setModelo] = useState()
     const [serie, setSerie] = useState()
-    const [repMecanico, setRepMecanico] =useState(null)
+    const [repMecanico, setRepMecanico] =useState("")
     const [observaciones, setObservaciones] = useState()
     const [espada, setEspada] = useState()
     const [ingresoSistema, setIngresoSistema] = useState()
@@ -27,6 +27,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const [diagnostico, setDiagnostico] = useState()
     const [detallePpto, setDetallePpto] = useState()
     const [detallePptoGar, setDetallePptoGar] = useState()
+    const [diagnosticoGar, setDiagnosticoGar] = useState()
     const [isGarantia, setIsGarantia] = useState() 
     const [msg, setMsg] = useState("msg-mecanic") 
   
@@ -34,170 +35,180 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     
     useEffect(() => {
         setRender(!render)
-  },[repRecibidosMmto])
+  },[repRecibidosMmto, modal])
   
-  function mantenimientoHandle(n){
-    if (repMecanico === "1"){
-      Promise.all([
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: detallePpto,
-            hora_trabajo: clock,
-            fecha_trabajo: date,
-            status: "Mantención completada, notificar cliente para retiro",
-            terminada: true,
-            solicitud_repuestos: true,
-            mmto_completado: true,
-            fecha_reparacion: date,
-            reparada_por: repMecanico
+  async function mantenimientoHandle(n) {
+    if (repMecanico === "1") {
+      try {
+        const [response1, response2] = await Promise.all([
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: detallePpto,
+              hora_trabajo: clock,
+              fecha_trabajo: date,
+              status: "Mantención completada, notificar cliente para retiro",
+              terminada: true,
+              solicitud_repuestos: true,
+              mmto_completado: true,
+              fecha_reparacion: date,
+              reparada_por: repMecanico
+            })
+          }),
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
+            method: "PUT",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              lista_ordenes: id,
+              garantias: null
+            })
           })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report1/`, {
-          method: "PUT",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            lista_ordenes: id,
-            garantias: null
-          })
-        })
-      ]).then(responses => {
-        // handle responses
-        setRender(!render)
-        setTimeout(() => {
-          setModal("modal-inactive")
-          navigate('/taller') 
-        }, 500);
-      }).catch(error => {
+        ]);
+  
+        if (response1.ok && response2.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/mmto-rep-listos');
+          }, 500);
+        }
+      } catch (error) {
         console.error(error);
-      });
-    } else if(repMecanico === "2") {
-      Promise.all([
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: detallePpto,
-            hora_trabajo: clock,
-            fecha_trabajo: date,
-            status: "Mantención completada, notificar cliente para retiro",
-            terminada: true,
-            solicitud_repuestos: true,
-            mmto_completado: true,
-            fecha_reparacion: date,
-            reparada_por: repMecanico
+      }
+    } else if (repMecanico === "2") {
+      try {
+        const [response1, response2] = await Promise.all([
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: detallePpto,
+              hora_trabajo: clock,
+              fecha_trabajo: date,
+              status: "Mantención completada, notificar cliente para retiro",
+              terminada: true,
+              solicitud_repuestos: true,
+              mmto_completado: true,
+              fecha_reparacion: date,
+              reparada_por: repMecanico
+            })
+          }),
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
+            method: "PUT",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              lista_ordenes: id,
+              garantias: null
+            })
           })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update-report2/`, {
-          method: "PUT",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            lista_ordenes: id,
-            garantias: null
-          })
-        })
-      ]).then(responses => {
-        // handle responses
-        setRender(!render)
-        setTimeout(() => {
-          setModal("modal-inactive")
-          navigate('/taller') 
-        }, 500);
-      }).catch(error => {
+        ]);
+  
+        if (response1.ok && response2.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/mmto-rep-listos');
+          }, 500);
+        }
+      } catch (error) {
         console.error(error);
-      });
+      }
     } else {
-      setMsg("msg-mecanic-act")
+      setMsg("msg-mecanic-act");
     }
   }
+  
 
-  function garantiaTerminadaHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: detallePpto,
-            hora_trabajo: clock,
-            fecha_trabajo: date,
-            status: "Garantía completada, notificar cliente para retiro",
-            terminada: true,
-            solicitud_repuestos: true,
-            mmto_completado: true,
-            fecha_reparacion: date,
-          })
+  async function garantiaTerminadaHandle(n) {
+    try {
+      const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: detallePpto,
+          hora_trabajo: clock,
+          fecha_trabajo: date,
+          status: "Garantía completada, notificar cliente para retiro",
+          terminada: true,
+          solicitud_repuestos: true,
+          mmto_completado: true,
+          fecha_reparacion: date,
         })
-        .then(responses => {
-          // handle responses
-          setRender(!render)
-          setTimeout(() => {
-            setModal("modal-inactive")
-            navigate('/taller') 
-          }, 500);
-        }).catch(error => {
-          console.error(error);
-        });
+      });
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mmto-rep-listos');
+        }, 500);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
+  
      
     if (repRecibidosMmto !== 0) {
       return (
@@ -233,6 +244,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                     setIngresoSistema(x.ingreso_sistema)
                     setIsGarantia(x.garantia)
                     setDetallePptoGar(x.detalle_garantia)
+                    setDiagnosticoGar(x.diagnostico_garantia)
                   }
                     }>Comenzar</button>         
               </div> 
@@ -270,14 +282,17 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                   <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>GARANTIA</span></p>
                 </div>
                   <div className='detalle-observaciones'>
+                    Diagnóstico:
+                    <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
+                  </div>
+                  <div className='detalle-observaciones'>
                     Detalle repuestos:
-                    <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar}/>
+                    <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar || detallePpto}/>
                 </div>
                 <div className='modal-buttons'>
                   <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
                   <button className='button-list' onClick={() => {
                   garantiaTerminadaHandle(id)
-                  setModal("modal-inactive") 
                   }}>Garantía Completada</button>
               </div>
               </>:
@@ -287,12 +302,12 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                 </div>
                 <div className='detalle-observaciones'>
                   Repuestos solicitados:
-                  <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
+                  <textarea className='detalle-field' value={detallePpto}/>
                 </div>
                 <div className='detalle-observaciones'>
                   Equipo reparado por:
                   <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
-                    <option value="1">Seleccionar</option>
+                    <option value="">Seleccionar</option>
                     <option value="1">Técnico 1</option>
                     <option value="2">Técnico 2</option>
                     <option value="Admin">Admin</option>
@@ -300,9 +315,13 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                   <div className={msg}>Indicar mecánico que realiza reparación</div>
                 </div>
                 <div className='modal-buttons'>
-                  <button className='button-list' onClick={()=> setModal("modal-inactive")}>Volver</button>
+                  <button className='button-list' onClick={()=> {
+                    setModal("modal-inactive")
+                    setRepMecanico("")
+                    }}>Volver</button>
                   <button className='button-list' onClick={() => {
                     mantenimientoHandle(id)
+                    setRepMecanico("")
                   }}>MMTO Completado</button>
                 </div>
               </>    

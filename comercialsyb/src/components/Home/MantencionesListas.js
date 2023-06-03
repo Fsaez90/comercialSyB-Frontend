@@ -32,72 +32,82 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   const [prioritaria, setPrioritaria] = useState()
   const [esperaRepuesto, setEsperaRepuesto] = useState(false)
   const [repuestoField, setRepuestoField] = useState()
+  const [status, setStatus] = useState()
   const [fechaReparacion, setFechaReparacion] = useState()
   const [isGarantia, setIsGarantia] = useState() 
   const [aplGarantia, setAplGarantia] = useState()
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
 
+
   const navigate  = useNavigate();
-console.log(valorizacion)
+  
   useEffect(() => {
       setRender(!render)
-  },[mmtoslistos]) 
-
-  function NotificadoHandle(n){
-    if(valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  },[mmtoslistos, modal]) 
+console.log(valorizacion) 
+  async function NotificadoHandle(n){
+    if(valorizacion === "$" && aplGarantia === "no") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-          nombre: nombre,
-          apellidos: apellidos,
-          rut: rut,
-          email: email,
-          telefono: telefono,
-          tipo: tipo,
-          marca: marca,
-          modelo: modelo,
-          serie: serie,
-          observaciones: observaciones,
-          espada: espada,
-          cadena: cadena,
-          funda: funda,
-          disco: disco,
-          mantencion: mantencion,
-          revision: revision,
-          mecanico: mecanico,
-          ingreso_sistema: ingresoSistema,
-          diagnostico: diagnostico,
-          comenzada: true,
-          detalle_ppto: presupuesto,
-          falla_encontrada: aPresupuesto,
-          mmto_completado: true,
-          status: "Cliente notificado para retiro de máquina",
-          terminada: true,
-          valorizacion: valorizacion,
-          cliente_notificado_retiro: true,
-          prioritaria: prioritaria,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            nombre: nombre,
+            apellidos: apellidos,
+            rut: rut,
+            email: email,
+            telefono: telefono,
+            tipo: tipo,
+            marca: marca,
+            modelo: modelo,
+            serie: serie,
+            observaciones: observaciones,
+            espada: espada,
+            cadena: cadena,
+            funda: funda,
+            disco: disco,
+            mantencion: mantencion,
+            revision: revision,
+            mecanico: mecanico,
+            ingreso_sistema: ingresoSistema,
+            diagnostico: diagnostico,
+            comenzada: true,
+            detalle_ppto: presupuesto,
+            falla_encontrada: aPresupuesto,
+            mmto_completado: true,
+            status: "Cliente notificado para retiro de máquina",
+            terminada: true,
+            valorizacion: valorizacion,
+            cliente_notificado_retiro: true,
+            prioritaria: prioritaria,
+          })
+        });
+  
+      if(response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mantenciones-listas');
+        }, 500);
+      }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
-  function AprobadaHandle(n) {
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  async function AprobadaHandle(n) {
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -127,25 +137,31 @@ console.log(valorizacion)
             valorizacion: valorizacion,
             cliente_notificado_ppto: true,
             prioritaria: prioritaria,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mantenciones-listas');
+        }, 500);
+      }
+      } catch (error) {
+        // Handle the error here
+        console.log(error)
+      }
     }    
   }
-
-
-  function AprobadaEsperaRepuestoHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  
+  async function AprobadaEsperaRepuestoHandle(n){
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -176,25 +192,31 @@ console.log(valorizacion)
             cliente_notificado_ppto: true,
             espera_repuesto: esperaRepuesto,
             repuesto_faltante: repuestoField,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mantenciones-listas');
+        }, 500);
+      }
+      } catch (error) {
+        // Handle the error here
+        console.log(error)
+      }
     }   
-   }
-
-
-  function RechazadaHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  }
+  
+  async function RechazadaHandle(n){
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -224,24 +246,99 @@ console.log(valorizacion)
             valorizacion: valorizacion,
             cliente_notificado_ppto: true,
             prioritaria: prioritaria,
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mantenciones-listas');
+        }, 500);
+      }
+      } catch (error) {
+        // Handle the error here
+        console.log(error)
+      }
     }
-    }
+  }
 
-  function NoRespondePptoHandle(n){
-    if (valorizacion === null) {
-      setMsg("msg-mecanic-act")
+  async function NoRespondePptoHandle(n){
+    if (valorizacion === "$") {
+      setMsg("msg-mecanic-act");
     } else {
-      Promise.all([
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+      try {
+        const response = await Promise.all([
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              nombre: nombre,
+              apellidos: apellidos,
+              rut: rut,
+              email: email,
+              telefono: telefono,
+              tipo: tipo,
+              marca: marca,
+              modelo: modelo,
+              serie: serie,
+              observaciones: observaciones,
+              espada: espada,
+              cadena: cadena,
+              funda: funda,
+              disco: disco,
+              mantencion: mantencion,
+              revision: revision,
+              mecanico: mecanico,
+              ingreso_sistema: ingresoSistema,
+              diagnostico: diagnostico,
+              comenzada: true,
+              detalle_ppto: presupuesto,
+              mmto_completado: false,
+              status: "Presupuesto terminado, cliente no conesta",
+              terminada: true,
+              valorizacion: valorizacion,
+              prioritaria: prioritaria,
+              cliente_noresponde: true,
+            })
+          }),
+          fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              id: id,
+              name: nombre,
+              lastname: apellidos,
+              email: email,
+              tipo: tipo,
+              modelo: modelo,
+              diagnostico: diagnostico,
+              valorizacion: valorizacion,
+            })
+          })
+        ]);
+  
+      if (response.ok) {
+        setRender(!render);
+        setTimeout(() => {
+          setModal("modal-inactive");
+          navigate('/mantenciones-listas');
+        }, 500);
+      }
+      } catch (error) {
+        // Handle the error here
+        console.log(error)
+      }
+    }
+  }
+  
+  async function NoRespondeNotifHandle(n) {
+    if (valorizacion === "$" && aplGarantia === "no") {
+      setMsg("msg-mecanic-act");
+    } else {
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
@@ -264,92 +361,39 @@ console.log(valorizacion)
             diagnostico: diagnostico,
             comenzada: true,
             detalle_ppto: presupuesto,
-            mmto_completado: false,
-            status: "Presupuesto terminado, cliente no conesta",
-            terminada: true,
-            valorizacion: valorizacion,
-            prioritaria: prioritaria,
-            cliente_noresponde: true,
-          })
-        }),
-        fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            id: id,
-            name: nombre,
-            lastname: apellidos,
-            email: email,
-            tipo: tipo,
-            modelo: modelo,
-            diagnostico: diagnostico,
-            valorizacion: valorizacion,
-          })
-        })
-      ])
-      setRender(!render)
-      setTimeout(() => {
-      setModal("modal-inactive")
-      navigate('/notificaciones') 
-      }, 500);
-    }
-    }
-
-
-  function NoRespondeNotifHandle(n){
-    if (valorizacion == null) {
-      setMsg("msg-mecanic-act")
-    } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
             mmto_completado: true,
-            status: "Mantenimiento terminado, cliente no conesta",
+            status: "Mantenimiento terminado, cliente no contesta",
             terminada: true,
             valorizacion: valorizacion,
             prioritaria: prioritaria,
             cliente_noresponde: true,
             cliente_notificado_ppto: true
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
-    }
-    }
+          })
+        });
   
-  function GuardarHandle(n) {
-    if ( valorizacion === null) {
-      setMsg("msg-mecanic-act")
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/mantenciones-listas');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
+    }
+  }
+  
+  async function GuardarHandle(n) {
+    if (valorizacion === null) {
+      setMsg("msg-mecanic-act");
     } else {
-      fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
-        method: "POST",
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({
+      try {
+        const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             nombre: nombre,
             apellidos: apellidos,
             rut: rut,
@@ -379,16 +423,22 @@ console.log(valorizacion)
             prioritaria: prioritaria,
             espera_repuesto: esperaRepuesto,
             repuesto_faltante: repuestoField
-        })
-      })
-      setRender(!render)
-      setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
-      }, 500);
+          })
+        });
+  
+        if (response.ok) {
+          setRender(!render);
+          setTimeout(() => {
+            setModal("modal-inactive");
+            navigate('/mantenciones-listas');
+          }, 500);
+        }
+      } catch (error) {
+        // Handle the error here
+        console.log(error);
+      }
     }
-    }
-
+  }
   
 
   if (mmtoslistos !== 0) {
@@ -425,13 +475,14 @@ console.log(valorizacion)
                 setFechaRevision(x.fecha_trabajo)
                 setApresupuesto(x.falla_encontrada)
                 setPrioritaria(x.prioritaria)
-                setValorizacion(x.valorizacion)
                 setIngresoSistema(x.ingreso_sistema)
                 setFechaReparacion(x.fecha_reparacion)
                 setIsGarantia(x.garantia)
                 setAplGarantia(x.validez_garantia)
                 setDetallePptoGar(x.detalle_garantia)
                 setDiagnosticoGar(x.diagnostico_garantia)
+                setEsperaRepuesto(false)
+                setStatus(x.status)
               }
                 }>Notificar</button>         
           </div> 
@@ -468,20 +519,22 @@ console.log(valorizacion)
               <>
                 <div className='detalle-observaciones'>
                   Diagnóstico:
-                  <textarea className='diagnostico-field' value={diagnosticoGar}/>
+                  <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
                 </div>
                 <div className='detalle-observaciones'>
                   Detalle de reparación:
-                  <textarea className='detalle-field' value={detallePptoGar}/>
+                  <textarea className='detalle-field' value={detallePptoGar || presupuesto}/>
+                  {(status === "Garantía completada, notificar cliente para retiro")? null:
                   <div className='opcion-presupuesto'>
-                    <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
-                    <label for="espera_repuesto">Repuesto faltante</label>
-                    {esperaRepuesto? 
-                      <div className='detalle-observaciones'>
-                          Indicar repuestos faltantes + código:
-                        <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
-                      </div>: null} 
-                  </div>
+                  <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
+                  <label for="espera_repuesto">Repuesto faltante</label>
+                  {esperaRepuesto? 
+                    <div className='detalle-observaciones'>
+                        Indicar repuestos faltantes + código:
+                      <textarea className='diagnostico-field' onChange={(e) => setRepuestoField(e.target.value)} value={repuestoField}/>
+                    </div>: null} 
+                </div>
+                  }
                   {(aplGarantia === "no")?
                   <div>
                     <input type="text" id="valorizacion" onChange={(e) => setValorizacion(e.target.value)}/>
@@ -526,30 +579,62 @@ console.log(valorizacion)
                 {esperaRepuesto?
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
-                    AprobadaEsperaRepuestoHandle(id) 
+                    AprobadaEsperaRepuestoHandle(id)
+                    setEsperaRepuesto(false)
+                    setRepuestoField("")
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$") 
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
-                    RechazadaHandle(id) 
+                    RechazadaHandle(id)
+                    setEsperaRepuesto(false)
+                    setRepuestoField("")
+                    setPresupuesto("")
+                    setDiagnostico("")
+                    setValorizacion("$") 
                     }}>Rechazada</button>
                 </div>:
                 <div>
                   <button className='button-list-aprobada' onClick={() => {
-                    AprobadaHandle(id)
+                   AprobadaHandle(id)
+                   setEsperaRepuesto(false)
+                   setRepuestoField("")
+                   setPresupuesto("")
+                   setDiagnostico("")
+                   setValorizacion("$")
                     }}>Aprobada</button>
                   <button className='button-list-rechazada' onClick={() => {
-                    RechazadaHandle(id)
+                   RechazadaHandle(id)
+                   setEsperaRepuesto(false)
+                   setRepuestoField("")
+                   setPresupuesto("")
+                   setDiagnostico("")
+                   setValorizacion("$")
                     }}>Rechazada</button>
                 </div>
                 } 
               <div>
                 <button className='button-list-guardar' onClick={() => {
                   GuardarHandle(id)
+                  setEsperaRepuesto(false)
+                  setRepuestoField("")
+                  setPresupuesto("")
+                  setDiagnostico("")
+                  setValorizacion("$")
                 }}>Guardar, notificar después</button>
                 <button className='button-list-noResponde' onClick={() => {
                   NoRespondePptoHandle(id)
+                  setEsperaRepuesto(false)
+                  setRepuestoField("")
+                  setPresupuesto("")
+                  setDiagnostico("")
+                  setValorizacion("$")
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
                    setModal("modal-inactive")
+                   setEsperaRepuesto(false)
+                   setRepuestoField("")
                    setPresupuesto("")
                    setDiagnostico("")
                    setValorizacion("$")
@@ -560,14 +645,26 @@ console.log(valorizacion)
               <div>
                 <div>
                 <button className='button-list-aprobada' onClick={() => {
-                  NotificadoHandle(id) 
+                  NotificadoHandle(id)
+                  setEsperaRepuesto(false)
+                  setRepuestoField("")
+                  setPresupuesto("")
+                  setDiagnostico("")
+                  setValorizacion("$") 
                   }}>Notificado</button>
                 </div>
                 <div>
                 <button className='button-list-noResponde' onClick={() => {
-                  NoRespondeNotifHandle(id) 
+                  NoRespondeNotifHandle(id)
+                  setEsperaRepuesto(false)
+                  setRepuestoField("")
+                  setPresupuesto("")
+                  setDiagnostico("")
+                  setValorizacion("$") 
                   }}>No responde</button>
                 <button className='button-list-volver' onClick={()=> {
+                   setEsperaRepuesto(false)
+                   setRepuestoField("")
                    setModal("modal-inactive")
                    setPresupuesto("")
                    setDiagnostico("")

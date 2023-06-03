@@ -140,8 +140,8 @@ function Ingreso({setRender, render, date, lastId}) {
               setStatus("Equipo en espera de Revision")
               }} value={revision}/>
               <br />
-            <label className='label' htmlFor="revision">Garantía</label>
-            <input type='radio' name='proposito' id="revision" onChange={(e) => {
+            <label className='label' htmlFor="garantia">Garantía</label>
+            <input type='radio' name='proposito' id="garantia" onChange={(e) => {
               setGarantia(!garantia)
               setRevision(false)
               setMantenimiento(false)

@@ -37,51 +37,58 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
 
   useEffect(() => {
       setRender(!render)
-  },[eqreparados])
+  },[eqreparados, modal])
 
-  function NotificadoHandle(n){
-    fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
+  async function NotificadoHandle(n){
+    try {
+     const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            nombre: nombre,
-            apellidos: apellidos,
-            rut: rut,
-            email: email,
-            telefono: telefono,
-            tipo: tipo,
-            marca: marca,
-            modelo: modelo,
-            serie: serie,
-            observaciones: observaciones,
-            espada: espada,
-            cadena: cadena,
-            funda: funda,
-            disco: disco,
-            mantencion: mantencion,
-            revision: revision,
-            mecanico: mecanico,
-            ingreso_sistema: ingresoSistema,
-            diagnostico: diagnostico,
-            comenzada: true,
-            detalle_ppto: presupuesto,
-            revisado: true,
-            status: "Equipo reparado, listo para retiro (Cliente notificado).",
-            terminada: true,
-            valorizacion: valorizacion,
-            aprobada: true,
-            prioritaria: prioritaria,
-            cliente_notificado_ppto: true,
-            reparada: true,
-            cliente_notificado_retiro: true
+          nombre: nombre,
+          apellidos: apellidos,
+          rut: rut,
+          email: email,
+          telefono: telefono,
+          tipo: tipo,
+          marca: marca,
+          modelo: modelo,
+          serie: serie,
+          observaciones: observaciones,
+          espada: espada,
+          cadena: cadena,
+          funda: funda,
+          disco: disco,
+          mantencion: mantencion,
+          revision: revision,
+          mecanico: mecanico,
+          ingreso_sistema: ingresoSistema,
+          diagnostico: diagnostico,
+          comenzada: true,
+          detalle_ppto: presupuesto,
+          revisado: true,
+          status: "Equipo reparado, listo para retiro (Cliente notificado).",
+          terminada: true,
+          valorizacion: valorizacion,
+          aprobada: true,
+          prioritaria: prioritaria,
+          cliente_notificado_ppto: true,
+          reparada: true,
+          cliente_notificado_retiro: true
         })
-      })
-      setRender(!render)
+      });
+    if (response.ok) {
+      setRender(!render);
       setTimeout(() => {
-        setModal("modal-inactive")
-        navigate('/notificaciones') 
+        setModal("modal-inactive");
+        navigate('/equipos-reparados');
       }, 500);
+    }
+    } catch (error) {
+      // Handle the error here
+    }
   }
+  
 
   function NoRespondeHandle(n){
     fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -121,7 +128,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
     setRender(!render)
     setTimeout(() => {
       setModal("modal-inactive")
-      navigate('/notificaciones') 
+      navigate('/equipos-reparados') 
     }, 500);
   }
 

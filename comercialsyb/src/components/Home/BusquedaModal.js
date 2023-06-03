@@ -56,10 +56,10 @@ function BusquedaModal({orden, setModal, date}) {
           <div className='cliente-data'>
             <div className='modal-elements'>
               <div className='title-consulta'>Observaciones:<span className='orden-data'>{orden.observaciones}</span></div>
-              {orden.revision?
-              <div className='title-consulta'>Propósito:<span className='orden-data'>Revisión</span></div>:
-              <div className='title-consulta'>Propósito:<span className='orden-data'>Mantenimiento</span></div>
-              }
+              {orden.revision?<div className='title-consulta'>Propósito:<span className='orden-data'>Revisión</span></div>:null}
+              {orden.mantenimiento?<div className='title-consulta'>Propósito:<span className='orden-data'>Mantenimiento</span></div>:null}
+              {orden.garantia?<div className='title-consulta'>Propósito:<span className='orden-data'>Garantia</span></div>:null}
+
             </div>
           </div>
             
