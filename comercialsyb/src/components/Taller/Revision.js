@@ -74,6 +74,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
             navigate('/revision');
           }, 500);
         } else {
@@ -128,6 +130,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
             navigate('/revision');
           }, 500);
         } else {
@@ -221,13 +225,9 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
                 }} >Enviar PPTO</button>
             </div>
           </div>

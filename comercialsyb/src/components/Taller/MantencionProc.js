@@ -76,7 +76,11 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
-          }, 1000);
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate("/proceso-mantencion")
+          }, 500);
         }
       } catch (error) {
         console.error(error);
@@ -129,7 +133,10 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
-            navigate('/mantenimiento');
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate('/proceso-mantenimiento');
           }, 500);
         }
       } catch (error) {
@@ -184,7 +191,10 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
-            navigate('/mantenimiento');
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
+            navigate('/proceso-mantenimiento');
           }, 500);
         }
       } catch (error) {
@@ -286,15 +296,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
@@ -307,15 +311,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Solicitar Repuestos</button>
             </div>}
           </div>

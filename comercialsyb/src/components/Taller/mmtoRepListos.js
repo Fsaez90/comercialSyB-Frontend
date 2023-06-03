@@ -90,6 +90,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setRepMecanico("")
             navigate('/mmto-rep-listos');
           }, 500);
         }
@@ -148,6 +149,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
           setRender(!render);
           setTimeout(() => {
             setModal("modal-inactive");
+            setRepMecanico("")
             navigate('/mmto-rep-listos');
           }, 500);
         }
@@ -321,7 +323,6 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                     }}>Volver</button>
                   <button className='button-list' onClick={() => {
                     mantenimientoHandle(id)
-                    setRepMecanico("")
                   }}>MMTO Completado</button>
                 </div>
               </>    

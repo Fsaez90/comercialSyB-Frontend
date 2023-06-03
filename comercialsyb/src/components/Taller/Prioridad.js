@@ -81,6 +81,9 @@ async function enProcesoHandleMan(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/proceso-prioridad');
         }, 500);
       } else {
@@ -136,6 +139,9 @@ async function mantenimientoHandle(n) {
         setRender(!render);
         setTimeout(() => {
           setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/proceso-prioridad');
         }, 500);
       } else {
@@ -194,6 +200,9 @@ async function mantenimientopptoHandle(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModalMan("modal-inactive-mantencion");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/proceso-prioridad');
         }, 500);
       } else {
@@ -246,6 +255,9 @@ async function enProcesoHandleRev(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModalRev("modal-inactive-revision");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/proceso-prioridad');
         }, 500);
       } else {
@@ -302,6 +314,9 @@ async function revisionHandle(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModalRev("modal-inactive-revision");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/proceso-prioridad');
         }, 500);
       } else {
@@ -418,15 +433,9 @@ if (prioridad !== 0) {
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleRev(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }} >Enviar PPTO</button>
             </div>
             </div>
@@ -481,15 +490,9 @@ if (prioridad !== 0) {
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
@@ -502,15 +505,9 @@ if (prioridad !== 0) {
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Solicitar Repuestos</button>
             </div>}
           </div>

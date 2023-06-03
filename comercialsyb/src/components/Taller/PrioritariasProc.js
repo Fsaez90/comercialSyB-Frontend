@@ -81,6 +81,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModalMan("modal-inactive-mantencion");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
             navigate('/proceso-prioridad');
           }, 500);
         } else {
@@ -194,6 +197,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModalMan("modal-inactive-mantencion");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
             navigate('/proceso-prioridad');
           }, 500);
         } else {
@@ -302,6 +308,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
             navigate('/proceso-prioridad');
           }, 500);
         } else {
@@ -422,15 +431,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                   }}}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleRev(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 revisionHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }} >Enviar PPTO</button>
             </div>
             </div>
@@ -485,15 +488,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
@@ -506,15 +503,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                 mantenimientoHandle(id)
-                setDiagnostico("")
-                setDetallePpto("")
-                setApresupuesto(false)
                 }}>Solicitar Repuestos</button>
             </div>}
           </div>

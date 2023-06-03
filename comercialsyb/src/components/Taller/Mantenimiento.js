@@ -76,7 +76,11 @@ async function enProcesoHandle(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModal("modal-inactive");
-        }, 1000);
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
+          navigate('/mantenimiento');
+        }, 500);
       }
     } catch (error) {
       console.error(error);
@@ -129,6 +133,9 @@ async function mantenimientoHandle(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModal("modal-inactive");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/mantenimiento');
         }, 500);
       }
@@ -184,6 +191,9 @@ async function mantenimientopptoHandle(n) {
         setMsg("msg-mecanic")
         setTimeout(() => {
           setModal("modal-inactive");
+          setDiagnostico("")
+          setDetallePpto("")
+          setApresupuesto(false)
           navigate('/mantenimiento');
         }, 500);
       }
@@ -283,29 +293,17 @@ async function mantenimientopptoHandle(n) {
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                   enProcesoHandle(id)
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                   mantenimientopptoHandle(id)
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setApresupuesto(false)
                 }}>Enviar Presupuesto</button>
             </div>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={() => {
                   enProcesoHandle(id)
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setApresupuesto(false)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
                   mantenimientoHandle(id)
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setApresupuesto(false)
                 }}>Solicitar Repuestos</button>
                 <button className='button-list' onClick={()=> {
                   setModal("modal-inactive")

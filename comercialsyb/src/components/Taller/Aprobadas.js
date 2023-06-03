@@ -98,6 +98,7 @@ async function ReparadaHandle(n) {
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepMecanico("")
           navigate('/aprobadas');
         }, 500);
       } else {
@@ -163,6 +164,7 @@ async function ReparadaHandle(n) {
         setRender(!render);
         setTimeout(() => {
           setModal("modal-inactive");
+          setRepMecanico("")
           navigate('/aprobadas');
         }, 500);
       } else {
@@ -223,6 +225,7 @@ async function GuardarHandle(n) {
       setRender(!render);
       setTimeout(() => {
         setModal("modal-inactive");
+        setRepMecanico("")
         navigate('/aprobadas');
       }, 500);
     } else {
@@ -338,7 +341,6 @@ if (aprobadas !== 0) {
               <div>
                 <button className='button-list-aprobada' onClick={() => {
                   ReparadaHandle(id)
-                  setRepMecanico("")
                   }}>Reparada</button>
               </div>
               <div>
@@ -347,7 +349,6 @@ if (aprobadas !== 0) {
                   }}>Guardar y continuar después</button>
                 <button className='button-list-volver' onClick={() => {
                   setModal("modal-inactive")
-                  setRepMecanico("")
                   }}>Volver</button>
               </div>
             </div>

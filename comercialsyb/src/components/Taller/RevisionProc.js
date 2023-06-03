@@ -75,6 +75,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
             navigate('/proceso-revision');
           }, 500);
         } else {
@@ -132,6 +134,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
           setMsg("msg-mecanic-act")
           setTimeout(() => {
             setModal("modal-inactive");
+            setDiagnostico("")
+            setDetallePpto("")
             navigate('/proceso-revision');
           }, 500);
         } else {
@@ -226,13 +230,9 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
                 setMsg("msg-mecanic")
                 }}>Volver</button>
                 <button className='button-list' onClick={() => {
-                setDiagnostico("")
-                setDetallePpto("")
                 enProcesoHandle(id)
                 }}>Guardar y continuar después</button>
                 <button className='button-list' onClick={() => {
-                setDiagnostico("")
-                setDetallePpto("")
                 revisionHandle(id)
                 }}
                 >Enviar PPTO</button>

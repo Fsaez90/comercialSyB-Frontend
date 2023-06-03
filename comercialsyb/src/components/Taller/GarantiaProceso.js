@@ -132,14 +132,14 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
           if (response.ok) {
             setRender(!render);
             setMsg("msg-mecanic")
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
             setTimeout(() => {
               setModalRev("modal-inactive-revision");
-              navigate('/garantia');
+              setAplGarantia(null)
+              setDiagnostico("")
+              setDetallePpto("")
+              setDetallePptoGar("")
+              setDiagnosticoGar("")
+              navigate('/proceso-garantia');
             }, 500);
           }
         } catch (error) {
@@ -201,14 +201,14 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
           if (response.ok) {
             setRender(!render);
             setMsg("msg-mecanic")
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
             setTimeout(() => {
               setModalRev("modal-inactive-revision");
-              navigate('/garantia');
+              setAplGarantia(null)
+              setDiagnostico("")
+              setDetallePpto("")
+              setDetallePptoGar("")
+              setDiagnosticoGar("")
+              navigate('/proceso-garantia');
             }, 500);
           }
         } catch (error) {
@@ -269,14 +269,14 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
           if (response.ok) {
             setRender(!render);
             setMsg("msg-mecanic")
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
             setTimeout(() => {
               setModalRev("modal-inactive-revision");
-              navigate('/garantia');
+              setAplGarantia(null)
+              setDiagnostico("")
+              setDetallePpto("")
+              setDetallePptoGar("")
+              setDiagnosticoGar("")
+              navigate('/proceso-garantia');
             }, 500);
           }
         } catch (error) {
@@ -420,37 +420,17 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
                     <>
                         <button className='button-list' onClick={() => {
                         enProcesoHandleRev(id)
-                        setAplGarantia(null)
-                        setDiagnostico("")
-                        setDetallePpto("")
-                        setDetallePptoGar("")
-                        setDiagnosticoGar("")
                         }}>Guardar y continuar después</button>
                         <button className='button-list' onClick={() => {
                         solicitudRepuestosHandle(id)
-                        setAplGarantia(null)
-                        setDiagnostico("")
-                        setDetallePpto("")
-                        setDetallePptoGar("")
-                        setDiagnosticoGar("")
                         }} >Solicitar Repuestos</button>
                     </>: (aplGarantia === "no")?
                     <>
                         <button className='button-list' onClick={() => {
                         enProcesoHandleRev(id)
-                        setAplGarantia(null)
-                        setDiagnostico("")
-                        setDetallePpto("")
-                        setDetallePptoGar("")
-                        setDiagnosticoGar("")
                         }}>Guardar y continuar después</button>
                         <button className='button-list' onClick={() => {
                         pptoHandle(id)
-                        setAplGarantia(null)
-                        setDiagnostico("")
-                        setDetallePpto("")
-                        setDetallePptoGar("")
-                        setDiagnosticoGar("")
                         }} >Enviar PPTO</button>
                     </>: null
                     }

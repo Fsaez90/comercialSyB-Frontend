@@ -131,13 +131,13 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
         if (response.ok) {
           setRender(!render);
           setMsg("msg-mecanic")
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
+            setAplGarantia(null)
+            setDiagnostico("")
+            setDetallePpto("")
+            setDetallePptoGar("")
+            setDiagnosticoGar("")
             navigate('/garantia');
           }, 500);
         }
@@ -200,13 +200,13 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
         if (response.ok) {
           setRender(!render);
           setMsg("msg-mecanic")
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
+            setAplGarantia(null)
+            setDiagnostico("")
+            setDetallePpto("")
+            setDetallePptoGar("")
+            setDiagnosticoGar("")
             navigate('/garantia');
           }, 500);
         }
@@ -268,13 +268,13 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
         if (response.ok) {
           setRender(!render);
           setMsg("msg-mecanic")
-          setAplGarantia(null)
-          setDiagnostico("")
-          setDetallePpto("")
-          setDetallePptoGar("")
-          setDiagnosticoGar("")
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
+            setAplGarantia(null)
+            setDiagnostico("")
+            setDetallePpto("")
+            setDetallePptoGar("")
+            setDiagnosticoGar("")
             navigate('/garantia');
           }, 500);
         }
