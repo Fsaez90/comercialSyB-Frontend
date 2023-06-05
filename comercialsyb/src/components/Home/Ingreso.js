@@ -130,7 +130,7 @@ function Ingreso({setRender, render, date, lastId}) {
             <input type='checkbox' id="disco" onChange={(e) => setDisco(!disco)}/>
             <label for="disco">Disco de Corte</label>
             <br /><br />
-            <textarea className='observaciones' placeholder='Observaciones' onChange={(e) => setObservaciones(e.target.value)} value={observaciones}/>
+            <textarea className='observaciones' placeholder='Observaciones' maxlength="450" onChange={(e) => setObservaciones(e.target.value)} value={observaciones}/>
             <br /><br />
             <label className='label' htmlFor="mantenimiento">Mantenimiento</label>
             <input type='radio' name='proposito' id="mantenimiento" onChange={(e) => {
