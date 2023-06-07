@@ -36,9 +36,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   },[priComenzadas, modalMan, modalRev])
 
   async function enProcesoHandleMan(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -85,7 +85,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
             setDetallePpto("")
             setApresupuesto(false)
             navigate('/proceso-prioridad');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -96,9 +96,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   }
   
   async function mantenimientoHandle(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -140,7 +140,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setTimeout(() => {
             setModalMan("modal-inactive-mantencion");
             navigate('/proceso-prioridad');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -152,9 +152,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   }
   
   async function mantenimientopptoHandle(n) {
-    if(aPresupuesto === false && (detallePpto === null || detallePpto === "")) {
+    if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (diagnostico === null || diagnostico === "" || detallePpto === null || detallePpto === "")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -201,7 +201,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
             setDetallePpto("")
             setApresupuesto(false)
             navigate('/proceso-prioridad');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -212,9 +212,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   }
   
   async function enProcesoHandleRev(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
       setMsg("msg-mecanic-act")
-    } else {
+    } else{
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
@@ -253,22 +253,20 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
             navigate('/proceso-prioridad');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
       } catch (error) {
         console.error(error);
       }
-
     }
-
   }
   
   async function revisionHandle(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
       setMsg("msg-mecanic-act")
-    } else {
+    } else{
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
@@ -312,7 +310,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
             setDetallePpto("")
             setApresupuesto(false)
             navigate('/proceso-prioridad');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }

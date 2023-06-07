@@ -83,7 +83,7 @@ function App() {
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
-
+  
   useEffect(() => {  
     fetchData();
   },[render])   

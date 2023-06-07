@@ -34,8 +34,8 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   },[revisiones, modal])
 
   async function enProcesoHandle(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
-      setMsg("msg-mecanic-act")
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+        setMsg("msg-mecanic-act")
     } else {
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -77,7 +77,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             setDiagnostico("")
             setDetallePpto("")
             navigate('/revision');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -89,7 +89,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
   }
   
   function revisionHandle(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
       setMsg("msg-mecanic-act")
     } else {
       fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
@@ -133,7 +133,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             setDiagnostico("")
             setDetallePpto("")
             navigate('/revision');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -217,7 +217,12 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             <div className='modal-buttons'>
- 
+                <button className='button-list' onClick={()=> {
+                  setModal("modal-inactive")
+                  setDiagnostico("")
+                  setDetallePpto("")
+                  setMsg("msg-mecanic")
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandle(id)
                 }}>Guardar y continuar después</button>

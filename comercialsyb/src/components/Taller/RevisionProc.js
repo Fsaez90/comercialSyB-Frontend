@@ -35,7 +35,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   },[revComenzadas, modal])
 
   async function enProcesoHandle(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === ""){
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -78,7 +78,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
             setDiagnostico("")
             setDetallePpto("")
             navigate('/proceso-revision');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
@@ -86,13 +86,11 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
         console.error(error);
       }
     }
-
-
   }
   
 
   async function revisionHandle(n) {
-    if(detallePpto === null || detallePpto === "" || diagnostico === null || diagnostico === "") {
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -137,7 +135,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
             setDiagnostico("")
             setDetallePpto("")
             navigate('/proceso-revision');
-          }, 500);
+          }, 1500);
         } else {
           throw new Error("Failed to update data.");
         }
