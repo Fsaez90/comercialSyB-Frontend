@@ -32,6 +32,8 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [isGarantia, setIsGarantia] = useState()
+  const [rechazada, setRechazada] = useState()
+  const [estado, setEstado] = useState()
   const navigate  = useNavigate();
 
   useEffect(() => {
@@ -39,6 +41,11 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   },[noContestaretiro, modal])
 
   async function NotificadoHandle(n) {
+    if(rechazada === true) {
+      setEstado("Equipo armado con ppto rechazado, listo para retiro (Cliente notificado).")
+    } else {
+      setEstado("Equipo listo para retiro (Cliente notificado).")
+    }
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
@@ -66,13 +73,11 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
           comenzada: true,
           detalle_ppto: presupuesto,
           revisado: true,
-          status: "Equipo listo para retiro (Cliente notificado).",
+          status: estado,
           terminada: true,
           valorizacion: valorizacion,
-          aprobada: true,
           prioritaria: prioritaria,
           cliente_notificado_ppto: true,
-          reparada: true,
           cliente_noresponde: false,
           cliente_notificado_retiro: true
         })
@@ -180,6 +185,7 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
                 setDetallePptoGar(x.detalle_garantia)
                 setDiagnosticoGar(x.diagnostico_garantia)
                 setIsGarantia(x.garantia)
+                setRechazada(x.rechazada)
               }
                 }>Notificar</button>         
           </div> 

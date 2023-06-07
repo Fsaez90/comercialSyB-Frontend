@@ -69,7 +69,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
             status: "Equipo Armado (sin reparar), listo para retiro",
             terminada: true,
             valorizacion: valorizacion,
-            rechazado: true,
+            rechazada: true,
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
             armada: true,
@@ -124,7 +124,7 @@ function Rechazadas({clock, date, rechazadas, render, setRender, rechLista}) {
             status: "Equipo en proceso armado (presupuesto rechazado).",
             terminada: true,
             valorizacion: valorizacion,
-            rechazado: true,
+            rechazada: true,
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
         })
