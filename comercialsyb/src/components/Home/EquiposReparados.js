@@ -82,7 +82,7 @@ function EquiposReparados({render, setRender, eqreparados, eqreparadosLista}) {
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/equipos-reparados');
-      }, 500);
+      }, 1500);
     }
     } catch (error) {
       // Handle the error here

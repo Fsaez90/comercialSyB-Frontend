@@ -83,7 +83,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
       setDiagnostico("")
       setValorizacion("$")
       navigate('/no-contesta-pptos') 
-    }, 500);
+    }, 1500);
   }
 
   async function AprobadaEsperaRepuestoHandle(n) {
@@ -135,7 +135,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           setDiagnostico("")
           setValorizacion("$")
           navigate('/no-contesta-pptos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -190,7 +190,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           setDiagnostico("")
           setValorizacion("$")
           navigate('/no-contesta-pptos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here
@@ -244,7 +244,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
           setDiagnostico("")
           setValorizacion("$")
           navigate('/no-contesta-pptos');
-        }, 500);
+        }, 1500);
       }
     } catch (error) {
       // Handle the error here

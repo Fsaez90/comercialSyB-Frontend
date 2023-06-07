@@ -87,7 +87,7 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
       setTimeout(() => {
         setModal("modal-inactive");
         navigate('/equipos-armados');
-      }, 500);
+      }, 1500);
     }
 
      } catch (error) {
@@ -140,7 +140,7 @@ function EquiposArmados({render, setRender, date, clock, eqarmados, eqarmadosLis
         setTimeout(() => {
           setModal("modal-inactive");
           navigate('/equipos-armados');
-        }, 500);
+        }, 1500);
       }
 
     } catch (error) {

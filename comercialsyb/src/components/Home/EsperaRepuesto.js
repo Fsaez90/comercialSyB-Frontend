@@ -79,7 +79,7 @@ async  function repuestoAtallerHandle(n) {
       setTimeout(() => {
         setModal("modal-inactive")
         navigate('/espera-repuesto') 
-      }, 500);
+      }, 1500);
     }
   } catch (error) {
     console.log(error)

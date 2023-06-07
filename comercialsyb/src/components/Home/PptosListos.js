@@ -92,7 +92,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             setDiagnostico("")
             setValorizacion("$") 
             navigate('/pptos-listos');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
@@ -151,7 +151,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             setDiagnostico("")
             setValorizacion("$") 
             navigate('/pptos-listos');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
@@ -208,7 +208,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             setDiagnostico("")
             setValorizacion("$") 
             navigate('/pptos-listos');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
@@ -265,7 +265,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             setDiagnostico("")
             setValorizacion("$") 
             navigate('/pptos-listos');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
@@ -339,7 +339,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             setDiagnostico("")
             setValorizacion("$") 
             navigate('/pptos-listos');
-          }, 500);
+          }, 1500);
         }
       } catch (error) {
         // Handle the error here
