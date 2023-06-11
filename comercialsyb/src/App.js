@@ -97,7 +97,7 @@ function App() {
       const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/orden-list/');
       const data = await result.json();
       setOrden(data);
-
+      
       if (Array.isArray(data) && data.length > 0) {
         const lastObject = data[data.length - 1];
         setLastid(lastObject.id);
