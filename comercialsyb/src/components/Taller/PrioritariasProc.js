@@ -27,6 +27,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   const [mecanico, setMecanico] = useState()
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
+  const [categoria, setCategoria] = useState() 
+
   const  navigate  = useNavigate();
   const [msg, setMsg] = useState("msg-mecanic") 
 
@@ -72,7 +74,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               fecha_trabajo: "pendiente",
               falla_encontrada: aPresupuesto,
               diagnostico: diagnostico,
-              detalle_ppto: detallePpto 
+              detalle_ppto: detallePpto,
+              categoria: categoria 
           })
         });
     
@@ -131,7 +134,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               fecha_trabajo: date,
               falla_encontrada: aPresupuesto,
               status: "Equipo en proceso de Mantención",
-              terminada: true
+              terminada: true,
+              categoria: categoria 
           })
         });
     
@@ -188,7 +192,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               falla_encontrada: aPresupuesto,
               status: "Falla encontrada, notificar PPTO a cliente",
               terminada: true,
-              mmto_completado: true
+              mmto_completado: true,
+              categoria: categoria 
           })
         });
     
@@ -243,7 +248,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               comenzada: true,
               detalle_ppto: detallePpto,
               hora_trabajo: "pendiente",
-              fecha_trabajo: "pendiente"
+              fecha_trabajo: "pendiente",
+              categoria: categoria 
           })
         });
     
@@ -298,6 +304,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               fecha_trabajo: date,
               revisado: true,
               terminada: true,
+              categoria: categoria 
           })
         });
     
@@ -354,6 +361,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                     setDiagnostico(x.diagnostico)
                     setDetallePpto(x.detalle_ppto)
                     setIngresoSistema(x.ingreso_sistema)
+                    setCategoria(x.categoria)
                   }
                     }>Comenzar</button>: <button className='button-list' onClick={() => 
                       {setModalMan("modal")
@@ -378,6 +386,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                       setDiagnostico(x.diagnostico)
                       setDetallePpto(x.detalle_ppto)
                       setApresupuesto(x.falla_encontrada)
+                      setCategoria(x.categoria)
                     }
                       }>Comenzar</button> }        
             </div> 
@@ -397,6 +406,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                 <p className='sub-title'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-title'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-title'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-title'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

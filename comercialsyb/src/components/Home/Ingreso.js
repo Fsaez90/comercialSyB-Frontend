@@ -37,6 +37,7 @@ function Ingreso({setRender, render, date, lastId}) {
   const [revision, setRevision] = useState(false)
   const [garantia, setGarantia] = useState(false)
   const [status, setStatus] = useState()
+  const [categoria, setCategoria] = useState()
   const sigCanvas = useRef({})
   const signButton = useRef({})
   const clear = () => sigCanvas.current.clear();
@@ -83,23 +84,28 @@ function Ingreso({setRender, render, date, lastId}) {
             <strong>(IVA Inc.).</strong>
           </p>
         </div>
-        <div>
-          <p>Tipo: {tipo}</p>
-          <p>Modelo: {modelo}</p>
-          <p>Marca: {marca}</p>
-          <p>Serie: {serie}</p>
-          {espada ? <p>Espada: Si</p> : null}
-          {cadena ? <p>Cadena: Si</p> : null}
-          {funda ? <p>Funda: Si</p> : null}
-          {disco ? <p>Disco: Si</p> : null}
+        <div style={{  marginBottom: '5px', display: "flex", flexDirection: "row", justifyContent: 'space-around', gap: '50px' }}>
+          <div>
+            <p>Tipo: {tipo}</p>
+            <p>Modelo: {modelo}</p>
+            <p>Marca: {marca}</p>
+            <p>Serie: {serie}</p>
+            <p>Categoría: {categoria}</p>
+          </div>
+          <div>
+            {espada ? <p>Espada: Si</p> : null}
+            {cadena ? <p>Cadena: Si</p> : null}
+            {funda ? <p>Funda: Si</p> : null}
+            {disco ? <p>Disco: Si</p> : null}
+            <p>{mantenimiento ? 'Propósito: MANTENIMIENTO' : null}</p>
+            <p>{revision ? 'Propósito: REVISION' : null}</p>
+            <p>{garantia ? 'Propósito: GARANTIA' : null}</p>
+            {garantia ? <p>GARANTÍA</p> : null}
+          </div>
         </div>
-        <p>Observaciones: {observaciones}</p>
-        <p>{mantenimiento ? 'Propósito: MANTENIMIENTO' : null}</p>
-        <p>{revision ? 'Propósito: REVISION' : null}</p>
-        <p>{garantia ? 'Propósito: GARANTIA' : null}</p>
-        {garantia ? <p>GARANTÍA</p> : null}
-        <div style={{ textAlign: 'center', marginTop: '10px', marginBottom: '0px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <img src={imageURL} style={{ width: '150px', borderBottom: '1px solid #000', marginBottom: '10px' }} />
+        <p style={{ fontSize: '6px' }}>Observaciones: {observaciones}</p>
+        <div style={{ textAlign: 'center', marginTop: '20px', marginBottom: '0px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={imageURL} style={{ width: '150px', height: '100px', borderBottom: '1px solid #000', marginBottom: '10px' }} />
           <p>Firma Cliente Sr/s: {name} {lastname}, Rut: {rut}</p>
         </div>
       </div>
@@ -129,7 +135,8 @@ async function crearOrden(e) {
       garantia: garantia,
       mecanico: mecanico,
       status: status,
-      fecha_ingreso: date
+      fecha_ingreso: date,
+      categoria: categoria
     };
     try {
       const response = await fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
@@ -194,7 +201,8 @@ async function crearOrden(e) {
         garantia: garantia,
         mecanico: mecanico,
         status: status,
-        fecha_ingreso: date
+        fecha_ingreso: date,
+        categoria: categoria
       };
   
       // Send the PDF file to the server using fetch
@@ -294,9 +302,17 @@ async function crearOrden(e) {
               setStatus("Equipo en espera de Revision de Garantia")
               }} value={garantia}/>
             <br /><br />
-            <label for="recepcion">Recepcionado por:</label>
+          <label for="categoría">Categoría:</label>
+          <select onChange={(e) => setCategoria(e.target.value)} id="categoria" required>
+            <option value="" disabled selected>Seleccionar</option>
+            <option value="Ocacional">Ocacional</option>
+            <option value="Semiprofesional">Semiprofesional</option>
+            <option value="Profesional">Profesional</option>
+          </select>
+          <br /><br />
+          <label for="recepcion">Recepcionado por:</label>
           <select onChange={(e) => setMecanico(e.target.value)} id="recepcion" required>
-            <option value="1">Seleccionar</option>
+            <option value="" disabled selected>Seleccionar</option>
             <option value="1">Técnico 1</option>
             <option value="2">Técnico 2</option>
             <option value="Admin">Admin</option>

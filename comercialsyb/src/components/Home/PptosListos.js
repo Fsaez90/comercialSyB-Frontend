@@ -36,6 +36,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
   const [detallePptoGar, setDetallePptoGar] = useState()
   const [diagnosticoGar, setDiagnosticoGar] = useState()
   const [aplGarantia, setAplGarantia] = useState()
+  const [categoria, setCategoria] = useState()
 
   const navigate  = useNavigate();
 
@@ -80,7 +81,8 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             aprobada: true,
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
-            espera_repuesto: esperaRepuesto
+            espera_repuesto: esperaRepuesto,
+            categoria: categoria
           })
         });
   
@@ -140,6 +142,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             cliente_notificado_ppto: true,
             espera_repuesto: esperaRepuesto,
             repuesto_faltante: repuestoField,
+            categoria: categoria
           })
         });
   
@@ -197,6 +200,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             rechazada: true,
             prioritaria: prioritaria,
             cliente_notificado_ppto: true,
+            categoria: categoria
           })
         });
   
@@ -254,6 +258,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
             terminada: true,
             valorizacion: valorizacion,
             prioritaria: prioritaria,
+            categoria: categoria
           })
         });
   
@@ -313,6 +318,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
               valorizacion: valorizacion,
               prioritaria: prioritaria,
               cliente_noresponde: true,
+              categoria: categoria
             })
           }),
           fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/email/`, {
@@ -388,6 +394,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                 setDetallePptoGar(x.detalle_garantia)
                 setDiagnosticoGar(x.diagnostico_garantia)
                 setAplGarantia(x.validez_garantia)
+                setCategoria(x.categoria)
               }
                 }>Notificar</button>         
           </div> 
@@ -407,6 +414,7 @@ function PptosListos({render, setRender, pptoslistos, pptoslistosLista}) {
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>

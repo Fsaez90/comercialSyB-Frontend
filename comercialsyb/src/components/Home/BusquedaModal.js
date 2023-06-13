@@ -51,6 +51,7 @@ function BusquedaModal({orden, setModal, date}) {
             <div className='modal-elements'>
               <div className='title-consulta'>Marca:<span className='orden-data'>{orden.marca}</span></div>
               <div className='title-consulta'>Serie:<span className='orden-data'>{orden.serie}</span></div>
+              <div className='title-consulta'>Categoría:<span className='orden-data'>{orden.categoria}</span></div>
             </div>
           </div>
           <div className='cliente-data'>

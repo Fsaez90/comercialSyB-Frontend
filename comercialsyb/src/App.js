@@ -101,6 +101,9 @@ function App() {
       if (Array.isArray(data) && data.length > 0) {
         const lastObject = data[data.length - 1];
         setLastid(lastObject.id);
+      } else {
+        setLastid(0)
+        console.log(lastId)
       }
     } catch (error) {
       console.error('Error fetching data:', error);

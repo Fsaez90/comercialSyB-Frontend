@@ -27,6 +27,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   const [diagnostico, setDiagnostico] = useState(procRevLista.diagnostico)
   const [detallePpto, setDetallePpto] = useState(procRevLista.detalle_ppto)
   const [msg, setMsg] = useState("msg-mecanic") 
+  const [categoria, setCategoria] = useState()
 
   const  navigate  = useNavigate();
   
@@ -66,7 +67,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               comenzada: true,
               detalle_ppto: detallePpto,
               hora_trabajo: clock,
-              fecha_trabajo: date
+              fecha_trabajo: date,
+              categoria: categoria
           })
         });
     
@@ -124,6 +126,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               fecha_trabajo: date,
               revisado: true,
               terminada: true,
+              categoria: categoria
           })
         });
     
@@ -178,6 +181,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
                   setDiagnostico(x.diagnostico)
                   setDetallePpto(x.detalle_ppto)
                   setIngresoSistema(x.ingreso_sistema)
+                  setCategoria(x.categoria)
                 }
                   }>Continuar</button>         
             </div> 
@@ -197,6 +201,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
                 <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
                 <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
                 <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
               </div>
               <div className='machine-detail-2'>
                 <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
