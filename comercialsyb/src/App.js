@@ -57,7 +57,7 @@ function App() {
   const [rechazadas, setRechazadas] = useState()
   const [priComenzadas, setPriComenzadas] = useState()
   const [revComenzadas, setRevComenzadas] = useState()
-  const [manComenzadas, setManComenzadas] = useState()
+  const [manComenzadas, setManComenzadas] = useState([])
   const [totalProceso, setTotalProceso] = useState()
   const [notificacionesTotal, setTotalNotificaciones] = useState()
   const [pptoslistosLista, setpptoslistosLista] = useState([])
@@ -83,7 +83,6 @@ function App() {
   const [lastId, setLastid] = useState()
   const [nocontestaTotal, setnocontestaTotal] = useState()
 
-  
   useEffect(() => {  
     fetchData();
   },[render])   
@@ -103,7 +102,6 @@ function App() {
         setLastid(lastObject.id);
       } else {
         setLastid(0)
-        console.log(lastId)
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -132,10 +130,10 @@ function App() {
       return x.prioritaria === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false
     })
     let revComenzadaslet = orden.filter(function(x){
-      return x.revision === true && x.comenzada === true && x.prioridad === false && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
+      return x.revision === true && x.comenzada === true && x.prioritaria === false && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
     })
     let mantComenzadas = orden.filter(function(x){
-      return x.mantencion === true && x.comenzada === true && x.prioridad === false && x.revisado === false && x.terminada === false && x.entregada === false
+      return x.mantencion === true && x.comenzada === true && x.prioritaria === false && x.revisado === false && x.terminada === false && x.entregada === false && x.garantia === false
     })
     let garComenzadas = orden.filter(function(x){
       return x.garantia === true && x.comenzada === true && x.revisado === false && x.terminada === false && x.entregada === false

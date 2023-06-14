@@ -341,7 +341,7 @@ function NoContestapptos({render, setRender, date, noContestappto, noContestaPpt
               </div>
             </div>
             <div className='opcion-presupuesto'>
-                <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} value={esperaRepuesto}/>
+                <input type="checkbox" id="espera_repuesto" onChange={(e) => setEsperaRepuesto(!esperaRepuesto)} checked={esperaRepuesto} value={esperaRepuesto}/>
                 <label for="espera_repuesto">Repuesto faltante</label>
                 {esperaRepuesto? 
                 <div className='detalle-observaciones'>
