@@ -28,6 +28,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   const [detallePpto, setDetallePpto] = useState(procRevLista.detalle_ppto)
   const [msg, setMsg] = useState("msg-mecanic") 
   const [categoria, setCategoria] = useState()
+  const [pptoMec, setPptoMec] = useState("seleccionar")
+
 
   const  navigate  = useNavigate();
   
@@ -36,7 +38,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   },[revComenzadas, modal])
 
   async function enProcesoHandle(n) {
-    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar" || pptoMec === null) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -68,7 +70,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               detalle_ppto: detallePpto,
               hora_trabajo: clock,
               fecha_trabajo: date,
-              categoria: categoria
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -92,7 +95,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
   
 
   async function revisionHandle(n) {
-    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+    if (!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar" || pptoMec === null) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -126,7 +129,8 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               fecha_trabajo: date,
               revisado: true,
               terminada: true,
-              categoria: categoria
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -182,6 +186,7 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
                   setDetallePpto(x.detalle_ppto)
                   setIngresoSistema(x.ingreso_sistema)
                   setCategoria(x.categoria)
+                  setPptoMec(x.ppto_mecanico)
                 }
                   }>Continuar</button>         
             </div> 
@@ -224,7 +229,16 @@ function RevisionProc({date, clock, revComenzadas, setRender, render, procRevLis
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
-            <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div> 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                 setModal("modal-inactive")

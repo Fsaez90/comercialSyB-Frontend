@@ -28,11 +28,11 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
   const [categoria, setCategoria] = useState() 
-
-  const  navigate  = useNavigate();
+  const [pptoMec, setPptoMec] = useState("seleccionar")
   const [msg, setMsg] = useState("msg-mecanic") 
 
-  
+  const  navigate  = useNavigate();
+ 
   useEffect(() => {
       setRender(!render)
   },[priComenzadas, modalMan, modalRev])
@@ -40,10 +40,13 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   async function enProcesoHandleMan(n) {
     if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
       setMsg("msg-mecanic-act")
     } else {
       try {
+        if (pptoMec === "seleccionar") {
+          setPptoMec(null)
+        }
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
           headers: {'Content-Type': 'application/json'},
@@ -74,8 +77,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               fecha_trabajo: "pendiente",
               falla_encontrada: aPresupuesto,
               diagnostico: diagnostico,
-              detalle_ppto: detallePpto,
-              categoria: categoria 
+              detalle_ppto: detallePpto ,
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -135,7 +139,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               falla_encontrada: aPresupuesto,
               status: "Equipo en proceso de Mantención",
               terminada: true,
-              categoria: categoria 
+              categoria: categoria,
           })
         });
     
@@ -143,6 +147,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setRender(!render);
           setTimeout(() => {
             setModalMan("modal-inactive-mantencion");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
             navigate('/proceso-prioridad');
           }, 1500);
         } else {
@@ -152,13 +159,13 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
         console.error(error);
       }     
     }
-
+  
   }
   
   async function mantenimientopptoHandle(n) {
     if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -193,7 +200,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               status: "Falla encontrada, notificar PPTO a cliente",
               terminada: true,
               mmto_completado: true,
-              categoria: categoria 
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -217,9 +225,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   }
   
   async function enProcesoHandleRev(n) {
-    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
       setMsg("msg-mecanic-act")
-    } else{
+    } else {
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
@@ -249,7 +257,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               detalle_ppto: detallePpto,
               hora_trabajo: "pendiente",
               fecha_trabajo: "pendiente",
-              categoria: categoria 
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -258,6 +267,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
           setMsg("msg-mecanic")
           setTimeout(() => {
             setModalRev("modal-inactive-revision");
+            setDiagnostico("")
+            setDetallePpto("")
+            setApresupuesto(false)
             navigate('/proceso-prioridad');
           }, 1500);
         } else {
@@ -270,9 +282,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
   }
   
   async function revisionHandle(n) {
-    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim()) {
+    if(!detallePpto || !detallePpto.trim() || !diagnostico || !diagnostico.trim() || pptoMec === "seleccionar") {
       setMsg("msg-mecanic-act")
-    } else{
+    } else {
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
@@ -304,7 +316,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               fecha_trabajo: date,
               revisado: true,
               terminada: true,
-              categoria: categoria 
+              categoria: categoria,
+              ppto_mecanico: pptoMec
           })
         });
     
@@ -325,10 +338,9 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
         console.error(error);
       }
     }
-
+  
   }
   
-
   if (priComenzadas !== 0) {
     return (
       <div className='frame'>
@@ -362,6 +374,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                     setDetallePpto(x.detalle_ppto)
                     setIngresoSistema(x.ingreso_sistema)
                     setCategoria(x.categoria)
+                    setPptoMec(x.ppto_mecanico)
                   }
                     }>Comenzar</button>: <button className='button-list' onClick={() => 
                       {setModalMan("modal")
@@ -387,6 +400,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                       setDetallePpto(x.detalle_ppto)
                       setApresupuesto(x.falla_encontrada)
                       setCategoria(x.categoria)
+                      setPptoMec(x.ppto_mecanico)
                     }
                       }>Comenzar</button> }        
             </div> 
@@ -429,14 +443,25 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               Indicar detalle de respuestos y mano de obra:
               <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div> 
             <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> {{
+                <button className='button-list' onClick={()=> {
                   setModalRev("modal-inactive-revision")
                   setMsg("msg-mecanic")
                   setDiagnostico("")
                   setDetallePpto("")
-                  setApresupuesto(false)
-                  }}}>Volver</button>
+                  setApresupuesto()
+                  setPptoMec("seleccionar")
+                  }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleRev(id)
                 }}>Guardar y continuar después</button>
@@ -473,7 +498,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
             </div>
             <div className='opcion-presupuesto'>
-              <input type="checkbox" id="a-presupuesto" onClick={() => setApresupuesto(!aPresupuesto)} defaultChecked={aPresupuesto}/>
+              <input type="checkbox" id="a-presupuesto" onClick={() => setApresupuesto(!aPresupuesto)} checked={aPresupuesto} value={aPresupuesto}/>
               <label for="a-presupuesto">Falla encontrada (realizar presupuesto)</label>
               {aPresupuesto? <div className='detalle-observaciones'>
                 Indicar diagnóstico:
@@ -486,13 +511,25 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
+            <>
+            <div className='detalle-observaciones'>
+              Presupuesto hecho por:
+              <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+                <option value="seleccionar">Seleccionar</option>
+                <option value="1">Técnico 1</option>
+                <option value="2">Técnico 2</option>
+                <option value="Admin">Admin</option>
+              </select>
+            <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+            </div> 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                   setModalMan("modal-inactive-mantencion")
-                  setMsg("msg-mecanic")
                   setDiagnostico("")
                   setDetallePpto("")
                   setApresupuesto(false)
+                  setMsg("msg-mecanic")
+                  setPptoMec("seleccionar")
                   }}>Volver</button>
                 <button className='button-list' onClick={() => {
                 enProcesoHandleMan(id)
@@ -500,7 +537,8 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
                 <button className='button-list' onClick={() => {
                 mantenimientopptoHandle(id)
                 }}>Enviar Presupuesto</button>
-            </div>: 
+            </div>
+            </>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                   setModalMan("modal-inactive-mantencion")

@@ -27,10 +27,12 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   const [mecanico, setMecanico] = useState()
   const [diagnostico, setDiagnostico] = useState(null)
   const [detallePpto, setDetallePpto] = useState(null)
-  const [categoria, setCategoria] = useState()  
+  const [categoria, setCategoria] = useState()
+  const [pptoMec, setPptoMec] = useState("seleccionar")  
 
   const  navigate  = useNavigate();
-
+console.log(aPresupuesto) 
+console.log(pptoMec)
   useEffect(() => {
       setRender(!render)
   },[manComenzadas, modal])
@@ -38,9 +40,12 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   async function enProcesoHandle(n) {
     if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
       setMsg("msg-mecanic-act")
     } else {
+      if(pptoMec === "seleccionar"){
+        setPptoMec(null)
+      }
       try {
         const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
           method: "POST",
@@ -81,8 +86,9 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setModal("modal-inactive");
             setDiagnostico("")
             setDetallePpto("")
+            setPptoMec("seleccionar")
             setApresupuesto(false)
-            navigate("/proceso-mantencion")
+            navigate('/mantenimiento');
           }, 1500);
         }
       } catch (error) {
@@ -140,7 +146,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantenimiento');
+            navigate('/mantenimiento');
           }, 1500);
         }
       } catch (error) {
@@ -152,7 +158,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
   async function mantenimientopptoHandle(n) {
     if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar" || pptoMec === null)) {
       setMsg("msg-mecanic-act")
     } else {
       try {
@@ -187,7 +193,8 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
             mmto_completado: true,
-            categoria: categoria
+            categoria: categoria,
+            ppto_mecanico: pptoMec
           })
         });
     
@@ -199,7 +206,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             setDiagnostico("")
             setDetallePpto("")
             setApresupuesto(false)
-            navigate('/proceso-mantenimiento');
+            navigate('/mantenimiento');
           }, 1500);
         }
       } catch (error) {
@@ -243,6 +250,7 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
                   setDiagnostico(x.diagnostico)
                   setDetallePpto(x.detalle_ppto)
                   setCategoria(x.categoria)
+                  setPptoMec(x.ppto_mecanico)
                 }
                   }>Continuar</button>         
             </div> 
@@ -292,21 +300,34 @@ function MantencionProc({ clock, date, manComenzadas, setRender, render, procMan
             </div>
             <div className={msg}>Completar diagnóstico y detalle repuestos</div> 
             {aPresupuesto? 
-            <div className='modal-buttons'>
-                <button className='button-list' onClick={()=> {
-                  setModal("modal-inactive")
-                  setDiagnostico("")
-                  setDetallePpto("")
-                  setApresupuesto(false)
-                  setMsg("msg-mecanic")
-                  }}>Volver</button>
-                <button className='button-list' onClick={() => {
-                enProcesoHandle(id)
-                }}>Guardar y continuar después</button>
-                <button className='button-list' onClick={() => {
-                mantenimientopptoHandle(id)
-                }}>Enviar Presupuesto</button>
-            </div>: 
+           <>
+           <div className='detalle-observaciones'>
+             Presupuesto hecho por:
+             <select onChange={(e) => setPptoMec(e.target.value)}  value={pptoMec}>
+               <option value="seleccionar">Seleccionar</option>
+               <option value="1">Técnico 1</option>
+               <option value="2">Técnico 2</option>
+               <option value="Admin">Admin</option>
+             </select>
+           <div className={msg}>Indicar mecánico que realiza presupuesto + diagnóstico y repuestos</div>
+           </div>
+           <div className='modal-buttons'>
+               <button className='button-list' onClick={()=> {
+                 setDiagnostico("")
+                 setDetallePpto("")
+                 setModal("modal-inactive")
+                 setApresupuesto(false)
+                 setMsg("msg-mecanic")
+                 setPptoMec("seleccionar")
+                 }}>Volver</button>
+               <button className='button-list' onClick={() => {
+                 enProcesoHandle(id)
+               }}>Guardar y continuar después</button>
+               <button className='button-list' onClick={() => {
+                 mantenimientopptoHandle(id)
+               }}>Enviar Presupuesto</button>
+           </div> 
+           </>: 
             <div className='modal-buttons'>
                 <button className='button-list' onClick={()=> {
                   setModal("modal-inactive")
