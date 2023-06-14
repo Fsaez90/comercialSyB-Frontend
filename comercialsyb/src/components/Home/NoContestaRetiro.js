@@ -75,6 +75,8 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
           comenzada: true,
           detalle_ppto: presupuesto,
           revisado: true,
+          reparada: true,
+          mmto_completado: true,
           status: estado,
           terminada: true,
           valorizacion: valorizacion,
@@ -100,6 +102,11 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
   }
   
   async function NoRespondeHandle(n) {
+    if(rechazada === true) {
+      setEstado("Equipo armado con ppto rechazado, listo para retiro, cliente no contesta.")
+    } else {
+      setEstado("Equipo listo para retiro, cliente no contesta.")
+    }
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
@@ -127,8 +134,10 @@ function NoContestaRetiro({render, setRender, date, noContestaretiro, noContesta
           comenzada: true,
           detalle_ppto: presupuesto,
           revisado: true,
-          status: "Cliente no contesta",
+          status: estado,
           terminada: true,
+          reparada: true,
+          mmto_completado: true,
           valorizacion: valorizacion,
           prioritaria: prioritaria,
           cliente_noresponde: true,

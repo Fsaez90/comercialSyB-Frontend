@@ -20,6 +20,8 @@ function BusquedaModal({orden, setModal, date}) {
               mantencion: null,
               revision: null,
               mmto_completado: false,
+              reparada: false,
+              fecha_reparacion: null,
               cliente_notificado_retiro: false,
               cliente_notificado_ppto: false,
               fecha_reingreso: date,
@@ -74,7 +76,8 @@ function BusquedaModal({orden, setModal, date}) {
               {orden.fecha_reparacion? <div className='title-consulta'>Fecha Reparación/término:<span className='orden-data'>{orden.fecha_reparacion}</span></div>: null}
               {orden.fecha_retiro? <div className='title-consulta'>Fecha Retiro:<span className='orden-data'>{orden.fecha_retiro}</span></div>: null}
               {orden.diagnostico? <div className='title-consulta'>Diagnóstico:<span className='orden-diagnostico'>{orden.diagnostico}</span></div>: null}
-              {orden.valorizacion? <div className='title-consulta'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
+              {orden.valorizacion && orden.validez_garantia === "no"? <div className='title-consulta'>Valorización:<span className='orden-data'>{orden.valorizacion}</span></div>: null}
+              {orden.validez_garantia === "si"?<div className='title-consulta'>Valorización:<span className='orden-data'>Garantía válida</span></div>:null}
             </div>
             {orden.espera_repuesto?
             <div className='modal-elements'>

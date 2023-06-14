@@ -40,7 +40,7 @@ console.log(pptoMec)
   async function enProcesoHandle(n) {
     if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
       setMsg("msg-mecanic-act")
-    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
+    } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar" || pptoMec === null)) {
       setMsg("msg-mecanic-act")
     } else {
       if(pptoMec === "seleccionar"){
@@ -188,11 +188,11 @@ console.log(pptoMec)
             comenzada: true,
             detalle_ppto: detallePpto,
             hora_trabajo: clock,
+            mmto_completado: true,
             fecha_trabajo: date,
             falla_encontrada: aPresupuesto,
             status: "Falla encontrada, notificar PPTO a cliente",
             terminada: true,
-            mmto_completado: true,
             categoria: categoria,
             ppto_mecanico: pptoMec
           })

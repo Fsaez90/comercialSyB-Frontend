@@ -137,7 +137,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             comenzada: true,
             detalle_ppto: presupuesto,
             falla_encontrada: aPresupuesto,
-            mmto_completado: true,
+            // mmto_completado: true,
             status: "Presupuesto aprobado, en espera de reparación y ensamblaje",
             aprobada: true,
             terminada: true,
@@ -157,7 +157,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 500);
+        }, 1500);
       }
       } catch (error) {
         // Handle the error here
@@ -218,7 +218,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
           setValorizacion("$")
           setMsg("msg-mecanic")
           navigate('/mantenciones-listas');
-        }, 1500);
+        }, 500);
       }
       } catch (error) {
         // Handle the error here
@@ -258,7 +258,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
             comenzada: true,
             detalle_ppto: presupuesto,
             falla_encontrada: aPresupuesto,
-            mmto_completado: true,
+            // mmto_completado: true,
             status: "Presupuesto rechazado, en espera de ensamblaje",
             terminada: true,
             rechazada: true,
@@ -320,7 +320,7 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
               diagnostico: diagnostico,
               comenzada: true,
               detalle_ppto: presupuesto,
-              mmto_completado: false,
+              // mmto_completado: false,
               status: "Presupuesto terminado, cliente no conesta",
               terminada: true,
               valorizacion: valorizacion,
@@ -422,7 +422,6 @@ function MantencionesListas({render, setRender, mmtoslistos, mmtoslistosLista}) 
   //     }
   //   }
   // }
-
 
   async function NoRespondeNotifHandl(n) {
     if (aplGarantia === "no" && (!valorizacion || !valorizacion.trim() || valorizacion.trim() === "$" || valorizacion.trim() === "$.")) {

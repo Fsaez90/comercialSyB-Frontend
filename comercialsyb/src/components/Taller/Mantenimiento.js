@@ -36,15 +36,12 @@ function Mantenimiento({mantenciones, clock, date, render, setRender, manLista})
     setRender(!render)
  },[mantenciones, modal]) 
 
-async function enProcesoHandle(n) {
+ async function enProcesoHandle(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
   } else {
-    if(pptoMec === "seleccionar"){
-      setPptoMec(null)
-    }
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
@@ -85,7 +82,6 @@ async function enProcesoHandle(n) {
           setModal("modal-inactive");
           setDiagnostico("")
           setDetallePpto("")
-          setPptoMec("seleccionar")
           setApresupuesto(false)
           navigate('/mantenimiento');
         }, 1500);
@@ -99,9 +95,12 @@ async function enProcesoHandle(n) {
 async function mantenimientoHandle(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
     setMsg("msg-mecanic-act")
-  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim())) {
+  } else if(aPresupuesto === true && (!diagnostico || !diagnostico.trim() || !detallePpto || !detallePpto.trim() || pptoMec === "seleccionar")) {
     setMsg("msg-mecanic-act")
   }else {
+    if(pptoMec === "seleccionar"){
+      setPptoMec(null)
+    }
     try {
       const response = await fetch(`https://comercialsyb-backend-production.up.railway.app/comercial/update/${n}/`, {
         method: "POST",
@@ -144,6 +143,7 @@ async function mantenimientoHandle(n) {
           setModal("modal-inactive");
           setDiagnostico("")
           setDetallePpto("")
+          setPptoMec("seleccionar")
           setApresupuesto(false)
           navigate('/mantenimiento');
         }, 1500);
