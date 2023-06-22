@@ -101,7 +101,7 @@ function App() {
         const lastObject = data[data.length - 1];
         setLastid(lastObject.id);
       } else {
-        setLastid(0)
+        setLastid(6674)
       }
     } catch (error) {
       console.error('Error fetching data:', error);
