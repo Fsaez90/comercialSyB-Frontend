@@ -4,7 +4,7 @@ import "../static/busqueda.css"
 import AddHomeIcon from '@mui/icons-material/AddHome';
 import BusquedaModal from './BusquedaModal';
 
-function Busqueda({date}) {
+function Busqueda({date, render, setRender}) {
     const [param, setParam] = useState("")
     const [orden, setOrden] = useState()
     const [modal, setModal] = useState("modal-inactive")
@@ -46,7 +46,7 @@ function Busqueda({date}) {
             })}
             </div>
             <div className={modal}>
-                <BusquedaModal getOrdenData={getOrdenData} orden={modalData} date={date} setModal={setModal}/>
+                <BusquedaModal render={render} setRender={setRender} getOrdenData={getOrdenData} orden={modalData} date={date} setModal={setModal}/>
             </div>        
           </div>
           <button className='button-list button' onClick={() => {
