@@ -253,6 +253,8 @@ async function crearOrden(e) {
       <h1 className='title-component'>Formulario Ingreso de equipo:</h1>
       <br /><br />
       <form className='form' onSubmit={(e) => crearOrden(e)}>
+        <div id ="asdc" className='subtitulos'>ORDEN {lastId + 1} </div>
+        <br /><br />
         <div id ="asdc" className='subtitulos'>Datos cliente</div>
          <br />
          <input type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
