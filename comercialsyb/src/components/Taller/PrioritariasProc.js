@@ -136,6 +136,7 @@ function PrioritariasProc({clock, date, priComenzadas, render, setRender, procPr
               detalle_ppto: detallePpto,
               hora_trabajo: clock,
               fecha_trabajo: date,
+              solicitud_repuestos: true,
               falla_encontrada: aPresupuesto,
               status: "Equipo en proceso de Mantención",
               terminada: true,
