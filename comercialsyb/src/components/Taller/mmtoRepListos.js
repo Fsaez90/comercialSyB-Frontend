@@ -39,6 +39,8 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   },[repRecibidosMmto, modal])
   
   async function mantenimientoHandle(n) {
+    const button = document.getElementById('mmto-completado'); 
+    button.disabled = true;
     if (repMecanico === "1") {
       try {
         const [response1, response2] = await Promise.all([
@@ -328,7 +330,7 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
                     setModal("modal-inactive")
                     setRepMecanico("")
                     }}>Volver</button>
-                  <button className='button-list' onClick={() => {
+                  <button id='mmto-completado' className='button-list' onClick={() => {
                     mantenimientoHandle(id)
                   }}>MMTO Completado</button>
                 </div>

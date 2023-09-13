@@ -45,6 +45,8 @@ function Aprobadas({render, date, setRender, aprLista, aprobadas}) {
 },[aprobadas, modal])
 
 async function ReparadaHandle(n) {
+  const button = document.getElementById('reparada-handle'); 
+  button.disabled = true;
   if (repMecanico === "1") {
     try {
       const [response1, response2] = await Promise.all([
@@ -347,7 +349,7 @@ if (aprobadas !== 0) {
             }
             <div className='modal-buttons-notificaciones'>
               <div>
-                <button className='button-list-aprobada' onClick={() => {
+                <button id='reparada-handle' className='button-list-aprobada' onClick={() => {
                   ReparadaHandle(id)
                   }}>Reparada</button>
               </div>
