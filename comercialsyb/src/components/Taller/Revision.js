@@ -221,7 +221,7 @@ function Revision({date, clock, revisiones, render, setRender, revLista}) {
             </div>
             <div className='detalle-observaciones'>
               Indicar detalle de respuestos y mano de obra:
-              <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
+              <textarea className='detalle-field' maxlength="500" onChange={(e) => setDetallePpto(e.target.value)} value={detallePpto}/>
             </div>
             <div className='detalle-observaciones'>
               Presupuesto hecho por:

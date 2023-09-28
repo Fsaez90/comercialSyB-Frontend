@@ -386,11 +386,11 @@ function GarantiaProceso({proGarLista, render, setRender, clock, date}) {
                     </div>
                     <div className='detalle-observaciones'>
                       Nuevo Diagnóstico:
-                      <textarea className='diagnostico-field' onChange={(e) => setDiagnosticoGar(e.target.value)}  value={diagnosticoGar || ''}/>
+                      <textarea maxlength="500" className='diagnostico-field' onChange={(e) => setDiagnosticoGar(e.target.value)}  value={diagnosticoGar || ''}/>
                     </div>
                     <div className='detalle-observaciones'>
                       Nuevo Detalle de repuestos:
-                      <textarea className='detalle-field' onChange={(e) => setDetallePptoGar(e.target.value)} value={detallePptoGar || ''}/> 
+                      <textarea className='detalle-field' maxlength="500" onChange={(e) => setDetallePptoGar(e.target.value)} value={detallePptoGar || ''}/> 
                     </div>
                 </>:
                 <>
