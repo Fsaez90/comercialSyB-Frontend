@@ -257,8 +257,8 @@ async function crearOrden(e) {
         <br /><br />
         <div id ="asdc" className='subtitulos'>Datos cliente</div>
          <br />
-         <input type="text" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
-          <input type="text" placeholder='Apellidos' onChange={(e) => setLastname(e.target.value)} required/>
+         <input type="text" maxlength="30" placeholder='Nombre' onChange={(e) => setName(e.target.value)} required/>
+          <input type="text" maxlength="30" placeholder='Apellidos' onChange={(e) => setLastname(e.target.value)} required/>
             <br /><br />
           <input type="text" placeholder='Rut' onChange={(e) => setRut(e.target.value)} required/>
           <input  type='text' placeholder='Teléfono' onChange={(e) => setPhone(e.target.value)} required/>
