@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalTaller.css"
+import { Audio } from 'react-loader-spinner'
 
-function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
+function Prioridad({clock, date, render, setRender}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
   const [aPresupuesto, setApresupuesto] = useState(false)
   const [modalRev, setModalRev] = useState("modal-inactive-revision")
   const [modalMan, setModalMan] = useState("modal-inactive-mantencion")
@@ -30,12 +34,24 @@ function Prioridad({clock, date, prioridad, render, setRender, prioLista}) {
   const [msg, setMsg] = useState("msg-mecanic")
   const [categoria, setCategoria] = useState()
   const [pptoMec, setPptoMec] = useState("seleccionar")
-
   const  navigate  = useNavigate();
   
   useEffect(() => {
-      setRender(!render)
-},[prioridad, modalRev, modalMan])
+    getData()
+},[refresh])
+
+const getData = async () => {
+  try {
+    setLoading(true)
+    const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/prioridad/')
+    const data = await result.json();
+    setLista(data)
+    setLoading(false)
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    setLoading(false); // Ensure loading indicator is hidden in case of an error
+  }
+}
 
 async function enProcesoHandleMan(n) {
   if(aPresupuesto === false && (!detallePpto || !detallePpto.trim())) {
@@ -85,14 +101,13 @@ async function enProcesoHandleMan(n) {
   
       if (response.ok) {
         setRender(!render);
+        setRefresh(!refresh)
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalMan("modal-inactive-mantencion");
-          setDiagnostico("")
-          setDetallePpto("")
-          setApresupuesto(false)
-          navigate('/proceso-prioridad');
-        }, 1500);
+        setModalMan("modal-inactive-mantencion");
+        setDiagnostico("")
+        setDetallePpto("")
+        setApresupuesto(false)
+        navigate('/proceso-prioridad');
       } else {
         throw new Error("Failed to update data.");
       }
@@ -146,13 +161,12 @@ async function mantenimientoHandle(n) {
   
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModalMan("modal-inactive-mantencion");
-          setDiagnostico("")
-          setDetallePpto("")
-          setApresupuesto(false)
-          navigate('/proceso-prioridad');
-        }, 1500);
+        setRefresh(!refresh)
+        setModalMan("modal-inactive-mantencion");
+        setDiagnostico("")
+        setDetallePpto("")
+        setApresupuesto(false)
+        navigate('/proceso-prioridad');
       } else {
         throw new Error("Failed to update data.");
       }
@@ -208,14 +222,13 @@ async function mantenimientopptoHandle(n) {
   
       if (response.ok) {
         setRender(!render);
+        setRefresh(!refresh)
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalMan("modal-inactive-mantencion");
-          setDiagnostico("")
-          setDetallePpto("")
-          setApresupuesto(false)
-          navigate('/proceso-prioridad');
-        }, 1500);
+        setModalMan("modal-inactive-mantencion");
+        setDiagnostico("")
+        setDetallePpto("")
+        setApresupuesto(false)
+        navigate('/proceso-prioridad');
       } else {
         throw new Error("Failed to update data.");
       }
@@ -265,14 +278,13 @@ async function enProcesoHandleRev(n) {
   
       if (response.ok) {
         setRender(!render);
+        setRefresh(!refresh)
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalRev("modal-inactive-revision");
-          setDiagnostico("")
-          setDetallePpto("")
-          setApresupuesto(false)
-          navigate('/proceso-prioridad');
-        }, 1500);
+        setModalRev("modal-inactive-revision");
+        setDiagnostico("")
+        setDetallePpto("")
+        setApresupuesto(false)
+        navigate('/proceso-prioridad');
       } else {
         throw new Error("Failed to update data.");
       }
@@ -324,14 +336,13 @@ async function revisionHandle(n) {
   
       if (response.ok) {
         setRender(!render);
+        setRefresh(!refresh)
         setMsg("msg-mecanic")
-        setTimeout(() => {
-          setModalRev("modal-inactive-revision");
-          setDiagnostico("")
-          setDetallePpto("")
-          setApresupuesto(false)
-          navigate('/proceso-prioridad');
-        }, 1500);
+        setModalRev("modal-inactive-revision");
+        setDiagnostico("")
+        setDetallePpto("")
+        setApresupuesto(false)
+        navigate('/proceso-prioridad');
       } else {
         throw new Error("Failed to update data.");
       }
@@ -342,12 +353,23 @@ async function revisionHandle(n) {
 
 }
 
-if (prioridad !== 0) {  
+if (lista.length !== 0) {  
     return (
-      <div className='frame'>
+      <div>
+        {loading ? (
+        <Audio
+           height="70"
+           width="70"
+           radius="9"
+           color="white"
+           ariaLabel="loading"
+           wrapperStyle
+           wrapperClass
+         />) : (
+        <div className='frame'>
           <h1 className='title-component'>Ordenes de trabajo con prioridad:</h1>
           <div >
-          {prioLista.map((x, index) => {
+          {lista.map((x, index) => {
             return(
               <div className="list-section" key={index}>
                   <p className='number-list'>Orden Nº {x.id}</p>
@@ -551,15 +573,31 @@ if (prioridad !== 0) {
           </div>
           </div>  
         </div>
+        )}
+      </div>
       )
   } else {
       return (
-        <div className='frame'>
-          <h1 className='title-component'>Ordenes de trabajo con prioridad:</h1>
-          <div>
-            <p className='not-exist'>No hay ordenes pendientes</p>
+        <div>
+          {loading ? (
+          <Audio
+            height="70"
+            width="70"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />            
+          ) : (
+          <div className='frame'>
+            <h1 className='title-component'>Ordenes de trabajo con prioridad:</h1>
+            <div>
+              <p className='not-exist'>No hay ordenes pendientes</p>
+            </div>
+            <NavLink to="/taller">Menú</NavLink>
           </div>
-          <NavLink to="/taller">Menú</NavLink>
+          )}
         </div>
       )
 }

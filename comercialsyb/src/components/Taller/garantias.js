@@ -1,45 +1,61 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate} from 'react-router-dom'
+import { Audio } from 'react-loader-spinner'
 
-function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
-    const [modalRev, setModalRev] = useState("modal-inactive-revision")
-    const [id, setId] = useState()
-    const [nombre, setNombre] = useState()
-    const [apellidos, setApellidos] = useState()
-    const [telefono, setTelefono] = useState()
-    const [email, setEmail] = useState()
-    const [rut, setRut] = useState()
-    const [tipo, setTipo] = useState()
-    const [marca, setMarca] = useState()
-    const [modelo, setModelo] = useState()
-    const [serie, setSerie] = useState()
-    const [observaciones, setObservaciones] = useState()
-    const [espada, setEspada] = useState()
-    const [cadena, setCadena] = useState()
-    const [ingresoSistema, setIngresoSistema] = useState()
-    const [funda, setFunda] = useState()
-    const [disco, setDisco] = useState()
-    const [mantencion, setMantencion] = useState()
-    const [revision, setRevision] = useState()
-    const [mecanico, setMecanico] = useState() 
-    const [diagnostico, setDiagnostico] = useState()
-    const [detallePpto, setDetallePpto] = useState()
-    const [diagnosticoGar, setDiagnosticoGar] = useState(null)
-    const [detallePptoGar, setDetallePptoGar] = useState(null)
-    const [aplGarantia, setAplGarantia] = useState()
-    const [isGarantia, setIsGarantia] = useState()
-    const [status, setStatus] = useState()
-    const [trabajoPrevio, setTrabajoPrevio] = useState(false)
-    const [repMecanico, setRepMecanico] = useState(null) 
-    const [msg, setMsg] = useState("msg-mecanic")
-    const [categoria, setCategoria] = useState()   
-    const [pptoMec, setPptoMec] = useState("seleccionar")    
-
-    const  navigate  = useNavigate();
- 
-    useEffect(() => {
-      setRender(!render)
-  },[garantia, modalRev]) 
+function Garantias({render, setRender, date, clock}) {
+  const [lista, setLista] = useState([])
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(true);
+  const [modalRev, setModalRev] = useState("modal-inactive-revision")
+  const [id, setId] = useState()
+  const [nombre, setNombre] = useState()
+  const [apellidos, setApellidos] = useState()
+  const [telefono, setTelefono] = useState()
+  const [email, setEmail] = useState()
+  const [rut, setRut] = useState()
+  const [tipo, setTipo] = useState()
+  const [marca, setMarca] = useState()
+  const [modelo, setModelo] = useState()
+  const [serie, setSerie] = useState()
+  const [observaciones, setObservaciones] = useState()
+  const [espada, setEspada] = useState()
+  const [cadena, setCadena] = useState()
+  const [ingresoSistema, setIngresoSistema] = useState()
+  const [funda, setFunda] = useState()
+  const [disco, setDisco] = useState()
+  const [mantencion, setMantencion] = useState()
+  const [revision, setRevision] = useState()
+  const [mecanico, setMecanico] = useState() 
+  const [diagnostico, setDiagnostico] = useState()
+  const [detallePpto, setDetallePpto] = useState()
+  const [diagnosticoGar, setDiagnosticoGar] = useState(null)
+  const [detallePptoGar, setDetallePptoGar] = useState(null)
+  const [aplGarantia, setAplGarantia] = useState()
+  const [isGarantia, setIsGarantia] = useState()
+  const [status, setStatus] = useState()
+  const [trabajoPrevio, setTrabajoPrevio] = useState(false)
+  const [repMecanico, setRepMecanico] = useState(null) 
+  const [msg, setMsg] = useState("msg-mecanic")
+  const [categoria, setCategoria] = useState()   
+  const [pptoMec, setPptoMec] = useState("seleccionar")    
+  const  navigate  = useNavigate();
+    
+  useEffect(() => {
+      getData()
+  },[refresh])
+  
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/garantias/')
+      const data = await result.json();
+      setLista(data)
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false); // Ensure loading indicator is hidden in case of an error
+    }
+  }
 
   async function enProcesoHandleRev(n) {
     if((aplGarantia === "si" && status === "Equipo reingresado por garantía") && (!detallePptoGar || !diagnosticoGar.trim() || !detallePptoGar.trim() || !diagnosticoGar)) {
@@ -135,16 +151,15 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
         }
         if (response.ok) {
           setRender(!render);
+          setRefresh(!refresh)
           setMsg("msg-mecanic")
-          setTimeout(() => {
-            setModalRev("modal-inactive-revision");
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
-            navigate('/garantia');
-          }, 1500);
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
         }
       } catch (error) {
         console.error(error);
@@ -205,16 +220,15 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
           });
         if (response.ok) {
           setRender(!render);
+          setRefresh(!refresh)
           setMsg("msg-mecanic")
-          setTimeout(() => {
-            setModalRev("modal-inactive-revision");
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
-            navigate('/garantia');
-          }, 1500);
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
         }
       } catch (error) {
         console.error(error);
@@ -275,16 +289,15 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
     
         if (response.ok) {
           setRender(!render);
+          setRefresh(!refresh)
           setMsg("msg-mecanic")
-          setTimeout(() => {
-            setModalRev("modal-inactive-revision");
-            setAplGarantia(null)
-            setDiagnostico("")
-            setDetallePpto("")
-            setDetallePptoGar("")
-            setDiagnosticoGar("")
-            navigate('/garantia');
-          }, 1500);
+          setModalRev("modal-inactive-revision");
+          setAplGarantia(null)
+          setDiagnostico("")
+          setDetallePpto("")
+          setDetallePptoGar("")
+          setDiagnosticoGar("")
+          navigate('/garantia');
         }
       } catch (error) {
         console.error(error);
@@ -292,12 +305,24 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
     }
   }
   
-    if (garantia !== 0) {  
+    if (lista.length !== 0) {  
         return (
-          <div className='frame'>
+          <div>
+            {loading ? (
+            <Audio
+              height="70"
+              width="70"
+              radius="9"
+              color="white"
+              ariaLabel="loading"
+              wrapperStyle
+              wrapperClass
+            />            
+            ) : (
+            <div className='frame'>
               <h1 className='title-component'>Ordenes de trabajo en Garantía:</h1>
               <div >
-              {garantiaLista.map((x, index) => {
+              {lista.map((x, index) => {
                 return(
                   <div className="list-section" key={index}>
                       <p className='number-list'>Orden Nº {x.id}</p>
@@ -462,15 +487,31 @@ function Garantias({render, setRender, garantia, garantiaLista, date, clock}) {
                 </div>
               </div>
             </div>
+            )}
+          </div>
           )
       } else {
           return (
-            <div className='frame'>
-              <h1 className='title-component'>Ordenes de trabajo con Garantía:</h1>
-              <div>
-                <p className='not-exist'>No hay ordenes pendientes</p>
+            <div>
+              {loading ? (
+              <Audio
+                height="70"
+                width="70"
+                radius="9"
+                color="white"
+                ariaLabel="loading"
+                wrapperStyle
+                wrapperClass
+              />               
+              ) : (
+              <div className='frame'>
+                <h1 className='title-component'>Ordenes de trabajo con Garantía:</h1>
+                <div>
+                  <p className='not-exist'>No hay ordenes pendientes</p>
+                </div>
+                <NavLink to="/taller">Menú</NavLink>
               </div>
-              <NavLink to="/taller">Menú</NavLink>
+              )}
             </div>
           )
     }

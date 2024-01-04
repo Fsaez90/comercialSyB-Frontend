@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import "../static/modalTaller.css"
+import { Audio } from 'react-loader-spinner'
 
-function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRender, date, clock}) {
+function MmtoRepListos({render, setRender, date, clock}) {
+    const [lista, setLista] = useState([])
+    const [refresh, setRefresh] = useState(false)
+    const [loading, setLoading] = useState(true);
     const [modal, setModal] = useState("modal-inactive")
     const [id, setId] = useState()
     const [nombre, setNombre] = useState()
@@ -31,12 +35,24 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
     const [isGarantia, setIsGarantia] = useState() 
     const [msg, setMsg] = useState("msg-mecanic") 
     const [categoria, setCategoria] = useState()  
-
     const  navigate  = useNavigate();
     
-    useEffect(() => {
-        setRender(!render)
-  },[repRecibidosMmto, modal])
+  useEffect(() => {
+      getData()
+  },[refresh])
+  
+  const getData = async () => {
+    try {
+      setLoading(true)
+      const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/manrep_taller/')
+      const data = await result.json();
+      setLista(data)
+      setLoading(false)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false); // Ensure loading indicator is hidden in case of an error
+    }
+  }
   
   async function mantenimientoHandle(n) {
     const button = document.getElementById('mmto-completado'); 
@@ -92,11 +108,10 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   
         if (response1.ok && response2.ok) {
           setRender(!render);
-          setTimeout(() => {
-            setModal("modal-inactive");
-            setRepMecanico("")
-            navigate('/mmto-rep-listos');
-          }, 500);
+          setRefresh(!refresh);
+          setModal("modal-inactive");
+          setRepMecanico("")
+          navigate('/mmto-rep-listos');
         }
       } catch (error) {
         console.error(error);
@@ -152,11 +167,10 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   
         if (response1.ok && response2.ok) {
           setRender(!render);
-          setTimeout(() => {
-            setModal("modal-inactive");
-            setRepMecanico("")
-            navigate('/mmto-rep-listos');
-          }, 500);
+          setRefresh(!refresh)
+          setModal("modal-inactive");
+          setRepMecanico("")
+          navigate('/mmto-rep-listos');
         }
       } catch (error) {
         console.error(error);
@@ -206,148 +220,175 @@ function MmtoRepListos({repRecibidosMmto, repRecibidosMmtoLista, render, setRend
   
       if (response.ok) {
         setRender(!render);
-        setTimeout(() => {
-          setModal("modal-inactive");
-          navigate('/mmto-rep-listos');
-        }, 500);
+        setRefresh(!refresh)
+        setModal("modal-inactive");
+        navigate('/mmto-rep-listos');
       }
     } catch (error) {
       console.error(error);
     }
   }
      
-    if (repRecibidosMmto !== 0) {
+    if (lista.length !== 0) {
       return (
-        <div className='frame'>
-          <h1 className='title-component'>Solicitudes de repuestos para mantenciones: </h1>
-          <div >
-          {repRecibidosMmtoLista.map((x, index) => {
-            return(
-              <div className="list-section" key={index}>
-                  <p className='number-list'>Orden Nº {x.id}</p>
-                  <button className='button-list' onClick={() => 
-                    {setModal("modal")
-                    setId(x.id)
-                    setNombre(x.nombre)
-                    setApellidos(x.apellidos)
-                    setRut(x.rut)
-                    setTelefono(x.telefono)
-                    setEmail(x.email)
-                    setTipo(x.tipo)
-                    setMarca(x.marca)
-                    setModelo(x.modelo)
-                    setSerie(x.serie)
-                    setEspada(x.espada)
-                    setCadena(x.cadena)
-                    setFunda(x.funda)
-                    setDisco(x.disco)
-                    setObservaciones(x.observaciones)
-                    setMantencion(x.mantencion)
-                    setRevision(x.revision)
-                    setMecanico(x.mecanico)
-                    setDiagnostico(x.diagnostico)
-                    setDetallePpto(x.detalle_ppto)  
-                    setIngresoSistema(x.ingreso_sistema)
-                    setIsGarantia(x.garantia)
-                    setDetallePptoGar(x.detalle_garantia)
-                    setDiagnosticoGar(x.diagnostico_garantia)
-                    setCategoria(x.categoria)
-                  }
-                    }>Comenzar</button>         
-              </div> 
-              )
-          })}
-          </div>
-          <NavLink to="/taller">Menú</NavLink>
-          <div className={modal}>
-            <div className='modal-content'>
-              <div className='modal-details-taller'>
-                  <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
-                  <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
-              </div>
-              <div className='modal-machine-details-taller'>
-                 <div className='machine-detail-1'> 
-                  <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
-                  <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
-                  <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
-                  <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
-                  <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
+        <div>
+          {loading ? (
+          <Audio
+            height="70"
+            width="70"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />            
+          ) : (
+            <div className='frame'>
+            <h1 className='title-component'>Solicitudes de repuestos para mantenciones: </h1>
+            <div >
+            {lista.map((x, index) => {
+              return(
+                <div className="list-section" key={index}>
+                    <p className='number-list'>Orden Nº {x.id}</p>
+                    <button className='button-list' onClick={() => 
+                      {setModal("modal")
+                      setId(x.id)
+                      setNombre(x.nombre)
+                      setApellidos(x.apellidos)
+                      setRut(x.rut)
+                      setTelefono(x.telefono)
+                      setEmail(x.email)
+                      setTipo(x.tipo)
+                      setMarca(x.marca)
+                      setModelo(x.modelo)
+                      setSerie(x.serie)
+                      setEspada(x.espada)
+                      setCadena(x.cadena)
+                      setFunda(x.funda)
+                      setDisco(x.disco)
+                      setObservaciones(x.observaciones)
+                      setMantencion(x.mantencion)
+                      setRevision(x.revision)
+                      setMecanico(x.mecanico)
+                      setDiagnostico(x.diagnostico)
+                      setDetallePpto(x.detalle_ppto)  
+                      setIngresoSistema(x.ingreso_sistema)
+                      setIsGarantia(x.garantia)
+                      setDetallePptoGar(x.detalle_garantia)
+                      setDiagnosticoGar(x.diagnostico_garantia)
+                      setCategoria(x.categoria)
+                    }
+                      }>Comenzar</button>         
+                </div> 
+                )
+            })}
+            </div>
+            <NavLink to="/taller">Menú</NavLink>
+            <div className={modal}>
+              <div className='modal-content'>
+                <div className='modal-details-taller'>
+                    <p className='sub-title'>Orden Nº:<span className='data-modal-taller'>{id}</span></p>
+                    <p className='sub-title'>Nombre:<span className='data-modal-taller'>{nombre} {apellidos} </span></p>
                 </div>
-                <div className='machine-detail-2'>
-                  <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
-                  {isGarantia? <p className='sub-detail'>GARANTIA</p>: null}
-                  {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
-                  {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
-                  {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
-                  {cadena? <p className='sub-detail'>Cadena:<span className='data-modal-taller'>Sí</span></p>: null}
-                  {funda? <p className='sub-detail'>Funda:<span className='data-modal-taller'>Sí</span></p>: null}
-                  {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
+                <div className='modal-machine-details-taller'>
+                   <div className='machine-detail-1'> 
+                    <p className='sub-detail'>Tipo:<span className='data-modal-taller'>{tipo}</span></p>
+                    <p className='sub-detail'>Modelo:<span className='data-modal-taller'>{modelo}</span></p>
+                    <p className='sub-detail'>Marca:<span className='data-modal-taller'>{marca}</span></p>
+                    <p className='sub-detail'>Serie:<span className='data-modal-taller'>{serie}</span></p>
+                    <p className='sub-detail'>Categoría:<span className='data-modal-taller'>{categoria}</span></p>
+                  </div>
+                  <div className='machine-detail-2'>
+                    <p className='sub-detail'>Mecanico: <span className='data-modal-taller'>{mecanico}</span></p>
+                    {isGarantia? <p className='sub-detail'>GARANTIA</p>: null}
+                    {mantencion? <p className='sub-detail'>Equipo a mantencion</p>: null}
+                    {revision? <p className='sub-detail'>Equipo a Revisión</p>: null}
+                    {espada? <p className='sub-detail'>Espada:<span className='data-modal-taller'>Sí</span></p>: null}
+                    {cadena? <p className='sub-detail'>Cadena:<span className='data-modal-taller'>Sí</span></p>: null}
+                    {funda? <p className='sub-detail'>Funda:<span className='data-modal-taller'>Sí</span></p>: null}
+                    {disco? <p className='sub-detail'>Disco de corte:<span className='data-modal-taller'>Sí</span></p>: null}
+                  </div>
                 </div>
-              </div>
-                {isGarantia?
-              <>
-                <div className='observaciones-taller'>
-                  <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>GARANTIA</span></p>
+                  {isGarantia?
+                <>
+                  <div className='observaciones-taller'>
+                    <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>GARANTIA</span></p>
+                  </div>
+                    <div className='detalle-observaciones'>
+                      Diagnóstico:
+                      <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
+                    </div>
+                    <div className='detalle-observaciones'>
+                      Detalle repuestos:
+                      <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar || detallePpto}/>
+                  </div>
+                  <div className='modal-buttons'>
+                    <button className='button-list' onClick={()=> {
+                      setModal("modal-inactive")
+                      setRepMecanico("")
+                      }}>Volver</button>
+                    <button className='button-list' onClick={() => {
+                    garantiaTerminadaHandle(id)
+                    }}>Garantía Completada</button>
                 </div>
-                  <div className='detalle-observaciones'>
-                    Diagnóstico:
-                    <textarea className='diagnostico-field' value={diagnosticoGar || diagnostico}/>
+                </>:
+                <>
+                  <div className='observaciones-taller'>
+                    <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
                   </div>
                   <div className='detalle-observaciones'>
-                    Detalle repuestos:
-                    <textarea className='detalle-field' onChange={(e) => setDetallePpto(e.target.value)} value={detallePptoGar || detallePpto}/>
-                </div>
-                <div className='modal-buttons'>
-                  <button className='button-list' onClick={()=> {
-                    setModal("modal-inactive")
-                    setRepMecanico("")
-                    }}>Volver</button>
-                  <button className='button-list' onClick={() => {
-                  garantiaTerminadaHandle(id)
-                  }}>Garantía Completada</button>
+                    Repuestos solicitados:
+                    <textarea className='detalle-field' value={detallePpto}/>
+                  </div>
+                  <div className='detalle-observaciones'>
+                    Equipo reparado por:
+                    <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
+                      <option value="">Seleccionar</option>
+                      <option value="1">Técnico 1</option>
+                      <option value="2">Técnico 2</option>
+                      <option value="Admin">Admin</option>
+                    </select>
+                    <div className={msg}>Indicar mecánico que realiza reparación</div>
+                  </div>
+                  <div className='modal-buttons'>
+                    <button className='button-list' onClick={()=> {
+                      setModal("modal-inactive")
+                      setRepMecanico("")
+                      }}>Volver</button>
+                    <button id='mmto-completado' className='button-list' onClick={() => {
+                      mantenimientoHandle(id)
+                    }}>MMTO Completado</button>
+                  </div>
+                </>    
+                }
               </div>
-              </>:
-              <>
-                <div className='observaciones-taller'>
-                  <p className='observaciones-taller-content'>Observaciones: <span className='data-modal-taller'>{observaciones}</span></p>
-                </div>
-                <div className='detalle-observaciones'>
-                  Repuestos solicitados:
-                  <textarea className='detalle-field' value={detallePpto}/>
-                </div>
-                <div className='detalle-observaciones'>
-                  Equipo reparado por:
-                  <select onChange={(e) => setRepMecanico(e.target.value)}  value={repMecanico}>
-                    <option value="">Seleccionar</option>
-                    <option value="1">Técnico 1</option>
-                    <option value="2">Técnico 2</option>
-                    <option value="Admin">Admin</option>
-                  </select>
-                  <div className={msg}>Indicar mecánico que realiza reparación</div>
-                </div>
-                <div className='modal-buttons'>
-                  <button className='button-list' onClick={()=> {
-                    setModal("modal-inactive")
-                    setRepMecanico("")
-                    }}>Volver</button>
-                  <button id='mmto-completado' className='button-list' onClick={() => {
-                    mantenimientoHandle(id)
-                  }}>MMTO Completado</button>
-                </div>
-              </>    
-              }
+            </div>  
             </div>
-          </div>  
+          )}
         </div>
       )
     } else {
       return (
-        <div className='frame'>
-          <h1 className='title-component'>Solicitures de repuestos para mantenciones:</h1>
-          <div>
-            <p className='not-exist'>No hay ordenes pendientes</p>
+        <div>
+          {loading ? (
+           <Audio
+            height="70"
+            width="70"
+            radius="9"
+            color="white"
+            ariaLabel="loading"
+            wrapperStyle
+            wrapperClass
+          />          
+          ) : (
+          <div className='frame'>
+            <h1 className='title-component'>Solicitures de repuestos para mantenciones:</h1>
+            <div>
+              <p className='not-exist'>No hay ordenes pendientes</p>
+            </div>
+            <NavLink to="/taller">Menú</NavLink>
           </div>
-          <NavLink to="/taller">Menú</NavLink>
+          )}
         </div>
       )
   }
