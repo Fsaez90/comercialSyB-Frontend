@@ -50,7 +50,7 @@ const getData = async () => {
     setLoading(true)
     const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/no_contesta_retiros/')
     const data = await result.json();
-    setLista(data)
+    setLista(data.slice().sort((a, b) => a.id - b.id))
     setLoading(false)
   } catch (error) {
     console.error('Error fetching data:', error);

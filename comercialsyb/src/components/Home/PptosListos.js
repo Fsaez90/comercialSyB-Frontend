@@ -52,7 +52,7 @@ function PptosListos({render, setRender}) {
       setLoading(true)
       const result = await fetch('https://comercialsyb-backend-production.up.railway.app/comercial/pptos_listos/')
       const data = await result.json();
-      setpptoslistosLista(data)
+      setpptoslistosLista(data.slice().sort((a, b) => a.id - b.id))
       setLoading(false)
     } catch (error) {
       console.error('Error fetching data:', error);

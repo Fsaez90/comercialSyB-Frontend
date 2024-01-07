@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import BuildIcon from '@mui/icons-material/Build';
 
-function Proceso({ garCom, revCom, mantCom, prioridad_com,}) {
+function Proceso({garCom, revCom, mantCom, prioridad_com}) {
   
   return (
     <div>
