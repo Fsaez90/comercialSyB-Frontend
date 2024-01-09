@@ -212,11 +212,11 @@ async function crearOrden(e) {
   
       // Send the PDF file to the server using fetch
       const [ingresoResponse, Emailresponse] = await Promise.all([
-        fetch("http://127.0.0.1:8000/comercial/email-ingreso/", {
+        fetch("https://comercialsyb-backend-production.up.railway.app/comercial/email-ingreso/", {
         method: "POST",
         body: formData,
       }),
-      fetch("http://127.0.0.1:8000/comercial/crear/", {
+      fetch("https://comercialsyb-backend-production.up.railway.app/comercial/crear/", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(requestData),
