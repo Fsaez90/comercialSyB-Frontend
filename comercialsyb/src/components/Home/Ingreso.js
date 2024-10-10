@@ -80,7 +80,7 @@ function Ingreso({setRender, render, date, nextorden}) {
           <p>El valor del presupuesto puede sufrir modificaciones si durante su proceso de reparación se detectan defectos no advertidos en el diagnóstico original que impliquen gastos adicionales. Esta variación, en el caso de reparación, será informada al cliente antes de continuar con la reparación del equipo.</p>
           <p>El presupuesto tiene una vigencia de 10 días desde la fecha de emisión.</p>
           <p>
-            <strong>El presupuesto rechazado tendrá un costo de $10.000 pesos (IVA Inc.), Equipos mayores $20.000 pesos</strong>
+            <strong>El presupuesto rechazado tendrá un costo de $15.000 pesos para equipos básicos (IVA Inc.), equipos semi-profesionales $25.000 pesos y equipos profesionales $30.000 respectivamente</strong>
             <strong>(IVA Inc.).</strong>
           </p>
         </div>
